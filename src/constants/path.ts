@@ -6,5 +6,5 @@ export const DETAIL = 'DETAIL';
 export const INPUT = 'INPUT';
 export const GRAPH = 'GRAPH';
 export const SETTING = 'SETTING';
-export const SING_UP = 'SING_UP';
-export const SING_IN = 'SING_IN';
+export const SIGN_UP = 'SIGN_UP';
+export const SIGN_IN = 'SIGN_IN';
