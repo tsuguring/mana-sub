@@ -30,7 +30,7 @@ const theme = {
     dark: true,
     colors: {
         primary: COLOR.PRIMARY,
-        background: COLOR.MAIN,
+        background: COLOR.WHITE,
         text: COLOR.WHITE,
         placeholder: COLOR.PRIMARY,
     },
