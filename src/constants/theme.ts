@@ -5,6 +5,7 @@ export const COLOR = {
     PRIMARY: '#0080ff',
     SECONDARY: '#00aaff',
     WHITE: '#FFF',
+    BLACK: '#000',
     CAROUSEL_BACKGROUND: '#e6ffb3',
     CAUTION: '#ff4d4d',
 }
