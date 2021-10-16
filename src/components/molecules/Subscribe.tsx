@@ -34,14 +34,21 @@ export default function TodoDisplay(props: Props) {
     const { onPress, title, detail } = props;
   
     return (
-      <TouchableHighlight style={styles.contentContainer} onPress={onPress}>
-        <View style={styles.contentContainer}>
+      <View>
+        <View>
           <View>
-            <Text style={styles.title}>{title}</Text>
-            {!!detail && <Text style={styles.detail}>{detail}</Text>}
+            
           </View>
-          <Icon name="angle-right" size={32} color={COLOR.WHITE} />
         </View>
-      </TouchableHighlight>
+        <TouchableHighlight style={styles.contentContainer} onPress={onPress}>
+          <View style={styles.contentContainer}>
+            <View>
+              <Text style={styles.title}>{title}</Text>
+              {!!detail && <Text style={styles.detail}>{detail}</Text>}
+            </View>
+            <Icon name="angle-right" size={32} color={COLOR.WHITE} />
+          </View>
+        </TouchableHighlight>
+      </View>
     );
 }
