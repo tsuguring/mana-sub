@@ -35,11 +35,6 @@ export default function TodoDisplay(props: Props) {
   
     return (
       <View>
-        <View>
-          <View>
-            
-          </View>
-        </View>
         <TouchableHighlight style={styles.contentContainer} onPress={onPress}>
           <View style={styles.contentContainer}>
             <View>

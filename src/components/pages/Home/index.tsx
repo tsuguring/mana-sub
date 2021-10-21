@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, ActionSheetIOS } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ActionSheetIOS, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import  Icon  from 'react-native-vector-icons/FontAwesome';
 import Subscribes, { Subscribe } from '../../organisms/Subscribes';
@@ -65,6 +65,9 @@ export default function Home() {
 
     return (
         <View style={styles.container}>
+            <View>
+                <Text>yen</Text>
+            </View>
             <Subscribes subscribes={subscribes} actions={{ ...ActionSheetIOS, gotoDetail }} />
             <TouchableOpacity onPress={onPress} style={styles.button}>
                 <Icon color={COLOR.PRIMARY} size={24} name="plus" />
