@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View, Text } from "react-native";
 import * as Subscribe from './Subscribe';
 import { COLOR } from '../../../constants/theme';
 
@@ -24,6 +24,8 @@ interface Props {
 
 export default function Subscribes(props: Props) {
     return (
+        <>
+        <Text>afjd</Text>
         <FlatList
             style={styles.container}
             data={props.subscribes}
@@ -31,5 +33,6 @@ export default function Subscribes(props: Props) {
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             keyExtractor={item => item.id}
         />
+        </>
     );
 }

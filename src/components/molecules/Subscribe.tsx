@@ -27,10 +27,11 @@ const styles = StyleSheet.create({
 interface Props {
     onPress: () => void;
     title: string;
+    period: string[4];
     detail: string | undefined;
 }
 
-export default function TodoDisplay(props: Props) {
+export default function SubscribeDisplay(props: Props) {
     const { onPress, title, detail } = props;
   
     return (

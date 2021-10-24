@@ -65,9 +65,6 @@ export default function Home() {
 
     return (
         <View style={styles.container}>
-            <View>
-                <Text>yen</Text>
-            </View>
             <Subscribes subscribes={subscribes} actions={{ ...ActionSheetIOS, gotoDetail }} />
             <TouchableOpacity onPress={onPress} style={styles.button}>
                 <Icon color={COLOR.PRIMARY} size={24} name="plus" />
