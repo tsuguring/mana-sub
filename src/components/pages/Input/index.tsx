@@ -33,6 +33,8 @@ const styles = StyleSheet.create({
 
 export default function Input() {
   const title = useControlledComponent("");
+  const money = useControlledComponent("");
+  const period = useControlledComponent("");
   const detail = useControlledComponent("");
 
   const { goBack } = useNavigation();
@@ -43,8 +45,10 @@ export default function Input() {
   const addTodo = React.useCallback(() => {
     back();
     title.onChangeText("");
+    money.onChangeText("");
+    period.onChangeText("");
     detail.onChangeText("");
-  }, [back, title, detail]);
+  }, [back, title, money, period, detail]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -64,12 +68,24 @@ export default function Input() {
             style={styles.text}
           />
           <TextField
+            label="Money"
+            value={money.value}
+            onChangeText={money.onChangeText}
+            style={styles.text}
+          />
+          <TextField
+            label="Period"
+            value={period.value}
+            onChangeText={period.onChangeText}
+            style={styles.text}
+          />
+          <DatePicker date={new Date(Date.now())} />
+          <TextField
             label="Detail"
             value={detail.value}
             onChangeText={detail.onChangeText}
             style={styles.text}
           />
-          <DatePicker />
           <Button
             onPress={addTodo}
             label="Add"

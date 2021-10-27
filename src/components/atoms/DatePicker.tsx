@@ -33,8 +33,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function DatePicker() {
-  const [date, setDate] = useState(new Date(Date.now()));
+interface Props {
+  date: Date;
+}
+
+export default function DatePicker(props: Props) {
+  const [date, setDate] = useState(new Date(props.date));
   const [show, setShow] = useState(false);
 
   const onChange = (event: any, selectedDate: any) => {
@@ -52,7 +56,7 @@ export default function DatePicker() {
     <View>
       <TouchableOpacity onPress={showDatepicker}>
         <Text>
-          {date.getFullYear()}年 {date.getMonth()}月 {date.getDate()}日
+          {date.getFullYear()}年 {date.getMonth() + 1}月 {date.getDate()}日
         </Text>
       </TouchableOpacity>
       {show && (
