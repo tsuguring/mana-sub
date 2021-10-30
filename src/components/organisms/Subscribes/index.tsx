@@ -6,12 +6,14 @@ import { COLOR } from "../../../constants/theme";
 export { Subscribe };
 
 const styles = StyleSheet.create({
-  container: {
+  flatlistcontainer: {
     alignSelf: "stretch",
+    backgroundColor: COLOR.MAIN,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   separator: {
-    height: 1,
-    backgroundColor: COLOR.SECONDARY,
+    marginTop: 30,
   },
 });
 
@@ -25,12 +27,14 @@ interface Props {
 export default function Subscribes(props: Props) {
   return (
     <FlatList
-      style={styles.container}
+      style={styles.flatlistcontainer}
       data={props.subscribes}
       renderItem={({ item }) => (
         <Subscribe.Component state={item} actions={props.actions} />
       )}
-      ItemSeparatorComponent={() => <View style={styles.separator} />}
+      ItemSeparatorComponent={(highlighted) => (
+        <View style={[styles.separator, highlighted]} />
+      )}
       keyExtractor={(item) => item.id}
     />
   );

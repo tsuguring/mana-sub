@@ -18,29 +18,11 @@ const styles = StyleSheet.create({
   },
 });
 
-interface SubscribeEditActions {
-  changeSubscribe: (
-    id: string,
-    newValue: {
-      title: string;
-      money: string;
-      period: string;
-      date: Date;
-      detail: string;
-    }
-  ) => void;
-}
-
-interface Props {
-  actions: SubscribeEditActions;
-}
-
 interface Params {
   id: string;
   title: string;
   money: string;
   period: string;
-  date: Date;
   detail: string;
 }
 
@@ -51,14 +33,12 @@ export default function Detail() {
     title: titleInitialValue,
     money: moneyInitialValue,
     period: periodInitialValue,
-    date: dateInitialValue,
     detail: detailInitialValue,
   } = params;
 
   const title = useControlledComponent(titleInitialValue);
   const money = useControlledComponent(moneyInitialValue);
   const period = useControlledComponent(periodInitialValue);
-  const date = useControlledComponent(dateInitialValue);
   const detail = useControlledComponent(detailInitialValue);
 
   const onSubmit = React.useCallback(() => {
@@ -85,7 +65,6 @@ export default function Detail() {
         onChangeText={period.onChangeText}
         style={styles.textField}
       />
-      <DatePicker date={date.value} />
       <TextField
         label="detail"
         value={detail.value}

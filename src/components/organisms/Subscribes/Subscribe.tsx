@@ -10,29 +10,19 @@ export interface GotoDetail {
 export interface State {
   id: string;
   title: string;
-  money: number;
+  money: string;
   period: string;
-  date: Date;
   detail?: string;
 }
 
-const styles = StyleSheet.create({
-  contentContainer: {
-    backgroundColor: COLOR.MAIN,
-    height: 120,
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-});
+type Omitdatestate = Omit<State, "date">;
 
 export interface Actions {
   gotoDetail: GotoDetail;
 }
 
 interface Props {
-  state: State;
+  state: Omitdatestate;
   actions: Actions;
 }
 
@@ -52,7 +42,6 @@ export function Component(props: Props) {
       title={state.title}
       money={state.money}
       period={state.period}
-      date={state.date}
       detail={state.detail}
     />
   );

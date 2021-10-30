@@ -3,36 +3,6 @@ import { View, Button, StyleSheet, Platform, Text } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-    padding: 50,
-  },
-  pickedDateContainer: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-  },
-  pickedDate: {
-    fontSize: 18,
-    color: "black",
-  },
-  btnContainer: {
-    padding: 30,
-  },
-  // This only works on iOS
-  datePicker: {
-    width: 320,
-    height: 260,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-start",
-  },
-});
-
 interface Props {
   date: Date;
 }
