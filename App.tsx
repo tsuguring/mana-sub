@@ -3,20 +3,20 @@ import * as UiContext from "./src/contexts/ui";
 import { StyleSheet, Text, View } from "react-native";
 import Routes from "./src/routes";
 import firebase from "firebase";
+import { firebaseConfig } from "./env";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBkKvlpH5GlYUOSCHJ5suyzJUC3FlJT6bU",
-  authDomain: "mana-sub.firebaseapp.com",
-  projectId: "mana-sub",
-  storageBucket: "mana-sub.appspot.com",
-  messagingSenderId: "1051846455159",
-  appId: "1:1051846455159:web:a7cd151cb249080e17fb72",
-  measurementId: "G-7LC0CNB2E7",
-};
-
-if (firebase.app.length === 0) {
+if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
+
+firebase.auth().onAuthStateChanged(async (user) => {
+  if (!user) {
+    firebase.auth().signInAnonymously();
+  } else {
+    // TODO: ログインしているときにやる処理...
+    console.log(user);
+  }
+});
 
 export default function App() {
   const [applicationState, setApplicationState] = React.useState(

@@ -1,11 +1,10 @@
 export const COLOR = {
-    MAIN: '#b3ffbf',
-    MAIN_LIGHT: '#e6ffb3',
-    MAIN_DARK: '#aaff99',
-    PRIMARY: '#0080ff',
-    SECONDARY: '#00aaff',
-    WHITE: '#FFF',
-    BLACK: '#000',
-    CAROUSEL_BACKGROUND: '#e6ffb3',
-    CAUTION: '#ff4d4d',
-}
+  MAIN: "#CFFFCB",
+  MAIN_LIGHT: "#F8FFCA",
+  MAIN_DARK: "#ABF0C3",
+  PRIMARY: "#367AFF",
+  SECONDARY: "#367AFF",
+  WHITE: "#FFF",
+  BLACK: "#000",
+  CAUTION: "#ff4d4d",
+};
