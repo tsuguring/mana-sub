@@ -7,6 +7,7 @@ import { TextField, Button, dismiss } from "../../atoms";
 import { COLOR } from "../../../constants/theme";
 import { useControlledComponent } from "../../../lib/hooks";
 import DatePicker from "../../atoms/DatePicker";
+import firebase from "firebase";
 
 const styles = StyleSheet.create({
   container: {

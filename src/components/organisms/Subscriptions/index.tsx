@@ -1,9 +1,9 @@
 import React from "react";
 import { FlatList, StyleSheet, View, Text } from "react-native";
-import * as Subscribe from "./Subscribe";
+import * as Subscription from "./Subscription";
 import { COLOR } from "../../../constants/theme";
 
-export { Subscribe };
+export { Subscription };
 
 const styles = StyleSheet.create({
   flatlistcontainer: {
@@ -17,20 +17,20 @@ const styles = StyleSheet.create({
   },
 });
 
-export type State = Array<Subscribe.State>;
+export type State = Array<Subscription.State>;
 
 interface Props {
-  subscribes: State;
-  actions: Subscribe.Actions;
+  subscriptions: State;
+  actions: Subscription.Actions;
 }
 
-export default function Subscribes(props: Props) {
+export default function Subscriptions(props: Props) {
   return (
     <FlatList
       style={styles.flatlistcontainer}
-      data={props.subscribes}
+      data={props.subscriptions}
       renderItem={({ item }) => (
-        <Subscribe.Component state={item} actions={props.actions} />
+        <Subscription.Component state={item} actions={props.actions} />
       )}
       ItemSeparatorComponent={(highlighted) => (
         <View style={[styles.separator, highlighted]} />

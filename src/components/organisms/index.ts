@@ -1,2 +1,2 @@
-export { default as Carousel } from './Carousel';
-export { default as Subscribe } from './Subscribes';
+export { default as Carousel } from "./Carousel";
+export { default as Subscriptions } from "./Subscriptions";

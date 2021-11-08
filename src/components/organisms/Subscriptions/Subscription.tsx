@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { COLOR } from "../../../constants/theme";
-import SubscribeDisplay from "../../molecules/Subscribe";
+import SubscriptionDisplay from "../../molecules/Subscription";
 
 export interface GotoDetail {
   (state: State): void;
@@ -37,7 +37,7 @@ export function Component(props: Props) {
   }, [state, gotoDetail]);
 
   return (
-    <SubscribeDisplay
+    <SubscriptionDisplay
       onPress={onPress}
       title={state.title}
       money={state.money}

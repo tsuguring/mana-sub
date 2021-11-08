@@ -2,10 +2,10 @@ import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Subscribes, { Subscribe } from "../../organisms/Subscribes";
+import Subscriptions, { Subscription } from "../../organisms/Subscriptions";
 import { COLOR } from "../../../constants/theme";
 import { DETAIL, INPUT } from "../../../constants/path";
-import Sumsubscribe from "../../molecules/Sumsubscribe";
+import Sumsubscription from "../../molecules/SumSubscription";
 
 const styles = StyleSheet.create({
   container: {
@@ -92,7 +92,7 @@ export default function Home() {
     navigate(INPUT);
   }, [navigate]);
   const gotoDetail = React.useCallback(
-    (state: Subscribe.State) => {
+    (state: Subscription.State) => {
       navigate(DETAIL, { ...state });
     },
     [navigate]
@@ -100,8 +100,8 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      <Sumsubscribe />
-      <Subscribes subscribes={subscribes} actions={{ gotoDetail }} />
+      <Sumsubscription />
+      <Subscriptions subscriptions={subscribes} actions={{ gotoDetail }} />
       <TouchableOpacity onPress={onPress} style={styles.button}>
         <Icon color={COLOR.BLACK} size={24} name="plus" />
       </TouchableOpacity>

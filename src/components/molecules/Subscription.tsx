@@ -35,7 +35,7 @@ interface Props {
   detail: string | undefined;
 }
 
-export default function SubscribeDisplay(props: Props) {
+export default function SubscriptionDisplay(props: Props) {
   const { onPress, title, money, period } = props;
 
   return (
