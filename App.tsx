@@ -1,6 +1,6 @@
 import React from "react";
 import * as UiContext from "./src/contexts/ui";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import Routes from "./src/routes";
 import firebase from "firebase";
 import { firebaseConfig } from "./env";
@@ -10,15 +10,6 @@ require("firebase/firestore");
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
-
-firebase.auth().onAuthStateChanged(async (user) => {
-  if (!user) {
-    firebase.auth().signInAnonymously();
-  } else {
-    // TODO: ログインしているときにやる処理...
-    console.log(user);
-  }
-});
 
 export default function App() {
   const [applicationState, setApplicationState] = React.useState(

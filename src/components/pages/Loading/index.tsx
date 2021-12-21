@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import * as UiContext from "../../../contexts/ui";
 import { COLOR } from "../../../constants/theme";
+import { Context as UiContext, Status } from "../../../contexts/ui";
+import firebase from "firebase";
+import { ActivityIndicator, Colors } from "react-native-paper";
 
 const styles = StyleSheet.create({
   container: {
@@ -15,23 +17,22 @@ const styles = StyleSheet.create({
   },
 });
 
-function ChangeStateButton(props: { state: UiContext.Status }) {
-  const { setApplicationState } = React.useContext(UiContext.Context);
-  const { state } = props;
-  return (
-    <TouchableOpacity onPress={() => setApplicationState(state)}>
-      <Text>Change state to {state}</Text>
-    </TouchableOpacity>
-  );
-}
-
 export default function Loading() {
+  const { setApplicationState } = React.useContext(UiContext);
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
+      if (!user) {
+        firebase.auth().signInAnonymously();
+      } else {
+        setApplicationState(Status.AUTHORIZED);
+      }
+    });
+    return unsubscribe;
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text>Loading</Text>
-      <ChangeStateButton state={UiContext.Status.AUTHORIZED} />
-      <ChangeStateButton state={UiContext.Status.UN_AUTHORIZED} />
-      <ChangeStateButton state={UiContext.Status.FIRST_OPEN} />
+      <ActivityIndicator size="large" color={Colors.blue500} />
     </View>
   );
 }
