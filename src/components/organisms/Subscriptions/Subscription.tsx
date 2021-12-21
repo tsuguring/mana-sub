@@ -12,17 +12,16 @@ export interface State {
   title: string;
   money: string;
   period: string;
+  date: string;
   detail?: string;
 }
-
-type Omitdatestate = Omit<State, "date">;
 
 export interface Actions {
   gotoDetail: GotoDetail;
 }
 
 interface Props {
-  state: Omitdatestate;
+  state: State;
   actions: Actions;
 }
 
@@ -42,6 +41,7 @@ export function Component(props: Props) {
       title={state.title}
       money={state.money}
       period={state.period}
+      date={state.date}
       detail={state.detail}
     />
   );

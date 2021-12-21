@@ -1,10 +1,7 @@
-export const INITIAL = 'INITIAL';
-export const HOME = 'HOME';
-export const CHOOSE_LOGIN = 'CHOOSE_LOGIN';
-export const LOADING = 'LOADING';
-export const DETAIL = 'DETAIL';
-export const INPUT = 'INPUT';
-export const GRAPH = 'GRAPH';
-export const SETTING = 'SETTING';
-export const SIGN_UP = 'SIGN_UP';
-export const SIGN_IN = 'SIGN_IN';
+export const INITIAL = "INITIAL";
+export const HOME = "HOME";
+export const LOADING = "LOADING";
+export const DETAIL = "DETAIL";
+export const INPUT = "INPUT";
+export const GRAPH = "GRAPH";
+export const SETTING = "SETTING";

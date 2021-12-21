@@ -25,6 +25,7 @@ interface Props {
   title: string;
   money: string;
   period: string;
+  date: string;
   detail?: string;
 }
 
