@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import { View, Button, StyleSheet, Platform, Text } from "react-native";
+import { View, Platform, Text } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface Props {
   date: Date;
+  onChangeDate?: (dt: Date) => void;
 }
 
 export default function DatePicker(props: Props) {
   const [date, setDate] = useState(new Date(props.date));
   const [show, setShow] = useState(false);
 
-  const onChange = (event: any, selectedDate: any) => {
-    setDate(selectedDate);
+  const onChangeDate = (selectedDate: any) => {
+    const currentDate = selectedDate || date;
+    setDate(currentDate);
     if (Platform.OS === "android") {
       setShow(false);
     }
@@ -36,7 +38,7 @@ export default function DatePicker(props: Props) {
           mode={"date"}
           is24Hour={true}
           display={Platform.OS === "ios" ? "spinner" : "default"}
-          onChange={onChange}
+          onChange={onChangeDate}
         />
       )}
     </View>

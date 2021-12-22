@@ -32,12 +32,12 @@ interface Props {
   title: string;
   money: string;
   period: string;
-  date: string;
+  date: Date;
   detail: string | undefined;
 }
 
 export default function SubscriptionDisplay(props: Props) {
-  const { onPress, title, money, period, date } = props;
+  const { onPress, title, money } = props;
 
   return (
     <View>

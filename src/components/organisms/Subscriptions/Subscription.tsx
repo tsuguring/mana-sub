@@ -12,7 +12,7 @@ export interface State {
   title: string;
   money: string;
   period: string;
-  date: string;
+  date: Date;
   detail?: string;
 }
 

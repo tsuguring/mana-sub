@@ -36,6 +36,7 @@ export default function Input() {
   const title = useControlledComponent("");
   const money = useControlledComponent("");
   const period = useControlledComponent("");
+  const date = useControlledComponent(new Date(Date.now()));
   const detail = useControlledComponent("");
 
   const { goBack } = useNavigation();
@@ -44,12 +45,29 @@ export default function Input() {
   }, [goBack]);
 
   const addTodo = React.useCallback(() => {
-    back();
-    title.onChangeText("");
-    money.onChangeText("");
-    period.onChangeText("");
-    detail.onChangeText("");
-  }, [back, title, money, period, detail]);
+    const db = firebase.firestore();
+    const { currentUser } = firebase.auth();
+    const ref = db.collection(`users/${currentUser?.uid}/subscriptions`);
+    ref
+      .add({
+        title: title.value,
+        money: money.value,
+        period: period.value,
+        date: date.value,
+        detail: detail.value,
+      })
+      .then(() => {
+        back();
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+    title.onChangeData("");
+    money.onChangeData("");
+    period.onChangeData("");
+    date.onChangeData(new Date(Date.now()));
+    detail.onChangeData("");
+  }, [back, title, money, period, date, detail]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -65,26 +83,29 @@ export default function Input() {
           <TextField
             label="Title"
             value={title.value}
-            onChangeText={title.onChangeText}
+            onChangeText={title.onChangeData}
             style={styles.text}
           />
           <TextField
             label="Money"
             value={money.value}
-            onChangeText={money.onChangeText}
+            onChangeText={money.onChangeData}
             style={styles.text}
           />
           <TextField
             label="Period"
             value={period.value}
-            onChangeText={period.onChangeText}
+            onChangeText={period.onChangeData}
             style={styles.text}
           />
-          <DatePicker date={new Date(Date.now())} />
+          <DatePicker
+            date={new Date(Date.now())}
+            onChangeDate={date.onChangeData}
+          />
           <TextField
             label="Detail"
             value={detail.value}
-            onChangeText={detail.onChangeText}
+            onChangeText={detail.onChangeData}
             style={styles.text}
           />
           <Button
