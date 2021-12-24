@@ -4,7 +4,7 @@ import { COLOR } from "../../../constants/theme";
 import { Context as UiContext, Status } from "../../../contexts/ui";
 import firebase from "firebase";
 import { ActivityIndicator, Colors } from "react-native-paper";
-import { isInitialLaunch } from "../../../lib/initiallaunch/isInitialLaunch";
+import { isInitialLaunch } from "../../../lib/InitialLaunch/isInitialLaunch";
 
 const styles = StyleSheet.create({
   container: {
@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
 
 export default function Loading() {
   const { setApplicationState } = React.useContext(UiContext);
-
   async function navigateNextScreen() {
+    firebase.auth().signInAnonymously();
     const isOpened = await isInitialLaunch();
     if (!isOpened) {
       setApplicationState(Status.FIRST_OPEN);
@@ -33,7 +33,7 @@ export default function Loading() {
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
       if (!user) {
-        firebase.auth().signInAnonymously();
+        navigateNextScreen();
       } else {
         setApplicationState(Status.AUTHORIZED);
       }
