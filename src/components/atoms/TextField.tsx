@@ -62,3 +62,7 @@ export default function TextField(props: Props) {
     />
   );
 }
+
+export function dismiss() {
+  Keyboard.dismiss();
+}

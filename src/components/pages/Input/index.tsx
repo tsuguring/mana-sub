@@ -1,13 +1,21 @@
 import * as React from "react";
-import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Text,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import IconButton from "../../atoms/IconButton";
 import { SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TextField, Button, dismiss } from "../../atoms";
 import { COLOR } from "../../../constants/theme";
 import { useControlledComponent } from "../../../lib/hooks";
-import DatePicker from "../../atoms/DatePicker";
 import firebase from "firebase";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { useState } from "react";
 
 const styles = StyleSheet.create({
   container: {
@@ -33,10 +41,22 @@ const styles = StyleSheet.create({
 });
 
 export default function Input() {
+  const [date, setDate] = useState(new Date(Date.now()));
+  const [show, setShow] = useState(false);
+  const onChangeDate = (event: any, selectedDate: any) => {
+    const currentDate = selectedDate || date;
+    setDate(currentDate);
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
+  };
+  const showDatepicker = () => {
+    setShow(!show);
+  };
+
   const title = useControlledComponent("");
   const money = useControlledComponent("");
   const period = useControlledComponent("");
-  const date = useControlledComponent(new Date(Date.now()));
   const detail = useControlledComponent("");
 
   const { goBack } = useNavigation();
@@ -53,7 +73,7 @@ export default function Input() {
         title: title.value,
         money: money.value,
         period: period.value,
-        date: date.value,
+        date: date,
         detail: detail.value,
       })
       .then(() => {
@@ -65,7 +85,7 @@ export default function Input() {
     title.onChangeData("");
     money.onChangeData("");
     period.onChangeData("");
-    date.onChangeData(new Date(Date.now()));
+    setDate(new Date(Date.now()));
     detail.onChangeData("");
   }, [back, title, money, period, date, detail]);
 
@@ -98,10 +118,24 @@ export default function Input() {
             onChangeText={period.onChangeData}
             style={styles.text}
           />
-          <DatePicker
-            date={new Date(Date.now())}
-            onChangeDate={date.onChangeData}
-          />
+          <View>
+            <TouchableOpacity onPress={showDatepicker}>
+              <Text>
+                {date.getFullYear()}年 {date.getMonth() + 1}月 {date.getDate()}
+                日
+              </Text>
+            </TouchableOpacity>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={"date"}
+                is24Hour={true}
+                display={Platform.OS === "ios" ? "spinner" : "default"}
+                onChange={onChangeDate}
+              />
+            )}
+          </View>
           <TextField
             label="Detail"
             value={detail.value}
