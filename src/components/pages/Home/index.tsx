@@ -1,11 +1,12 @@
-import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Subscriptions, { Subscription } from "../../organisms/Subscriptions";
 import { COLOR } from "../../../constants/theme";
 import { DETAIL, INPUT } from "../../../constants/path";
 import Sumsubscription from "../../molecules/SumSubscription";
+import firebase from "firebase";
 
 const styles = StyleSheet.create({
   container: {
@@ -34,59 +35,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const subscribes = [
-  {
-    id: "1",
-    title: "Netflix",
-    money: "500",
-    period: "1month",
-    detail: "test",
-  },
-  {
-    id: "2",
-    title: "AppleMusic",
-    money: "300",
-    period: "6month",
-    detail: "test",
-  },
-  {
-    id: "3",
-    title: "AmazonPrime",
-    money: "300",
-    period: "1month",
-    detail: "test",
-  },
-  {
-    id: "4",
-    title: "AmazonPrime",
-    money: "300",
-    period: "1month",
-    detail: "test",
-  },
-  {
-    id: "5",
-    title: "AmazonPrime",
-    money: "300",
-    period: "1month",
-    detail: "test",
-  },
-  {
-    id: "6",
-    title: "AmazonPrime",
-    money: "300",
-    period: "1month",
-    detail: "test",
-  },
-  {
-    id: "7",
-    title: "AmazonPrime",
-    money: "300",
-    period: "1month",
-    detail: "test",
-  },
-];
+export interface State {
+  id: string;
+  title: string;
+  money: string;
+  period: string;
+  date: Date;
+  detail?: string;
+}
 
 export default function Home() {
+  const [subscripitons, setSubscriptions] = React.useState<State[]>([]);
   const { navigate } = useNavigation();
   const onPress = React.useCallback(() => {
     navigate(INPUT);
@@ -98,10 +57,41 @@ export default function Home() {
     [navigate]
   );
 
+  useEffect(() => {
+    const db = firebase.firestore();
+    const { currentUser } = firebase.auth();
+    let unsubscribe = () => {};
+    if (currentUser) {
+      const ref = db.collection(`users/${currentUser.uid}/subscriptions`);
+      unsubscribe = ref.onSnapshot(
+        (snapshot) => {
+          const userSubscriptions: React.SetStateAction<State[]> = [];
+          snapshot.forEach((doc) => {
+            console.log(doc.id, doc.data());
+            const data = doc.data();
+            userSubscriptions.push({
+              id: doc.id,
+              title: data.title,
+              money: data.money,
+              period: data.period,
+              date: data.date.toDate(),
+              detail: data.detail,
+            });
+          });
+          setSubscriptions(userSubscriptions);
+        },
+        () => {
+          Alert.alert("データの読み込みに失敗しました。");
+        }
+      );
+    }
+    return unsubscribe;
+  }, []);
+
   return (
     <View style={styles.container}>
       <Sumsubscription />
-      <Subscriptions subscriptions={subscribes} actions={{ gotoDetail }} />
+      <Subscriptions subscriptions={subscripitons} actions={{ gotoDetail }} />
       <TouchableOpacity onPress={onPress} style={styles.button}>
         <Icon color={COLOR.BLACK} size={24} name="plus" />
       </TouchableOpacity>
