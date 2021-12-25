@@ -44,7 +44,7 @@ export default function CarouselItem({
 }: {
   item: { text: string };
   index: number;
-  onPress: any;
+  onPress: () => void;
 }) {
   return (
     <View style={styles.container}>

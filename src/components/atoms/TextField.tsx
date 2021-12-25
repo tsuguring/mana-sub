@@ -59,6 +59,7 @@ export default function TextField(props: Props) {
       autoCompleteType={autoCompleteType}
       autoCapitalize="none"
       secureTextEntry={secureTextEntry}
+      autoFocus
     />
   );
 }

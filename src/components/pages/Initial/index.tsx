@@ -35,7 +35,7 @@ export default function Initial() {
 
   const carouselRef = useRef(null);
   const onEnd = useCallback(() => {
-    setApplicationState(Status.UN_AUTHORIZED);
+    setApplicationState(Status.AUTHORIZED);
   }, [setApplicationState]);
 
   const onNext = useCallback(() => {
