@@ -70,7 +70,6 @@ export default function Detail() {
   }, [goBack]);
 
   const onSubmit = React.useCallback(() => {
-    console.log(dateInitialValue);
     const { currentUser } = firebase.auth();
     if (currentUser) {
       const db = firebase.firestore();
@@ -83,7 +82,7 @@ export default function Detail() {
             title: title.value,
             money: money.value,
             period: period.value,
-            date: date.toString(),
+            date: date.toLocaleString(),
             detail: detail.value,
           },
           { merge: true }

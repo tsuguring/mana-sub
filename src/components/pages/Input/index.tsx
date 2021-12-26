@@ -73,7 +73,7 @@ export default function Input() {
         title: title.value,
         money: money.value,
         period: period.value,
-        date: date.toString(),
+        date: date.toLocaleString(),
         detail: detail.value,
       })
       .then(() => {
