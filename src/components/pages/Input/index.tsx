@@ -8,7 +8,7 @@ import {
   Platform,
 } from "react-native";
 import IconButton from "../../atoms/IconButton";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TextField, Button, dismiss } from "../../atoms";
 import { COLOR } from "../../../constants/theme";
@@ -73,14 +73,14 @@ export default function Input() {
         title: title.value,
         money: money.value,
         period: period.value,
-        date: date,
+        date: date.toString(),
         detail: detail.value,
       })
       .then(() => {
         back();
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(() => {
+        Alert.alert("データの読み込みに失敗しました。");
       });
     title.onChangeData("");
     money.onChangeData("");

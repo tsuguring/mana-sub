@@ -1,6 +1,4 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { COLOR } from "../../../constants/theme";
 import SubscriptionDisplay from "../../molecules/Subscription";
 
 export interface GotoDetail {
@@ -12,7 +10,7 @@ export interface State {
   title: string;
   money: string;
   period: string;
-  date: Date;
+  date: string;
   detail?: string;
 }
 

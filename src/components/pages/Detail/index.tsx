@@ -1,9 +1,17 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+  Text,
+  Alert,
+} from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { Button, TextField } from "../../atoms";
 import { useControlledComponent } from "../../../lib/hooks";
-import { DatePicker } from "../../atoms";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import firebase from "firebase";
 
 const styles = StyleSheet.create({
   container: {
@@ -23,16 +31,18 @@ interface Params {
   title: string;
   money: string;
   period: string;
+  date: string;
   detail: string;
 }
 
 export default function Detail() {
-  const { goBack } = useNavigation();
   const { params } = useRoute<RouteProp<Record<string, Params>, string>>();
   const {
+    id: idInitialValue,
     title: titleInitialValue,
     money: moneyInitialValue,
     period: periodInitialValue,
+    date: dateInitialValue,
     detail: detailInitialValue,
   } = params;
 
@@ -41,34 +51,93 @@ export default function Detail() {
   const period = useControlledComponent(periodInitialValue);
   const detail = useControlledComponent(detailInitialValue);
 
-  const onSubmit = React.useCallback(() => {
+  const [date, setDate] = useState(new Date(dateInitialValue));
+  const [show, setShow] = useState(false);
+  const onChangeDate = (event: any, selectedDate: any) => {
+    const currentDate = selectedDate || date;
+    setDate(currentDate);
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
+  };
+  const showDatepicker = () => {
+    setShow(!show);
+  };
+
+  const { goBack } = useNavigation();
+  const back = React.useCallback(() => {
     goBack();
   }, [goBack]);
+
+  const onSubmit = React.useCallback(() => {
+    console.log(dateInitialValue);
+    const { currentUser } = firebase.auth();
+    if (currentUser) {
+      const db = firebase.firestore();
+      const ref = db
+        .collection(`users/${currentUser?.uid}/subscriptions`)
+        .doc(idInitialValue);
+      ref
+        .set(
+          {
+            title: title.value,
+            money: money.value,
+            period: period.value,
+            date: date.toString(),
+            detail: detail.value,
+          },
+          { merge: true }
+        )
+        .then(() => {
+          back();
+        })
+        .catch(() => {
+          Alert.alert("データの読み込みに失敗しました。");
+        });
+    }
+  }, [back, title, money, period, date, detail]);
 
   return (
     <View style={styles.container}>
       <TextField
         label="title"
         value={title.value}
-        onChangeText={title.onChangeText}
+        onChangeText={title.onChangeData}
         style={styles.textField}
       />
       <TextField
         label="money"
         value={money.value}
-        onChangeText={money.onChangeText}
+        onChangeText={money.onChangeData}
         style={styles.textField}
       />
       <TextField
         label="period"
         value={period.value}
-        onChangeText={period.onChangeText}
+        onChangeText={period.onChangeData}
         style={styles.textField}
       />
+      <View>
+        <TouchableOpacity onPress={showDatepicker}>
+          <Text>
+            {date.getFullYear()}年 {date.getMonth() + 1}月 {date.getDate()}日
+          </Text>
+        </TouchableOpacity>
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode={"date"}
+            is24Hour={true}
+            display={Platform.OS === "ios" ? "spinner" : "default"}
+            onChange={onChangeDate}
+          />
+        )}
+      </View>
       <TextField
         label="detail"
         value={detail.value}
-        onChangeText={detail.onChangeText}
+        onChangeText={detail.onChangeData}
         style={styles.textField}
       />
       <Button onPress={onSubmit} label="Submit" style={styles.button} />

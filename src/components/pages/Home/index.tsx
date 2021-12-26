@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -35,12 +35,71 @@ const styles = StyleSheet.create({
   },
 });
 
+const subscribes = [
+  {
+    id: "1",
+    title: "Netflix",
+    money: "500",
+    period: "1month",
+    detail: "test",
+    date: new Date(Date.now()),
+  },
+  {
+    id: "2",
+    title: "AppleMusic",
+    money: "300",
+    period: "6month",
+    detail: "test",
+    date: new Date(Date.now()),
+  },
+  {
+    id: "3",
+    title: "AmazonPrime",
+    money: "300",
+    period: "1month",
+    detail: "test",
+    date: new Date(Date.now()),
+  },
+  {
+    id: "4",
+    title: "AmazonPrime",
+    money: "300",
+    period: "1month",
+    detail: "test",
+    date: new Date(Date.now()),
+  },
+  {
+    id: "5",
+    title: "AmazonPrime",
+    money: "300",
+    period: "1month",
+    detail: "test",
+    date: new Date(Date.now()),
+  },
+  {
+    id: "6",
+    title: "AmazonPrime",
+    money: "300",
+    period: "1month",
+    detail: "test",
+    date: new Date(Date.now()),
+  },
+  {
+    id: "7",
+    title: "AmazonPrime",
+    money: "300",
+    period: "1month",
+    detail: "test",
+    date: new Date(Date.now()),
+  },
+];
+
 export interface State {
   id: string;
   title: string;
   money: string;
   period: string;
-  date: Date;
+  date: string;
   detail?: string;
 }
 
@@ -67,14 +126,13 @@ export default function Home() {
         (snapshot) => {
           const userSubscriptions: React.SetStateAction<State[]> = [];
           snapshot.forEach((doc) => {
-            console.log(doc.id, doc.data());
             const data = doc.data();
             userSubscriptions.push({
               id: doc.id,
               title: data.title,
               money: data.money,
               period: data.period,
-              date: data.date.toDate(),
+              date: data.date,
               detail: data.detail,
             });
           });

@@ -32,7 +32,7 @@ interface Props {
   title: string;
   money: string;
   period: string;
-  date: Date;
+  date: string;
   detail: string | undefined;
 }
 
