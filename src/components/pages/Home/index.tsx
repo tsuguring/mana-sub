@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Subscriptions, { Subscription } from "../../organisms/Subscriptions";
@@ -7,6 +7,7 @@ import { COLOR } from "../../../constants/theme";
 import { DETAIL, INPUT } from "../../../constants/path";
 import Sumsubscription from "../../molecules/SumSubscription";
 import firebase from "firebase";
+import { Button } from "../../atoms";
 
 const styles = StyleSheet.create({
   container: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: COLOR.MAIN_DARK,
   },
-  button: {
+  iconbutton: {
     position: "absolute",
     bottom: 32,
     right: 32,
@@ -33,66 +34,10 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 7,
   },
+  button: {
+    marginTop: 20,
+  },
 });
-
-const subscribes = [
-  {
-    id: "1",
-    title: "Netflix",
-    money: "500",
-    period: "1month",
-    detail: "test",
-    date: new Date(Date.now()),
-  },
-  {
-    id: "2",
-    title: "AppleMusic",
-    money: "300",
-    period: "6month",
-    detail: "test",
-    date: new Date(Date.now()),
-  },
-  {
-    id: "3",
-    title: "AmazonPrime",
-    money: "300",
-    period: "1month",
-    detail: "test",
-    date: new Date(Date.now()),
-  },
-  {
-    id: "4",
-    title: "AmazonPrime",
-    money: "300",
-    period: "1month",
-    detail: "test",
-    date: new Date(Date.now()),
-  },
-  {
-    id: "5",
-    title: "AmazonPrime",
-    money: "300",
-    period: "1month",
-    detail: "test",
-    date: new Date(Date.now()),
-  },
-  {
-    id: "6",
-    title: "AmazonPrime",
-    money: "300",
-    period: "1month",
-    detail: "test",
-    date: new Date(Date.now()),
-  },
-  {
-    id: "7",
-    title: "AmazonPrime",
-    money: "300",
-    period: "1month",
-    detail: "test",
-    date: new Date(Date.now()),
-  },
-];
 
 export interface State {
   id: string;
@@ -146,13 +91,22 @@ export default function Home() {
     return unsubscribe;
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <Sumsubscription />
-      <Subscriptions subscriptions={subscripitons} actions={{ gotoDetail }} />
-      <TouchableOpacity onPress={onPress} style={styles.button}>
-        <Icon color={COLOR.BLACK} size={24} name="plus" />
-      </TouchableOpacity>
-    </View>
-  );
+  if (subscripitons.length === 0) {
+    return (
+      <View style={styles.container}>
+        <Text>契約したサブスクリプションを追加しましょう!</Text>
+        <Button onPress={onPress} label="追加" style={styles.button} />
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <Sumsubscription />
+        <Subscriptions subscriptions={subscripitons} actions={{ gotoDetail }} />
+        <TouchableOpacity onPress={onPress} style={styles.iconbutton}>
+          <Icon color={COLOR.BLACK} size={24} name="plus" />
+        </TouchableOpacity>
+      </View>
+    );
+  }
 }

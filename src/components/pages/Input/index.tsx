@@ -144,7 +144,7 @@ export default function Input() {
           />
           <Button
             onPress={addTodo}
-            label="Add"
+            label="追加"
             style={styles.button}
             disabled={!title.value}
           />

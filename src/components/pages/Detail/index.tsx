@@ -139,7 +139,7 @@ export default function Detail() {
         onChangeText={detail.onChangeData}
         style={styles.textField}
       />
-      <Button onPress={onSubmit} label="Submit" style={styles.button} />
+      <Button onPress={onSubmit} label="更新" style={styles.button} />
     </View>
   );
 }
