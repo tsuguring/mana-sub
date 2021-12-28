@@ -8,13 +8,13 @@ import { DETAIL, INPUT } from "../../../constants/path";
 import Sumsubscription from "../../molecules/SumSubscription";
 import firebase from "firebase";
 import { Button } from "../../atoms";
+import { LinearGradient } from "expo-linear-gradient";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: COLOR.MAIN_DARK,
   },
   iconbutton: {
     position: "absolute",
@@ -93,20 +93,27 @@ export default function Home() {
 
   if (subscripitons.length === 0) {
     return (
-      <View style={styles.container}>
+      <LinearGradient
+        colors={[COLOR.MAIN_LIGHT, COLOR.MAIN_DARK]}
+        style={styles.container}
+      >
+        <Text> Your Text Here </Text>
         <Text>契約したサブスクリプションを追加しましょう!</Text>
         <Button onPress={onPress} label="追加" style={styles.button} />
-      </View>
+      </LinearGradient>
     );
   } else {
     return (
-      <View style={styles.container}>
+      <LinearGradient
+        colors={[COLOR.MAIN_LIGHT, COLOR.MAIN_DARK]}
+        style={styles.container}
+      >
         <Sumsubscription />
         <Subscriptions subscriptions={subscripitons} actions={{ gotoDetail }} />
         <TouchableOpacity onPress={onPress} style={styles.iconbutton}>
-          <Icon color={COLOR.BLACK} size={24} name="plus" />
+          <Icon color={COLOR.WHITE} size={20} name="plus" />
         </TouchableOpacity>
-      </View>
+      </LinearGradient>
     );
   }
 }

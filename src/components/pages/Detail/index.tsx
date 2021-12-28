@@ -12,6 +12,8 @@ import { Button, TextField } from "../../atoms";
 import { useControlledComponent } from "../../../lib/hooks";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import firebase from "firebase";
+import { LinearGradient } from "expo-linear-gradient";
+import { COLOR } from "../../../constants/theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -97,7 +99,10 @@ export default function Detail() {
   }, [back, title, money, period, date, detail]);
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={[COLOR.MAIN_LIGHT, COLOR.MAIN_DARK]}
+      style={styles.container}
+    >
       <TextField
         label="title"
         value={title.value}
@@ -140,6 +145,6 @@ export default function Detail() {
         style={styles.textField}
       />
       <Button onPress={onSubmit} label="更新" style={styles.button} />
-    </View>
+    </LinearGradient>
   );
 }

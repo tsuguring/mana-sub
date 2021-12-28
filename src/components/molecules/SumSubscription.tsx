@@ -4,13 +4,13 @@ import { COLOR } from "../../constants/theme";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLOR.MAIN_LIGHT,
+    backgroundColor: COLOR.WHITE,
     paddingTop: 20,
     paddingBottom: 20,
     paddingLeft: 50,
     paddingRight: 50,
     marginTop: 30,
-    marginBottom: 30,
+    marginBottom: 60,
   },
   text: {
     fontSize: 32,

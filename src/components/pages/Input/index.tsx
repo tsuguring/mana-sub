@@ -8,7 +8,7 @@ import {
   Platform,
 } from "react-native";
 import IconButton from "../../atoms/IconButton";
-import { SafeAreaView, Alert } from "react-native";
+import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TextField, Button, dismiss } from "../../atoms";
 import { COLOR } from "../../../constants/theme";
@@ -16,13 +16,13 @@ import { useControlledComponent } from "../../../lib/hooks";
 import firebase from "firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
+import { LinearGradient } from "expo-linear-gradient";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
     justifyContent: "center",
-    backgroundColor: COLOR.MAIN,
   },
   text: {
     marginBottom: 16,
@@ -64,7 +64,7 @@ export default function Input() {
     goBack();
   }, [goBack]);
 
-  const addTodo = React.useCallback(() => {
+  const addSubscription = React.useCallback(() => {
     const db = firebase.firestore();
     const { currentUser } = firebase.auth();
     const ref = db.collection(`users/${currentUser?.uid}/subscriptions`);
@@ -90,7 +90,10 @@ export default function Input() {
   }, [back, title, money, period, date, detail]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <LinearGradient
+      colors={[COLOR.MAIN_LIGHT, COLOR.MAIN_DARK]}
+      style={styles.container}
+    >
       <TouchableWithoutFeedback onPress={dismiss}>
         <View style={styles.container}>
           <IconButton
@@ -143,13 +146,13 @@ export default function Input() {
             style={styles.text}
           />
           <Button
-            onPress={addTodo}
+            onPress={addSubscription}
             label="追加"
             style={styles.button}
             disabled={!title.value}
           />
         </View>
       </TouchableWithoutFeedback>
-    </SafeAreaView>
+    </LinearGradient>
   );
 }

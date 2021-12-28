@@ -8,7 +8,6 @@ export { Subscription };
 const styles = StyleSheet.create({
   flatlistcontainer: {
     alignSelf: "stretch",
-    backgroundColor: COLOR.MAIN,
     paddingLeft: 10,
     paddingRight: 10,
   },
