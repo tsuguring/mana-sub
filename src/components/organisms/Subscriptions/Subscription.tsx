@@ -36,6 +36,7 @@ export function Component(props: Props) {
   return (
     <SubscriptionDisplay
       onPress={onPress}
+      id={state.id}
       title={state.title}
       money={state.money}
       period={state.period}

@@ -1,7 +1,9 @@
 import React from "react";
-import { Text, TouchableHighlight, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Alert } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import { COLOR } from "../../constants/theme";
+import firebase from "firebase";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   conteiner: {
@@ -29,6 +31,7 @@ const styles = StyleSheet.create({
 
 interface Props {
   onPress: () => void;
+  id: string;
   title: string;
   money: string;
   period: string;
@@ -37,19 +40,44 @@ interface Props {
 }
 
 export default function SubscriptionDisplay(props: Props) {
-  const { onPress, title, money } = props;
+  const { onPress, id, title, money } = props;
+
+  function deleteSubscription() {
+    const db = firebase.firestore();
+    const { currentUser } = firebase.auth();
+    if (currentUser) {
+      const ref = db
+        .collection(`users/${currentUser.uid}/subscriptions`)
+        .doc(id);
+      Alert.alert("サブスクリプションを削除します", "よろしいですか?", [
+        {
+          text: "キャンセル",
+          onPress: () => {},
+        },
+        {
+          text: "削除する",
+          style: "destructive",
+          onPress: () => {
+            ref.delete().catch(() => {
+              Alert.alert("削除に失敗しました");
+            });
+          },
+        },
+      ]);
+    }
+  }
 
   return (
     <View>
-      <TouchableHighlight onPress={onPress}>
-        <View style={styles.contentContainer}>
-          <View>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.money}>{money}円</Text>
-          </View>
-          <Icon name="delete" size={20} color={COLOR.BLACK} />
+      <TouchableOpacity onPress={onPress} style={styles.contentContainer}>
+        <View>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.money}>{money}円</Text>
         </View>
-      </TouchableHighlight>
+        <TouchableOpacity onPress={deleteSubscription}>
+          <Icon name="delete" size={22} color={COLOR.BLACK} />
+        </TouchableOpacity>
+      </TouchableOpacity>
     </View>
   );
 }
