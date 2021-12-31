@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Text,
-  TouchableOpacity,
-  Platform,
-} from "react-native";
+import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import IconButton from "../../atoms/IconButton";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -14,7 +7,8 @@ import { TextField, Button, dismiss } from "../../atoms";
 import { COLOR } from "../../../constants/theme";
 import { useControlledComponent } from "../../../lib/hooks";
 import firebase from "firebase";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import RNPickerSelect from "react-native-picker-select";
 import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -38,25 +32,43 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 40,
   },
+  inputIOS: {
+    fontSize: 16,
+    paddingTop: 13,
+    paddingHorizontal: 10,
+    paddingBottom: 12,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 4,
+    backgroundColor: "white",
+    color: "black",
+  },
 });
 
 export default function Input() {
   const [date, setDate] = useState(new Date(Date.now()));
-  const [show, setShow] = useState(false);
-  const onChangeDate = (event: any, selectedDate: any) => {
+  const [dateopen, setDateopen] = useState(false);
+  const showDatePicker = () => {
+    setDateopen(true);
+  };
+  const hideDatePicker = () => {
+    setDateopen(false);
+  };
+  const handleConfirm = () => {
+    hideDatePicker();
+  };
+  const onChangeDate = (selectedDate: Date) => {
     const currentDate = selectedDate || date;
     setDate(currentDate);
-    if (Platform.OS === "android") {
-      setShow(false);
-    }
   };
-  const showDatepicker = () => {
-    setShow(!show);
+
+  const [period, setPeriod] = React.useState("");
+  const onChangeperiod = (selectedperiod: string) => {
+    setPeriod(selectedperiod);
   };
 
   const title = useControlledComponent("");
   const money = useControlledComponent("");
-  const period = useControlledComponent("");
   const detail = useControlledComponent("");
 
   const { goBack } = useNavigation();
@@ -72,7 +84,7 @@ export default function Input() {
       .add({
         title: title.value,
         money: money.value,
-        period: period.value,
+        period: period,
         date: date.toLocaleString(),
         detail: detail.value,
       })
@@ -84,10 +96,13 @@ export default function Input() {
       });
     title.onChangeData("");
     money.onChangeData("");
-    period.onChangeData("");
     setDate(new Date(Date.now()));
     detail.onChangeData("");
   }, [back, title, money, period, date, detail]);
+
+  const showdate: string = `${date.getFullYear()}年 ${
+    date.getMonth() + 1
+  }月 ${date.getDate()} 日`;
 
   return (
     <LinearGradient
@@ -115,29 +130,32 @@ export default function Input() {
             onChangeText={money.onChangeData}
             style={styles.text}
           />
-          <TextField
-            label="Period"
-            value={period.value}
-            onChangeText={period.onChangeData}
-            style={styles.text}
+          <RNPickerSelect
+            onValueChange={onChangeperiod}
+            placeholder={{
+              label: "支払い期間",
+              value: null,
+            }}
+            items={[
+              { label: "1ヶ月", value: "1month" },
+              { label: "2ヶ月", value: "2month" },
+              { label: "3ヶ月", value: "3month" },
+              { label: "6ヶ月", value: "6month" },
+              { label: "12ヶ月", value: "12month" },
+            ]}
           />
           <View>
-            <TouchableOpacity onPress={showDatepicker}>
-              <Text>
-                {date.getFullYear()}年 {date.getMonth() + 1}月 {date.getDate()}
-                日
-              </Text>
-            </TouchableOpacity>
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode={"date"}
-                is24Hour={true}
-                display={Platform.OS === "ios" ? "spinner" : "default"}
-                onChange={onChangeDate}
-              />
-            )}
+            <Button onPress={showDatePicker} label={showdate}></Button>
+            <DateTimePickerModal
+              isVisible={dateopen}
+              mode="date"
+              date={date}
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+              onChange={onChangeDate}
+              confirmTextIOS="完了"
+              cancelTextIOS="キャンセル"
+            />
           </View>
           <TextField
             label="Detail"

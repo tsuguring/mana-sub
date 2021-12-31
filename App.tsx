@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import Routes from "./src/routes";
 import firebase from "firebase";
 import { firebaseConfig } from "./env";
+import { extendTheme, NativeBaseProvider } from "native-base";
 
 require("firebase/firestore");
 
@@ -16,19 +17,12 @@ export default function App() {
     UiContext.createApplicationInitialState()
   );
   return (
-    <UiContext.Context.Provider
-      value={{ applicationState, setApplicationState }}
-    >
-      <Routes />
-    </UiContext.Context.Provider>
+    <NativeBaseProvider>
+      <UiContext.Context.Provider
+        value={{ applicationState, setApplicationState }}
+      >
+        <Routes />
+      </UiContext.Context.Provider>
+    </NativeBaseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

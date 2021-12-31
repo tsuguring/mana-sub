@@ -5,8 +5,8 @@ import { COLOR } from "../../constants/theme";
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 18,
-    fontWeight: "900",
+    fontSize: 14,
+    fontWeight: "500",
     color: COLOR.WHITE,
   },
 });
