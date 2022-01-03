@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Button, Alert, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { COLOR } from "../../constants/theme";
 
 const styles = StyleSheet.create({
@@ -7,13 +7,13 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.WHITE,
     paddingTop: 20,
     paddingBottom: 20,
-    paddingLeft: 50,
-    paddingRight: 50,
+    paddingLeft: 90,
+    paddingRight: 90,
     marginTop: 30,
     marginBottom: 60,
   },
   text: {
-    fontSize: 32,
+    fontSize: 36,
   },
   button: {
     backgroundColor: COLOR.WHITE,
@@ -21,22 +21,13 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  id: string;
-  title: string;
-  money: string;
-  period: string;
-  date: string;
-  detail?: string;
+  sumsubscriptions: number;
 }
 
-export default function Sumsubscribe() {
+export default function Sumsubscription(props: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>¥5,400</Text>
-      <Button
-        onPress={() => Alert.alert("まだ実装していません")}
-        title="並び替え"
-      />
+      <Text style={styles.text}>¥{props.sumsubscriptions}</Text>
     </View>
   );
 }

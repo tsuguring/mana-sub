@@ -32,16 +32,33 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 40,
   },
+});
+
+const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 16,
-    paddingTop: 13,
+    paddingVertical: 12,
     paddingHorizontal: 10,
-    paddingBottom: 12,
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: "#789",
     borderRadius: 4,
-    backgroundColor: "white",
+    color: "#789",
+    paddingRight: 30, // to ensure the text is never behind the icon
+    width: 300,
+    marginLeft: 30,
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: "#789",
+    borderRadius: 8,
     color: "black",
+    paddingRight: 30, // to ensure the text is never behind the icon
+    width: 280,
+    marginLeft: 30,
+    backgroundColor: "#eee",
   },
 });
 
@@ -129,6 +146,7 @@ export default function Input() {
             value={money.value}
             onChangeText={money.onChangeData}
             style={styles.text}
+            keyboard="numeric"
           />
           <RNPickerSelect
             onValueChange={onChangeperiod}
@@ -143,6 +161,7 @@ export default function Input() {
               { label: "6ヶ月", value: "6month" },
               { label: "12ヶ月", value: "12month" },
             ]}
+            style={pickerSelectStyles}
           />
           <View>
             <Button onPress={showDatePicker} label={showdate}></Button>

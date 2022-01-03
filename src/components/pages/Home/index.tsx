@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Subscriptions, { Subscription } from "../../organisms/Subscriptions";
 import { COLOR } from "../../../constants/theme";
 import { DETAIL, INPUT } from "../../../constants/path";
-import Sumsubscription from "../../molecules/SumSubscription";
+import { Sumsubscription } from "../../molecules";
 import firebase from "firebase";
 import { Button } from "../../atoms";
 import { LinearGradient } from "expo-linear-gradient";
@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
   },
   iconbutton: {
     position: "absolute",
-    bottom: 32,
-    right: 32,
+    bottom: 16,
+    right: 38,
     width: 48,
     height: 48,
     backgroundColor: COLOR.SECONDARY,
@@ -50,6 +50,7 @@ export interface State {
 
 export default function Home() {
   const [subscripitons, setSubscriptions] = React.useState<State[]>([]);
+  const [sumsubscription, setSumsubscription] = useState(0);
   const { navigate } = useNavigation();
   const onPress = React.useCallback(() => {
     navigate(INPUT);
@@ -61,6 +62,14 @@ export default function Home() {
     [navigate]
   );
 
+  const plussubscription = (money: number[]) => {
+    let sum = 0;
+    for (let i in money) {
+      sum += money[i];
+    }
+    setSumsubscription(sum);
+  };
+
   useEffect(() => {
     const db = firebase.firestore();
     const { currentUser } = firebase.auth();
@@ -70,6 +79,7 @@ export default function Home() {
       unsubscribe = ref.onSnapshot(
         (snapshot) => {
           const userSubscriptions: React.SetStateAction<State[]> = [];
+          const sumSubscriptions: number[] = [];
           snapshot.forEach((doc) => {
             const data = doc.data();
             userSubscriptions.push({
@@ -80,8 +90,10 @@ export default function Home() {
               date: data.date,
               detail: data.detail,
             });
+            sumSubscriptions.push(Number(data.money));
           });
           setSubscriptions(userSubscriptions);
+          plussubscription(sumSubscriptions);
         },
         () => {
           Alert.alert("データの読み込みに失敗しました。");
@@ -97,7 +109,6 @@ export default function Home() {
         colors={[COLOR.MAIN_LIGHT, COLOR.MAIN_DARK]}
         style={styles.container}
       >
-        <Text> Your Text Here </Text>
         <Text>契約したサブスクリプションを追加しましょう!</Text>
         <Button onPress={onPress} label="追加" style={styles.button} />
       </LinearGradient>
@@ -108,7 +119,7 @@ export default function Home() {
         colors={[COLOR.MAIN_LIGHT, COLOR.MAIN_DARK]}
         style={styles.container}
       >
-        <Sumsubscription />
+        <Sumsubscription sumsubscriptions={sumsubscription} />
         <Subscriptions subscriptions={subscripitons} actions={{ gotoDetail }} />
         <TouchableOpacity onPress={onPress} style={styles.iconbutton}>
           <Icon color={COLOR.WHITE} size={20} name="plus" />
