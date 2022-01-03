@@ -24,6 +24,7 @@ interface Props {
     | "cc-exp-year";
   secureTextEntry?: boolean;
   disabled?: boolean;
+  keyboard?: "default" | "numeric";
 }
 
 const theme = {
@@ -45,6 +46,7 @@ export default function TextField(props: Props) {
     autoCompleteType,
     secureTextEntry,
     disabled,
+    keyboard,
   } = props;
 
   return (
@@ -60,6 +62,7 @@ export default function TextField(props: Props) {
       autoCapitalize="none"
       secureTextEntry={secureTextEntry}
       autoFocus
+      keyboardType={keyboard}
     />
   );
 }
