@@ -102,7 +102,7 @@ export default function Input() {
         title: title.value,
         money: money.value,
         period: period,
-        date: date.toLocaleString(),
+        date: date.toLocaleDateString(),
         detail: detail.value,
       })
       .then(() => {
@@ -155,11 +155,11 @@ export default function Input() {
               value: null,
             }}
             items={[
-              { label: "1ヶ月", value: "1month" },
-              { label: "2ヶ月", value: "2month" },
-              { label: "3ヶ月", value: "3month" },
-              { label: "6ヶ月", value: "6month" },
-              { label: "12ヶ月", value: "12month" },
+              { label: "1ヶ月", value: "1" },
+              { label: "2ヶ月", value: "2" },
+              { label: "3ヶ月", value: "3" },
+              { label: "6ヶ月", value: "6" },
+              { label: "12ヶ月", value: "12" },
             ]}
             style={pickerSelectStyles}
           />

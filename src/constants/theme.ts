@@ -6,5 +6,5 @@ export const COLOR = {
   SECONDARY: "#367AFF",
   WHITE: "#FFF",
   BLACK: "#000",
-  CAUTION: "#ff4d4d",
+  CAUTION: "#FF0000",
 };

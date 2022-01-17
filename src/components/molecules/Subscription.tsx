@@ -6,10 +6,8 @@ import firebase from "firebase";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
-  conteiner: {
-    padding: 10,
-  },
   contentContainer: {
+    borderRadius: 7,
     backgroundColor: COLOR.WHITE,
     borderLeftWidth: 10,
     borderColor: COLOR.PRIMARY,
@@ -22,10 +20,19 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "bold",
-    fontSize: 32,
+    fontSize: 30,
+    marginTop: 4,
+    marginBottom: 4,
+  },
+  period: {
+    fontSize: 14,
+  },
+  redperiod: {
+    color: COLOR.CAUTION,
+    fontSize: 14,
   },
   money: {
-    fontSize: 16,
+    fontSize: 17,
   },
 });
 
@@ -40,7 +47,17 @@ interface Props {
 }
 
 export default function SubscriptionDisplay(props: Props) {
-  const { onPress, id, title, money } = props;
+  const { onPress, id, title, money, period, date } = props;
+  const nowdate = new Date(Date.now());
+  const today = +new Date(nowdate.toLocaleDateString());
+  const nextpayment = +new Date(date);
+  const untilpayment = (nextpayment - today) / 86400000;
+  let caution = false;
+  if (untilpayment === 1) {
+    caution = true;
+  } else {
+    caution = false;
+  }
 
   function deleteSubscription() {
     const db = firebase.firestore();
@@ -49,7 +66,7 @@ export default function SubscriptionDisplay(props: Props) {
       const ref = db
         .collection(`users/${currentUser.uid}/subscriptions`)
         .doc(id);
-      Alert.alert("サブスクリプションを削除します", "よろしいですか?", [
+      Alert.alert("サブスクを削除します", "よろしいですか?", [
         {
           text: "キャンセル",
           onPress: () => {},
@@ -68,16 +85,23 @@ export default function SubscriptionDisplay(props: Props) {
   }
 
   return (
-    <View>
-      <TouchableOpacity onPress={onPress} style={styles.contentContainer}>
-        <View>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.money}>{money}円</Text>
-        </View>
-        <TouchableOpacity onPress={deleteSubscription}>
-          <Icon name="delete" size={22} color={COLOR.BLACK} />
-        </TouchableOpacity>
+    <TouchableOpacity onPress={onPress} style={styles.contentContainer}>
+      <View>
+        <Text style={styles.title}>{title}</Text>
+        {caution ? (
+          <Text style={styles.redperiod}>支払いまであと{untilpayment}日</Text>
+        ) : (
+          <Text style={styles.period}>支払いまであと{untilpayment}日</Text>
+        )}
+      </View>
+      <View>
+        <Text style={styles.money}>
+          ¥{Math.trunc(Number(money) / Number(period)).toLocaleString()}円/月
+        </Text>
+      </View>
+      <TouchableOpacity onPress={deleteSubscription}>
+        <Icon name="delete" size={22} color={COLOR.BLACK} />
       </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 }

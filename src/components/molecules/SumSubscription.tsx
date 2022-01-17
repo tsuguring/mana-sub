@@ -10,9 +10,22 @@ const styles = StyleSheet.create({
     paddingLeft: 90,
     paddingRight: 90,
     marginTop: 30,
-    marginBottom: 60,
+    marginBottom: 30,
+    borderRadius: 10,
   },
-  text: {
+  title: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  titletext: {
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  subtext: {
+    fontSize: 20,
+  },
+  summoneytext: {
     fontSize: 36,
   },
   button: {
@@ -27,7 +40,16 @@ interface Props {
 export default function Sumsubscription(props: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>¥{props.sumsubscriptions}</Text>
+      <View style={styles.title}>
+        <Text style={styles.titletext}>合計金額</Text>
+      </View>
+      <Text>
+        <Text style={styles.subtext}>¥</Text>
+        <Text style={styles.summoneytext}>
+          {props.sumsubscriptions.toLocaleString()}
+        </Text>
+        <Text style={styles.subtext}>/月</Text>
+      </Text>
     </View>
   );
 }

@@ -90,7 +90,9 @@ export default function Home() {
               date: data.date,
               detail: data.detail,
             });
-            sumSubscriptions.push(Number(data.money));
+            sumSubscriptions.push(
+              Math.trunc(Number(data.money) / Number(data.period))
+            );
           });
           setSubscriptions(userSubscriptions);
           plussubscription(sumSubscriptions);
@@ -109,14 +111,14 @@ export default function Home() {
         colors={[COLOR.MAIN_LIGHT, COLOR.MAIN_DARK]}
         style={styles.container}
       >
-        <Text>契約したサブスクリプションを追加しましょう!</Text>
+        <Text>契約しているサブスクリプションを追加しましょう!</Text>
         <Button onPress={onPress} label="追加" style={styles.button} />
       </LinearGradient>
     );
   } else {
     return (
       <LinearGradient
-        colors={[COLOR.MAIN_LIGHT, COLOR.MAIN_DARK]}
+        colors={[COLOR.MAIN_DARK, COLOR.MAIN_LIGHT]}
         style={styles.container}
       >
         <Sumsubscription sumsubscriptions={sumsubscription} />
