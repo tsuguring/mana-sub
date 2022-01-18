@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View, StyleSheet, Alert } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import { COLOR } from "../../constants/theme";
@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     fontSize: 30,
-    marginTop: 4,
-    marginBottom: 4,
+    marginTop: 3,
+    marginBottom: 1,
   },
   period: {
     fontSize: 14,
@@ -53,6 +53,8 @@ export default function SubscriptionDisplay(props: Props) {
   const nextpayment = +new Date(date);
   const untilpayment = (nextpayment - today) / 86400000;
   let caution = false;
+
+  //支払日まであと1日になると赤字になる
   if (untilpayment === 1) {
     caution = true;
   } else {

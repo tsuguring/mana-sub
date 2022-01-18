@@ -123,7 +123,7 @@ export default function Input() {
 
   return (
     <LinearGradient
-      colors={[COLOR.MAIN_LIGHT, COLOR.MAIN_DARK]}
+      colors={[COLOR.MAIN_DARK, COLOR.MAIN_LIGHT]}
       style={styles.container}
     >
       <TouchableWithoutFeedback onPress={dismiss}>

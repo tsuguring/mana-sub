@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Subscriptions, { Subscription } from "../../organisms/Subscriptions";
@@ -82,6 +82,18 @@ export default function Home() {
           const sumSubscriptions: number[] = [];
           snapshot.forEach((doc) => {
             const data = doc.data();
+
+            //支払日になると次回支払日が更新される
+            const nowdate = new Date(Date.now());
+            const today = +new Date(nowdate.toLocaleDateString());
+            const nextpayment = +new Date(data.date);
+            const untilpayment = (nextpayment - today) / 86400000;
+            if (untilpayment === 0) {
+              data.date = new Date(data.date).setMonth(
+                new Date(data.date).getMonth() + Number(data.period)
+              );
+            }
+
             userSubscriptions.push({
               id: doc.id,
               title: data.title,
@@ -108,7 +120,7 @@ export default function Home() {
   if (subscripitons.length === 0) {
     return (
       <LinearGradient
-        colors={[COLOR.MAIN_LIGHT, COLOR.MAIN_DARK]}
+        colors={[COLOR.MAIN_DARK, COLOR.MAIN_LIGHT]}
         style={styles.container}
       >
         <Text>契約しているサブスクリプションを追加しましょう!</Text>
