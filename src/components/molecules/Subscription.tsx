@@ -52,14 +52,6 @@ export default function SubscriptionDisplay(props: Props) {
   const today = +new Date(nowdate.toLocaleDateString());
   const nextpayment = +new Date(date);
   const untilpayment = (nextpayment - today) / 86400000;
-  let caution = false;
-
-  //支払日まであと1日になると赤字になる
-  if (untilpayment === 1) {
-    caution = true;
-  } else {
-    caution = false;
-  }
 
   function deleteSubscription() {
     const db = firebase.firestore();
@@ -90,7 +82,7 @@ export default function SubscriptionDisplay(props: Props) {
     <TouchableOpacity onPress={onPress} style={styles.contentContainer}>
       <View>
         <Text style={styles.title}>{title}</Text>
-        {caution ? (
+        {untilpayment < 5 ? (
           <Text style={styles.redperiod}>支払いまであと{untilpayment}日</Text>
         ) : (
           <Text style={styles.period}>支払いまであと{untilpayment}日</Text>
