@@ -196,23 +196,17 @@
 
 import * as React from "react";
 import { useState } from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  Button,
-  StyleSheet,
-  Pressable,
-} from "react-native";
+import { Text, View, TextInput, StyleSheet, Alert } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import DatePicker1 from "react-native-date-picker";
-import DatePicker from "react-native-datepicker";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import RNPickerSelect from "react-native-picker-select";
-import { Button as PaperButton } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { LinearGradient } from "expo-linear-gradient";
+import { COLOR } from "../../../constants/theme";
+import IconButton from "../../atoms/IconButton";
+import Button from "../../atoms/Button";
+import firebase from "firebase";
 
 // フォームの値を定義
 type FormData = {
@@ -224,12 +218,6 @@ type FormData = {
 };
 
 export default function Input() {
-  const [period, setPeriod] = useState("");
-  const onChangeperiod = (selectedperiod: string) => {
-    setPeriod(selectedperiod);
-  };
-
-  const [date, setDate] = useState(new Date(Date.now()));
   const [dateopen, setDateopen] = useState(false);
   const showDatePicker = () => {
     setDateopen(true);
@@ -239,10 +227,6 @@ export default function Input() {
   };
   const handleConfirm = () => {
     hideDatePicker();
-  };
-  const onChangeDate = (selectedDate: Date) => {
-    const currentDate = selectedDate || date;
-    setDate(currentDate);
   };
 
   const {
@@ -257,12 +241,37 @@ export default function Input() {
   }, [goBack]);
 
   const onSubmit = (data: FormData) => {
-    back();
-    console.log(data);
+    const db = firebase.firestore();
+    const { currentUser } = firebase.auth();
+    const ref = db.collection(`users/${currentUser?.uid}/subscriptions`);
+    ref
+      .add({
+        title: data.title,
+        money: data.money,
+        period: data.period,
+        date: data.date.toLocaleDateString(),
+        detail: data.detail,
+      })
+      .then(() => {
+        back();
+      })
+      .catch(() => {
+        Alert.alert("データの読み込みに失敗しました。");
+      });
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <LinearGradient
+      colors={[COLOR.MAIN_DARK, COLOR.MAIN_LIGHT]}
+      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+    >
+      <IconButton
+        icon="close"
+        size={30}
+        iconColor={COLOR.PRIMARY}
+        onPress={back}
+        style={styles.iconButton}
+      />
       <View
         style={{
           flexDirection: "row",
@@ -278,7 +287,7 @@ export default function Input() {
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                style={style.form}
+                style={styles.form}
                 placeholder="Netflix"
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
@@ -288,7 +297,7 @@ export default function Input() {
             name="title"
             rules={{
               required: true,
-              maxLength: 10,
+              maxLength: 13,
             }}
             defaultValue=""
           />
@@ -317,7 +326,7 @@ export default function Input() {
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                style={style.form}
+                style={styles.form}
                 placeholder="980"
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
@@ -327,12 +336,18 @@ export default function Input() {
             name="money"
             rules={{
               required: true,
+              maxLength: 7,
               pattern: /^[0-9]+$/,
             }}
             defaultValue=""
           />
           {errors.money && errors.money.type === "required" && (
             <Text style={{ color: "red" }}>金額は必須です。</Text>
+          )}
+          {errors.title && errors.title.type === "maxLength" && (
+            <Text style={{ color: "red" }}>
+              金額は7桁以内で入力してください。
+            </Text>
           )}
           {errors.money && errors.money.type === "pattern" && (
             <Text style={{ color: "red" }}>
@@ -395,7 +410,34 @@ export default function Input() {
         <View style={{ flex: 0.8 }}>
           <Controller
             control={control}
-            render={({ field: { onChange, onBlur, value } }) => <Input></Input>}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <TouchableOpacity
+                  onPress={showDatePicker}
+                  style={{
+                    borderBottomWidth: 1,
+                    borderBottomColor: "#ccc",
+                    width: "80%",
+                    flexDirection: "row",
+                    margin: "4%",
+                  }}
+                >
+                  <Text style={{ fontSize: 20 }}>
+                    {value.toLocaleDateString()}
+                  </Text>
+                </TouchableOpacity>
+                <DateTimePickerModal
+                  date={value}
+                  locale="ja-JP"
+                  isVisible={dateopen}
+                  onChange={onChange}
+                  onConfirm={handleConfirm}
+                  onCancel={hideDatePicker}
+                  confirmTextIOS="完了"
+                  cancelTextIOS="キャンセル"
+                />
+              </>
+            )}
             name="date"
             rules={{
               required: true,
@@ -419,7 +461,7 @@ export default function Input() {
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                style={style.form}
+                style={styles.form}
                 placeholder="無料体験中"
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
@@ -431,8 +473,8 @@ export default function Input() {
           />
         </View>
       </View>
-      <Button title="Submit" onPress={handleSubmit(onSubmit)} />
-    </View>
+      <Button label="追加" onPress={handleSubmit(onSubmit)} />
+    </LinearGradient>
   );
 }
 
@@ -453,12 +495,20 @@ const pickerSelectStyles = StyleSheet.create({
   },
 });
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   form: {
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     width: "80%",
     fontSize: 20,
     margin: "4%",
+  },
+  iconButton: {
+    position: "absolute",
+    top: 20,
+    right: 10,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
 });

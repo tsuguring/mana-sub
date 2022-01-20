@@ -88,7 +88,7 @@ export default function Home() {
             const today = +new Date(nowdate.toLocaleDateString());
             const nextpayment = +new Date(data.date);
             const untilpayment = (nextpayment - today) / 86400000;
-            if (untilpayment === 0) {
+            if (untilpayment <= 0) {
               data.date = new Date(data.date).setMonth(
                 new Date(data.date).getMonth() + Number(data.period)
               );

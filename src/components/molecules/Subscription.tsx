@@ -18,11 +18,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
   },
-  title: {
-    fontWeight: "bold",
-    fontSize: 30,
+  titleContainer: {
+    width: 180,
     marginTop: 3,
     marginBottom: 1,
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 22,
   },
   period: {
     fontSize: 14,
@@ -81,18 +84,18 @@ export default function SubscriptionDisplay(props: Props) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.contentContainer}>
       <View>
-        <Text style={styles.title}>{title}</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{title}</Text>
+        </View>
         {untilpayment < 5 ? (
           <Text style={styles.redperiod}>支払いまであと{untilpayment}日</Text>
         ) : (
           <Text style={styles.period}>支払いまであと{untilpayment}日</Text>
         )}
       </View>
-      <View>
-        <Text style={styles.money}>
-          ¥{Math.trunc(Number(money) / Number(period)).toLocaleString()}円/月
-        </Text>
-      </View>
+      <Text style={styles.money}>
+        ¥{Math.trunc(Number(money) / Number(period)).toLocaleString()}円/月
+      </Text>
       <TouchableOpacity onPress={deleteSubscription}>
         <Icon name="delete" size={22} color={COLOR.BLACK} />
       </TouchableOpacity>
