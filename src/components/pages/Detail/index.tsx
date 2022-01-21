@@ -1,32 +1,25 @@
-import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Platform,
-  Text,
-  Alert,
-} from "react-native";
+import * as React from "react";
+import { useState } from "react";
+import { Text, View, TextInput, StyleSheet, Alert } from "react-native";
+import { useForm, Controller } from "react-hook-form";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
-import { Button, TextField } from "../../atoms";
-import { useControlledComponent } from "../../../lib/hooks";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import firebase from "firebase";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import RNPickerSelect from "react-native-picker-select";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "../../../constants/theme";
+import IconButton from "../../atoms/IconButton";
+import Button from "../../atoms/Button";
+import firebase from "firebase";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  textField: {
-    marginVertical: 10,
-  },
-  button: {
-    marginTop: 20,
-  },
-});
+// フォームの値を定義
+type FormData = {
+  title: string;
+  money: string;
+  period: string;
+  date: Date;
+  detail?: string;
+};
 
 interface Params {
   id: string;
@@ -48,30 +41,30 @@ export default function Detail() {
     detail: detailInitialValue,
   } = params;
 
-  const title = useControlledComponent(titleInitialValue);
-  const money = useControlledComponent(moneyInitialValue);
-  const period = useControlledComponent(periodInitialValue);
-  const detail = useControlledComponent(detailInitialValue);
+  const [dateopen, setDateopen] = useState(false);
+  const showDatePicker = () => {
+    setDateopen(true);
+  };
+  const hideDatePicker = () => {
+    setDateopen(false);
+  };
+  const handleConfirm = () => {
+    hideDatePicker();
+  };
 
-  const [date, setDate] = useState(new Date(dateInitialValue));
-  const [show, setShow] = useState(false);
-  const onChangeDate = (event: any, selectedDate: any) => {
-    const currentDate = selectedDate || date;
-    setDate(currentDate);
-    if (Platform.OS === "android") {
-      setShow(false);
-    }
-  };
-  const showDatepicker = () => {
-    setShow(!show);
-  };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
 
   const { goBack } = useNavigation();
   const back = React.useCallback(() => {
     goBack();
   }, [goBack]);
 
-  const onSubmit = React.useCallback(() => {
+  const onSubmit = (data: FormData) => {
+    const db = firebase.firestore();
     const { currentUser } = firebase.auth();
     if (currentUser) {
       const db = firebase.firestore();
@@ -81,11 +74,11 @@ export default function Detail() {
       ref
         .set(
           {
-            title: title.value,
-            money: money.value,
-            period: period.value,
-            date: date.toLocaleString(),
-            detail: detail.value,
+            title: data.title,
+            money: data.money,
+            period: data.period,
+            date: data.date.toLocaleString(),
+            detail: data.detail,
           },
           { merge: true }
         )
@@ -96,55 +89,257 @@ export default function Detail() {
           Alert.alert("データの読み込みに失敗しました。");
         });
     }
-  }, [back, title, money, period, date, detail]);
+  };
 
   return (
     <LinearGradient
-      colors={[COLOR.MAIN_LIGHT, COLOR.MAIN_DARK]}
-      style={styles.container}
+      colors={[COLOR.MAIN_DARK, COLOR.MAIN_LIGHT]}
+      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
-      <TextField
-        label="title"
-        value={title.value}
-        onChangeText={title.onChangeData}
-        style={styles.textField}
+      <IconButton
+        icon="close"
+        size={30}
+        iconColor={COLOR.PRIMARY}
+        onPress={back}
+        style={styles.iconButton}
       />
-      <TextField
-        label="money"
-        value={money.value}
-        onChangeText={money.onChangeData}
-        style={styles.textField}
-      />
-      <TextField
-        label="period"
-        value={period.value}
-        onChangeText={period.onChangeData}
-        style={styles.textField}
-      />
-      <View>
-        <TouchableOpacity onPress={showDatepicker}>
-          <Text>
-            {date.getFullYear()}年 {date.getMonth() + 1}月 {date.getDate()}日
-          </Text>
-        </TouchableOpacity>
-        {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode={"date"}
-            is24Hour={true}
-            display={Platform.OS === "ios" ? "spinner" : "default"}
-            onChange={onChangeDate}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <View style={{ flex: 0.2, alignItems: "flex-end" }}>
+          <Text>タイトル</Text>
+        </View>
+        <View style={{ flex: 0.8 }}>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.form}
+                placeholder="Netflix"
+                onBlur={onBlur}
+                onChangeText={(value) => onChange(value)}
+                value={titleInitialValue}
+              />
+            )}
+            name="title"
+            rules={{
+              required: true,
+              maxLength: 13,
+            }}
+            defaultValue=""
           />
-        )}
+          {errors.title && errors.title.type === "required" && (
+            <Text style={{ color: "red" }}>タイトルは必須です。</Text>
+          )}
+          {errors.title && errors.title.type === "maxLength" && (
+            <Text style={{ color: "red" }}>
+              タイトルは10文字以内で入力してください。
+            </Text>
+          )}
+        </View>
       </View>
-      <TextField
-        label="detail"
-        value={detail.value}
-        onChangeText={detail.onChangeData}
-        style={styles.textField}
-      />
-      <Button onPress={onSubmit} label="更新" style={styles.button} />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <View style={{ flex: 0.2, alignItems: "flex-end" }}>
+          <Text>金額</Text>
+        </View>
+        <View style={{ flex: 0.8 }}>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.form}
+                placeholder="980"
+                onBlur={onBlur}
+                onChangeText={(value) => onChange(value)}
+                value={moneyInitialValue}
+              />
+            )}
+            name="money"
+            rules={{
+              required: true,
+              maxLength: 7,
+              pattern: /^[0-9]+$/,
+            }}
+            defaultValue=""
+          />
+          {errors.money && errors.money.type === "required" && (
+            <Text style={{ color: "red" }}>金額は必須です。</Text>
+          )}
+          {errors.title && errors.title.type === "maxLength" && (
+            <Text style={{ color: "red" }}>
+              金額は7桁以内で入力してください。
+            </Text>
+          )}
+          {errors.money && errors.money.type === "pattern" && (
+            <Text style={{ color: "red" }}>
+              全て半角数字を入力してください。
+            </Text>
+          )}
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <View style={{ flex: 0.2, alignItems: "flex-end" }}>
+          <Text>支払い周期</Text>
+        </View>
+        <View style={{ flex: 0.8 }}>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <RNPickerSelect
+                value={periodInitialValue}
+                onValueChange={(value) => onChange(value)}
+                placeholder={{
+                  label: "?ヶ月",
+                  value: null,
+                }}
+                items={[
+                  { label: "1ヶ月", value: "1" },
+                  { label: "2ヶ月", value: "2" },
+                  { label: "3ヶ月", value: "3" },
+                  { label: "6ヶ月", value: "6" },
+                  { label: "12ヶ月", value: "12" },
+                ]}
+                style={pickerSelectStyles}
+              />
+            )}
+            name="period"
+            rules={{
+              required: true,
+            }}
+            defaultValue=""
+          />
+          {errors.period && errors.period.type === "required" && (
+            <Text style={{ color: "red" }}>支払い周期は必須です。</Text>
+          )}
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <View style={{ flex: 0.2, alignItems: "flex-end" }}>
+          <Text>次回支払日</Text>
+        </View>
+        <View style={{ flex: 0.8 }}>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <TouchableOpacity
+                  onPress={showDatePicker}
+                  style={{
+                    borderBottomWidth: 1,
+                    borderBottomColor: "#ccc",
+                    width: "80%",
+                    flexDirection: "row",
+                    margin: "4%",
+                  }}
+                >
+                  <Text style={{ fontSize: 20 }}>
+                    {value.toLocaleDateString()}
+                  </Text>
+                </TouchableOpacity>
+                <DateTimePickerModal
+                  date={new Date(dateInitialValue)}
+                  locale="ja-JP"
+                  isVisible={dateopen}
+                  onChange={onChange}
+                  onConfirm={handleConfirm}
+                  onCancel={hideDatePicker}
+                  confirmTextIOS="完了"
+                  cancelTextIOS="キャンセル"
+                />
+              </>
+            )}
+            name="date"
+            rules={{
+              required: true,
+            }}
+            defaultValue={new Date(Date.now())}
+          />
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <View style={{ flex: 0.2, alignItems: "flex-end" }}>
+          <Text>メモ</Text>
+        </View>
+        <View style={{ flex: 0.8 }}>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.form}
+                onBlur={onBlur}
+                onChangeText={(value) => onChange(value)}
+                value={detailInitialValue}
+              />
+            )}
+            name="detail"
+            defaultValue=""
+          />
+        </View>
+      </View>
+      <Button label="追加" onPress={handleSubmit(onSubmit)} />
     </LinearGradient>
   );
 }
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    width: "80%",
+    fontSize: 20,
+    margin: "4%",
+  },
+  inputAndroid: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    width: "80%",
+    fontSize: 20,
+    margin: "4%",
+  },
+});
+
+const styles = StyleSheet.create({
+  form: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    width: "80%",
+    fontSize: 20,
+    margin: "4%",
+  },
+  iconButton: {
+    position: "absolute",
+    top: 20,
+    right: 10,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+  },
+});
