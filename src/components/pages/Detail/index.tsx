@@ -1,6 +1,13 @@
 import * as React from "react";
 import { useState } from "react";
-import { Text, View, TextInput, StyleSheet, Alert } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  Alert,
+  Button as RButton,
+} from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -8,7 +15,6 @@ import RNPickerSelect from "react-native-picker-select";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "../../../constants/theme";
-import IconButton from "../../atoms/IconButton";
 import Button from "../../atoms/Button";
 import firebase from "firebase";
 
@@ -30,7 +36,7 @@ interface Params {
   detail: string;
 }
 
-export default function Detail() {
+export default function Detail({ navigation }: { navigation: any }) {
   const { params } = useRoute<RouteProp<Record<string, Params>, string>>();
   const {
     id: idInitialValue,
@@ -90,6 +96,48 @@ export default function Detail() {
         });
     }
   };
+
+  function deleteSubscription() {
+    const db = firebase.firestore();
+    const { currentUser } = firebase.auth();
+    if (currentUser) {
+      const ref = db
+        .collection(`users/${currentUser.uid}/subscriptions`)
+        .doc(idInitialValue);
+      Alert.alert("サブスクを削除します", "よろしいですか?", [
+        {
+          text: "キャンセル",
+          onPress: () => {},
+        },
+        {
+          text: "削除する",
+          style: "destructive",
+          onPress: () => {
+            ref
+              .delete()
+              .then(() => {
+                goBack();
+              })
+              .catch(() => {
+                Alert.alert("削除に失敗しました");
+              });
+          },
+        },
+      ]);
+    }
+  }
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <RButton
+          onPress={deleteSubscription}
+          title="削除"
+          color={COLOR.CAUTION}
+        />
+      ),
+    });
+  }, [navigation]);
 
   return (
     <LinearGradient
