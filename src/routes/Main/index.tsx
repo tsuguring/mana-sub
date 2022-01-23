@@ -101,7 +101,7 @@ function switchingAuthStatus(status: UiContext.Status) {
             <Stack.Screen
               name="HOME"
               component={TabRoutes}
-              options={{ headerShown: false }}
+              options={{ title: "ホーム", headerShown: false }}
             />
             <Stack.Screen name={DETAIL} component={Detail} />
           </Stack.Group>
