@@ -1,6 +1,13 @@
 import * as React from "react";
 import { useState } from "react";
-import { Text, View, TextInput, StyleSheet, Alert } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  Alert,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -8,7 +15,7 @@ import RNPickerSelect from "react-native-picker-select";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "../../../constants/theme";
-import IconButton from "../../atoms/IconButton";
+import { IconButton, dismiss } from "../../atoms";
 import Button from "../../atoms/Button";
 import firebase from "firebase";
 
@@ -69,13 +76,6 @@ export default function Input() {
       colors={[COLOR.MAIN_DARK, COLOR.MAIN_LIGHT]}
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
-      <IconButton
-        icon="close"
-        size={30}
-        iconColor={COLOR.PRIMARY}
-        onPress={back}
-        style={styles.iconButton}
-      />
       <View
         style={{
           flexDirection: "row",
@@ -131,7 +131,7 @@ export default function Input() {
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 style={styles.form}
-                placeholder="980"
+                placeholder="990"
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
                 value={value}

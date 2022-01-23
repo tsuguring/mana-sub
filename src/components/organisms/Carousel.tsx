@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React from "react";
 import SnapCarousel from "react-native-snap-carousel";
 import CarouselItem from "../molecules/CarouselItem";
 import { width } from "../../lib/window";

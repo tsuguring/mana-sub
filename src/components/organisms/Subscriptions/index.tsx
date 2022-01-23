@@ -1,7 +1,6 @@
 import React from "react";
 import { FlatList, StyleSheet, View, Text } from "react-native";
 import * as Subscription from "./Subscription";
-import { COLOR } from "../../../constants/theme";
 
 export { Subscription };
 

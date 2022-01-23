@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Text, View, StyleSheet, Alert } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import { COLOR } from "../../constants/theme";

@@ -96,13 +96,6 @@ export default function Detail() {
       colors={[COLOR.MAIN_DARK, COLOR.MAIN_LIGHT]}
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
-      <IconButton
-        icon="close"
-        size={30}
-        iconColor={COLOR.PRIMARY}
-        onPress={back}
-        style={styles.iconButton}
-      />
       <View
         style={{
           flexDirection: "row",
@@ -158,7 +151,7 @@ export default function Detail() {
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 style={styles.form}
-                placeholder="980"
+                placeholder="990"
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
                 value={moneyInitialValue}
