@@ -36,6 +36,10 @@ const styles = StyleSheet.create({
   },
 });
 
+interface Params {
+  id: string;
+}
+
 const forFade = ({ current }: StackCardInterpolationProps) => ({
   cardStyle: {
     opacity: current.progress,
@@ -95,7 +99,7 @@ function switchingAuthStatus(status: UiContext.Status) {
         <Stack.Navigator>
           <Stack.Group>
             <Stack.Screen
-              name={HOME}
+              name="HOME"
               component={TabRoutes}
               options={{ headerShown: false }}
             />
@@ -108,7 +112,15 @@ function switchingAuthStatus(status: UiContext.Status) {
       );
     case UiContext.Status.FIRST_OPEN:
     default:
-      return <Stack.Screen name={INITIAL} component={Initial} />;
+      return (
+        <Stack.Navigator>
+          <Stack.Screen
+            name={INITIAL}
+            component={Initial}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      );
   }
 }
 

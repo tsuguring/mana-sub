@@ -1,8 +1,6 @@
 import React from "react";
-import { Text, View, StyleSheet, Alert } from "react-native";
-import Icon from "react-native-vector-icons/AntDesign";
+import { Text, View, StyleSheet } from "react-native";
 import { COLOR } from "../../constants/theme";
-import firebase from "firebase";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
@@ -50,36 +48,11 @@ interface Props {
 }
 
 export default function SubscriptionDisplay(props: Props) {
-  const { onPress, id, title, money, period, date } = props;
+  const { onPress, title, money, period, date } = props;
   const nowdate = new Date(Date.now());
   const today = +new Date(nowdate.toLocaleDateString());
   const nextpayment = +new Date(date);
   const untilpayment = (nextpayment - today) / 86400000;
-
-  function deleteSubscription() {
-    const db = firebase.firestore();
-    const { currentUser } = firebase.auth();
-    if (currentUser) {
-      const ref = db
-        .collection(`users/${currentUser.uid}/subscriptions`)
-        .doc(id);
-      Alert.alert("サブスクを削除します", "よろしいですか?", [
-        {
-          text: "キャンセル",
-          onPress: () => {},
-        },
-        {
-          text: "削除する",
-          style: "destructive",
-          onPress: () => {
-            ref.delete().catch(() => {
-              Alert.alert("削除に失敗しました");
-            });
-          },
-        },
-      ]);
-    }
-  }
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.contentContainer}>
@@ -96,9 +69,6 @@ export default function SubscriptionDisplay(props: Props) {
       <Text style={styles.money}>
         ¥{Math.trunc(Number(money) / Number(period)).toLocaleString()}円/月
       </Text>
-      <TouchableOpacity onPress={deleteSubscription}>
-        <Icon name="delete" size={22} color={COLOR.BLACK} />
-      </TouchableOpacity>
     </TouchableOpacity>
   );
 }
