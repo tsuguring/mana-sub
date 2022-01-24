@@ -63,7 +63,15 @@ export default function Detail({ navigation }: { navigation: any }) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    defaultValues: {
+      title: titleInitialValue,
+      money: moneyInitialValue,
+      period: periodInitialValue,
+      date: new Date(dateInitialValue),
+      detail: detailInitialValue,
+    },
+  });
 
   const { goBack } = useNavigation();
   const back = React.useCallback(() => {
@@ -144,7 +152,7 @@ export default function Detail({ navigation }: { navigation: any }) {
 
   return (
     <LinearGradient
-      colors={[COLOR.MAIN_DARK, COLOR.MAIN_LIGHT]}
+      colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
       style={{ flex: 1 }}
     >
       <KeyboardAwareScrollView
@@ -174,7 +182,7 @@ export default function Detail({ navigation }: { navigation: any }) {
                   placeholder="Netflix"
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
-                  value={titleInitialValue}
+                  value={value}
                 />
               )}
               name="title"
@@ -215,7 +223,7 @@ export default function Detail({ navigation }: { navigation: any }) {
                   keyboardType="number-pad"
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
-                  value={moneyInitialValue}
+                  value={value}
                 />
               )}
               name="money"
@@ -255,9 +263,9 @@ export default function Detail({ navigation }: { navigation: any }) {
           <View style={{ flex: 0.8 }}>
             <Controller
               control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, value } }) => (
                 <RNPickerSelect
-                  value={periodInitialValue}
+                  value={value}
                   onValueChange={(value) => onChange(value)}
                   placeholder={{
                     label: "?ヶ月",
@@ -298,7 +306,7 @@ export default function Detail({ navigation }: { navigation: any }) {
           <View style={{ flex: 0.8 }}>
             <Controller
               control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, value } }) => (
                 <>
                   <TouchableOpacity
                     onPress={showDatePicker}
@@ -311,11 +319,11 @@ export default function Detail({ navigation }: { navigation: any }) {
                     }}
                   >
                     <Text style={{ fontSize: 20 }}>
-                      {new Date(dateInitialValue).toLocaleDateString()}
+                      {value.toLocaleDateString()}
                     </Text>
                   </TouchableOpacity>
                   <DateTimePickerModal
-                    date={new Date(dateInitialValue)}
+                    date={value}
                     locale="ja-JP"
                     isVisible={dateopen}
                     onChange={onChange}
@@ -354,7 +362,7 @@ export default function Detail({ navigation }: { navigation: any }) {
                   placeholder="無料体験中"
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
-                  value={detailInitialValue}
+                  value={value}
                 />
               )}
               name="detail"
