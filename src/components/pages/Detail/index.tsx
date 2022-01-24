@@ -197,7 +197,7 @@ export default function Detail({ navigation }: { navigation: any }) {
             )}
             {errors.title && errors.title.type === "maxLength" && (
               <Text style={{ color: "red" }}>
-                タイトルは10文字以内で入力してください。
+                タイトルは13文字以内で入力してください。
               </Text>
             )}
           </View>
@@ -237,7 +237,7 @@ export default function Detail({ navigation }: { navigation: any }) {
             {errors.money && errors.money.type === "required" && (
               <Text style={{ color: "red" }}>金額は必須です。</Text>
             )}
-            {errors.title && errors.title.type === "maxLength" && (
+            {errors.money && errors.money.type === "maxLength" && (
               <Text style={{ color: "red" }}>
                 金額は7桁以内で入力してください。
               </Text>

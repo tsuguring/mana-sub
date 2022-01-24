@@ -111,7 +111,7 @@ export default function Input() {
             )}
             {errors.title && errors.title.type === "maxLength" && (
               <Text style={{ color: "red" }}>
-                タイトルは10文字以内で入力してください。
+                タイトルは13文字以内で入力してください。
               </Text>
             )}
           </View>

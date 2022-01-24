@@ -17,13 +17,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   titleContainer: {
-    width: 180,
-    marginTop: 3,
-    marginBottom: 3,
+    marginTop: 6,
+    marginBottom: 6,
   },
   title: {
     fontWeight: "bold",
-    fontSize: 22,
+    fontSize: 20,
   },
   period: {
     fontSize: 14,
