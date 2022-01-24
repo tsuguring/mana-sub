@@ -20,6 +20,7 @@ export type State = Array<Subscription.State>;
 interface Props {
   subscriptions: State;
   actions: Subscription.Actions;
+  changemoney: boolean;
 }
 
 export default function Subscriptions(props: Props) {
@@ -28,7 +29,11 @@ export default function Subscriptions(props: Props) {
       style={styles.flatlistcontainer}
       data={props.subscriptions}
       renderItem={({ item }) => (
-        <Subscription.Component state={item} actions={props.actions} />
+        <Subscription.Component
+          state={item}
+          actions={props.actions}
+          changemoney={props.changemoney}
+        />
       )}
       ItemSeparatorComponent={(highlighted) => (
         <View style={[styles.separator, highlighted]} />

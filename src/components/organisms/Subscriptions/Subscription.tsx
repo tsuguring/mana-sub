@@ -21,12 +21,14 @@ export interface Actions {
 interface Props {
   state: State;
   actions: Actions;
+  changemoney: boolean;
 }
 
 export function Component(props: Props) {
   const {
     state,
     actions: { gotoDetail },
+    changemoney,
   } = props;
 
   const onPress = React.useCallback(() => {
@@ -42,6 +44,7 @@ export function Component(props: Props) {
       period={state.period}
       date={state.date}
       detail={state.detail}
+      changemoney={changemoney}
     />
   );
 }

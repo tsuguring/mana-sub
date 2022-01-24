@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   money: {
-    fontSize: 17,
+    fontSize: 16,
   },
 });
 
@@ -44,10 +44,11 @@ interface Props {
   period: string;
   date: string;
   detail: string | undefined;
+  changemoney: boolean;
 }
 
 export default function SubscriptionDisplay(props: Props) {
-  const { onPress, title, money, period, date } = props;
+  const { onPress, title, money, period, date, changemoney } = props;
   const nowdate = new Date(Date.now());
   const today = +new Date(nowdate.toLocaleDateString());
   const nextpayment = +new Date(date);
@@ -65,9 +66,16 @@ export default function SubscriptionDisplay(props: Props) {
           <Text style={styles.period}>支払いまであと{untilpayment}日</Text>
         )}
       </View>
-      <Text style={styles.money}>
-        ¥{Math.trunc(Number(money) / Number(period)).toLocaleString()}円/月
-      </Text>
+      {changemoney ? (
+        <Text style={styles.money}>
+          ¥{Math.trunc(Number(money) * (12 / Number(period))).toLocaleString()}
+          円/年
+        </Text>
+      ) : (
+        <Text style={styles.money}>
+          ¥{Math.trunc(Number(money) / Number(period)).toLocaleString()}円/月
+        </Text>
+      )}
     </TouchableOpacity>
   );
 }

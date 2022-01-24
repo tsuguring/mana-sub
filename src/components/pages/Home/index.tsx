@@ -49,6 +49,7 @@ export interface State {
 }
 
 export default function Home() {
+  const [changemoney, setChangemoney] = useState(false);
   const [subscripitons, setSubscriptions] = React.useState<State[]>([]);
   const [sumsubscription, setSumsubscription] = useState(0);
   const { navigate } = useNavigation<any>();
@@ -133,8 +134,16 @@ export default function Home() {
         colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
         style={styles.container}
       >
-        <Sumsubscription sumsubscriptions={sumsubscription} />
-        <Subscriptions subscriptions={subscripitons} actions={{ gotoDetail }} />
+        <Sumsubscription
+          sumsubscriptions={sumsubscription}
+          changemoney={changemoney}
+          setChangemoney={setChangemoney}
+        />
+        <Subscriptions
+          subscriptions={subscripitons}
+          actions={{ gotoDetail }}
+          changemoney={changemoney}
+        />
         <TouchableOpacity onPress={onPress} style={styles.iconbutton}>
           <Icon color={COLOR.WHITE} size={20} name="plus" />
         </TouchableOpacity>
