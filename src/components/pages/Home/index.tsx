@@ -120,7 +120,7 @@ export default function Home() {
   if (subscripitons.length === 0) {
     return (
       <LinearGradient
-        colors={[COLOR.MAIN_DARK, COLOR.MAIN_LIGHT]}
+        colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
         style={styles.container}
       >
         <Text>契約しているサブスクリプションを追加しましょう!</Text>
@@ -130,7 +130,7 @@ export default function Home() {
   } else {
     return (
       <LinearGradient
-        colors={[COLOR.MAIN_DARK, COLOR.MAIN_LIGHT]}
+        colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
         style={styles.container}
       >
         <Sumsubscription sumsubscriptions={sumsubscription} />

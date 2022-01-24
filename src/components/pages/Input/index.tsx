@@ -66,7 +66,7 @@ export default function Input() {
 
   return (
     <LinearGradient
-      colors={[COLOR.MAIN_DARK, COLOR.MAIN_LIGHT]}
+      colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
       style={{ flex: 1 }}
     >
       <KeyboardAwareScrollView

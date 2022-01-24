@@ -30,16 +30,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: COLOR.MAIN_DARK,
-  },
-});
-
-interface Params {
-  id: string;
-}
-
 const forFade = ({ current }: StackCardInterpolationProps) => ({
   cardStyle: {
     opacity: current.progress,
@@ -60,6 +50,9 @@ function TabRoutes() {
               color={focused ? color : "#222222"}
             />
           ),
+          headerStyle: {
+            backgroundColor: COLOR.MAIN,
+          },
         }}
       />
       <Tab.Screen
@@ -73,6 +66,9 @@ function TabRoutes() {
               color={focused ? color : "#222222"}
             />
           ),
+          headerStyle: {
+            backgroundColor: COLOR.MAIN,
+          },
         }}
       />
       <Tab.Screen
@@ -86,6 +82,9 @@ function TabRoutes() {
               color={focused ? color : "#222222"}
             />
           ),
+          headerStyle: {
+            backgroundColor: COLOR.MAIN,
+          },
         }}
       />
     </Tab.Navigator>
@@ -103,10 +102,26 @@ function switchingAuthStatus(status: UiContext.Status) {
               component={TabRoutes}
               options={{ title: "ホーム", headerShown: false }}
             />
-            <Stack.Screen name={DETAIL} component={Detail} />
+            <Stack.Screen
+              name={DETAIL}
+              component={Detail}
+              options={{
+                headerStyle: {
+                  backgroundColor: COLOR.MAIN,
+                },
+              }}
+            />
           </Stack.Group>
           <Stack.Group screenOptions={{ presentation: "modal" }}>
-            <Stack.Screen name={INPUT} component={Input} />
+            <Stack.Screen
+              name={INPUT}
+              component={Input}
+              options={{
+                headerStyle: {
+                  backgroundColor: COLOR.MAIN,
+                },
+              }}
+            />
           </Stack.Group>
         </Stack.Navigator>
       );
