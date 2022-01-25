@@ -129,7 +129,9 @@ export default function Subscriptions(props: Props) {
       return (
         <FlatList
           style={styles.flatlistcontainer}
-          data={props.subscriptions}
+          data={props.subscriptions.sort(function (a, b) {
+            return a.title.localeCompare(b.title);
+          })}
           renderItem={({ item }) => (
             <Subscription.Component
               state={item}
