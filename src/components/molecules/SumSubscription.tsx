@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text, View, StyleSheet, Switch } from "react-native";
 import { COLOR } from "../../constants/theme";
+import RNPickerSelect from "react-native-picker-select";
 
 const styles = StyleSheet.create({
   container: {
@@ -20,7 +21,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: 10,
     paddingHorizontal: 20,
   },
   titletext: {
@@ -39,14 +39,27 @@ const styles = StyleSheet.create({
   },
 });
 
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    padding: 7,
+    marginTop: 20,
+    backgroundColor: COLOR.WHITE,
+    borderWidth: 0.5,
+    borderColor: "#C0C0C0",
+    borderRadius: 5,
+  },
+  inputAndroid: {},
+});
+
 interface Props {
   sumsubscriptions: number;
   changemoney: boolean;
   setChangemoney: React.Dispatch<React.SetStateAction<boolean>>;
+  setSort: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function Sumsubscription(props: Props) {
-  const { changemoney, setChangemoney, sumsubscriptions } = props;
+  const { changemoney, sumsubscriptions, setChangemoney, setSort } = props;
   const toggleSwitch = () => setChangemoney((previousState) => !previousState);
 
   return (
@@ -57,7 +70,7 @@ export default function Sumsubscription(props: Props) {
           <Text>
             <Text style={styles.subtext}>¥</Text>
             <Text style={styles.summoneytext}>
-              {(sumsubscriptions * 12).toLocaleString()}
+              {(Math.trunc(sumsubscriptions) * 12).toLocaleString()}
             </Text>
             <Text style={styles.subtext}>/年</Text>
           </Text>
@@ -65,7 +78,7 @@ export default function Sumsubscription(props: Props) {
           <Text>
             <Text style={styles.subtext}>¥</Text>
             <Text style={styles.summoneytext}>
-              {sumsubscriptions.toLocaleString()}
+              {Math.trunc(sumsubscriptions).toLocaleString()}
             </Text>
             <Text style={styles.subtext}>/月</Text>
           </Text>
@@ -79,12 +92,29 @@ export default function Sumsubscription(props: Props) {
             <Text style={{ fontWeight: "400", paddingBottom: 5 }}>月額</Text>
           )}
           <Switch
-            trackColor={{ false: COLOR.BLACK, true: COLOR.PRIMARY }}
-            ios_backgroundColor={COLOR.BLACK}
+            trackColor={{ false: COLOR.WHITE, true: COLOR.PRIMARY }}
+            ios_backgroundColor={COLOR.WHITE}
             onValueChange={toggleSwitch}
             value={changemoney}
           />
         </View>
+        <RNPickerSelect
+          onValueChange={(selectedperiod: string) => {
+            setSort(selectedperiod);
+          }}
+          placeholder={{
+            label: "並び替え",
+            value: null,
+          }}
+          items={[
+            { label: "金額(大きい順)", value: "muchmoney" },
+            { label: "金額(小さい順)", value: "littlemoney" },
+            { label: "支払日(近い順)", value: "nearpayment" },
+            { label: "支払日(遠い順)", value: "farpayment" },
+          ]}
+          doneText="完了"
+          style={pickerSelectStyles}
+        />
       </View>
     </View>
   );

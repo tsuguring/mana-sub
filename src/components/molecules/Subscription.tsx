@@ -52,30 +52,59 @@ export default function SubscriptionDisplay(props: Props) {
   const nowdate = new Date(Date.now());
   const today = +new Date(nowdate.toLocaleDateString());
   const nextpayment = +new Date(date);
-  const untilpayment = (nextpayment - today) / 86400000;
+  const untillpayment = (nextpayment - today) / 86400000;
 
-  return (
-    <TouchableOpacity onPress={onPress} style={styles.contentContainer}>
-      <View>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{title}</Text>
+  if (untillpayment <= 5) {
+    return (
+      <TouchableOpacity onPress={onPress} style={styles.contentContainer}>
+        <View>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{title}</Text>
+          </View>
+          {untillpayment === 0 ? (
+            <Text style={styles.redperiod}>支払い当日</Text>
+          ) : (
+            <Text style={styles.redperiod}>
+              支払いまであと{untillpayment}日
+            </Text>
+          )}
         </View>
-        {untilpayment < 5 ? (
-          <Text style={styles.redperiod}>支払いまであと{untilpayment}日</Text>
+        {changemoney ? (
+          <Text style={styles.money}>
+            ¥
+            {Math.trunc(Number(money) * (12 / Number(period))).toLocaleString()}
+            円/年
+          </Text>
         ) : (
-          <Text style={styles.period}>支払いまであと{untilpayment}日</Text>
+          <Text style={styles.money}>
+            ¥{Math.trunc(Number(money) / Number(period)).toLocaleString()}
+            円/月
+          </Text>
         )}
-      </View>
-      {changemoney ? (
-        <Text style={styles.money}>
-          ¥{Math.trunc(Number(money) * (12 / Number(period))).toLocaleString()}
-          円/年
-        </Text>
-      ) : (
-        <Text style={styles.money}>
-          ¥{Math.trunc(Number(money) / Number(period)).toLocaleString()}円/月
-        </Text>
-      )}
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  } else {
+    return (
+      <TouchableOpacity onPress={onPress} style={styles.contentContainer}>
+        <View>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{title}</Text>
+          </View>
+          <Text style={styles.period}>支払いまであと{untillpayment}日</Text>
+        </View>
+        {changemoney ? (
+          <Text style={styles.money}>
+            ¥
+            {Math.trunc(Number(money) * (12 / Number(period))).toLocaleString()}
+            円/年
+          </Text>
+        ) : (
+          <Text style={styles.money}>
+            ¥{Math.trunc(Number(money) / Number(period)).toLocaleString()}
+            円/月
+          </Text>
+        )}
+      </TouchableOpacity>
+    );
+  }
 }

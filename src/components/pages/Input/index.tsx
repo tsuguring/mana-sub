@@ -102,7 +102,7 @@ export default function Input() {
               name="title"
               rules={{
                 required: true,
-                maxLength: 13,
+                maxLength: 12,
               }}
               defaultValue=""
             />
@@ -111,7 +111,7 @@ export default function Input() {
             )}
             {errors.title && errors.title.type === "maxLength" && (
               <Text style={{ color: "red" }}>
-                タイトルは13文字以内で入力してください。
+                タイトルは12文字以内で入力してください。
               </Text>
             )}
           </View>
@@ -191,6 +191,7 @@ export default function Input() {
                     { label: "6ヶ月", value: "6" },
                     { label: "12ヶ月", value: "12" },
                   ]}
+                  doneText="完了"
                   style={pickerSelectStyles}
                 />
               )}

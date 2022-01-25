@@ -50,8 +50,11 @@ export interface State {
 
 export default function Home() {
   const [changemoney, setChangemoney] = useState(false);
+  const [sort, setSort] = useState("");
   const [subscripitons, setSubscriptions] = React.useState<State[]>([]);
   const [sumsubscription, setSumsubscription] = useState(0);
+  const [untill, setUntill] = useState(0);
+
   const { navigate } = useNavigation<any>();
   const onPress = React.useCallback(() => {
     navigate(INPUT);
@@ -88,8 +91,8 @@ export default function Home() {
             const nowdate = new Date(Date.now());
             const today = +new Date(nowdate.toLocaleDateString());
             const nextpayment = +new Date(data.date);
-            const untilpayment = (nextpayment - today) / 86400000;
-            if (untilpayment <= 0) {
+            const untillpayment = (nextpayment - today) / 86400000;
+            if (untillpayment < 0) {
               data.date = new Date(data.date).setMonth(
                 new Date(data.date).getMonth() + Number(data.period)
               );
@@ -103,9 +106,7 @@ export default function Home() {
               date: data.date,
               detail: data.detail,
             });
-            sumSubscriptions.push(
-              Math.trunc(Number(data.money) / Number(data.period))
-            );
+            sumSubscriptions.push(Number(data.money) / Number(data.period));
           });
           setSubscriptions(userSubscriptions);
           plussubscription(sumSubscriptions);
@@ -138,11 +139,13 @@ export default function Home() {
           sumsubscriptions={sumsubscription}
           changemoney={changemoney}
           setChangemoney={setChangemoney}
+          setSort={setSort}
         />
         <Subscriptions
           subscriptions={subscripitons}
           actions={{ gotoDetail }}
           changemoney={changemoney}
+          sort={sort}
         />
         <TouchableOpacity onPress={onPress} style={styles.iconbutton}>
           <Icon color={COLOR.WHITE} size={20} name="plus" />
