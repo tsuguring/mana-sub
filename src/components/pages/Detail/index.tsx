@@ -345,10 +345,11 @@ export default function Detail({ navigation }: { navigation: any }) {
         </View>
         <View
           style={{
-            flex: 0.13,
+            flex: 0.15,
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
+            marginTop: 40,
           }}
         >
           <View style={{ flex: 0.2, alignItems: "flex-end" }}>
@@ -359,7 +360,15 @@ export default function Detail({ navigation }: { navigation: any }) {
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  style={styles.form}
+                  multiline
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ccc",
+                    width: "80%",
+                    height: "100%",
+                    fontSize: 20,
+                    margin: "4%",
+                  }}
                   placeholder="無料体験中"
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
@@ -372,7 +381,7 @@ export default function Detail({ navigation }: { navigation: any }) {
           </View>
         </View>
         <View
-          style={{ flex: 0.13, justifyContent: "center", alignItems: "center" }}
+          style={{ flex: 0.15, justifyContent: "center", alignItems: "center" }}
         >
           <Button label="追加" onPress={handleSubmit(onSubmit)} />
         </View>

@@ -1,7 +1,7 @@
 export const COLOR = {
   MAIN: "#CFFFCB",
   MAIN_LIGHT: "#F8FFCA",
-  MAIN_DARK: "#ABF0C3",
+  MAIN_DARK: "#009900",
   PRIMARY: "#367AFF",
   SECONDARY: "#367AFF",
   WHITE: "#FFF",

@@ -6,7 +6,6 @@ import { useNavigation } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RNPickerSelect from "react-native-picker-select";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "../../../constants/theme";
 import Button from "../../atoms/Button";
 import firebase from "firebase";
@@ -65,10 +64,7 @@ export default function Input() {
   };
 
   return (
-    <LinearGradient
-      colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
-      style={{ flex: 1 }}
-    >
+    <View style={{ flex: 1, backgroundColor: COLOR.MAIN }}>
       <KeyboardAwareScrollView
         contentContainerStyle={{
           flex: 1,
@@ -76,14 +72,7 @@ export default function Input() {
           alignItems: "center",
         }}
       >
-        <View
-          style={{
-            flex: 0.13,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.formcontainer}>
           <View style={{ flex: 0.2, alignItems: "flex-end" }}>
             <Text>タイトル</Text>
           </View>
@@ -116,14 +105,7 @@ export default function Input() {
             )}
           </View>
         </View>
-        <View
-          style={{
-            flex: 0.13,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.formcontainer}>
           <View style={{ flex: 0.2, alignItems: "flex-end" }}>
             <Text>金額</Text>
           </View>
@@ -163,14 +145,7 @@ export default function Input() {
             )}
           </View>
         </View>
-        <View
-          style={{
-            flex: 0.13,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.formcontainer}>
           <View style={{ flex: 0.2, alignItems: "flex-end" }}>
             <Text>支払い周期</Text>
           </View>
@@ -206,14 +181,7 @@ export default function Input() {
             )}
           </View>
         </View>
-        <View
-          style={{
-            flex: 0.13,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.formcontainer}>
           <View style={{ flex: 0.2, alignItems: "flex-end" }}>
             <Text>次回支払日</Text>
           </View>
@@ -225,8 +193,11 @@ export default function Input() {
                   <TouchableOpacity
                     onPress={showDatePicker}
                     style={{
-                      borderBottomWidth: 1,
-                      borderBottomColor: "#ccc",
+                      backgroundColor: COLOR.WHITE,
+                      borderRadius: 6,
+                      borderWidth: 1,
+                      borderColor: "#ccc",
+                      paddingVertical: 7,
                       width: "80%",
                       flexDirection: "row",
                       margin: "4%",
@@ -256,14 +227,7 @@ export default function Input() {
             />
           </View>
         </View>
-        <View
-          style={{
-            flex: 0.13,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.formcontainer}>
           <View style={{ flex: 0.2, alignItems: "flex-end" }}>
             <Text>メモ</Text>
           </View>
@@ -272,7 +236,17 @@ export default function Input() {
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  style={styles.form}
+                  multiline
+                  style={{
+                    backgroundColor: COLOR.WHITE,
+                    borderRadius: 6,
+                    borderWidth: 1,
+                    borderColor: "#ccc",
+                    paddingVertical: 7,
+                    width: "80%",
+                    fontSize: 20,
+                    margin: "4%",
+                  }}
                   placeholder="無料体験中"
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
@@ -280,31 +254,43 @@ export default function Input() {
                 />
               )}
               name="detail"
+              rules={{
+                maxLength: 100,
+              }}
               defaultValue=""
             />
+            {errors.detail && errors.detail.type === "maxLength" && (
+              <Text style={{ color: "red" }}>
+                メモは100文字以内で入力してください。
+              </Text>
+            )}
           </View>
         </View>
-        <View
-          style={{ flex: 0.13, justifyContent: "center", alignItems: "center" }}
-        >
+        <View style={styles.formcontainer}>
           <Button label="追加" onPress={handleSubmit(onSubmit)} />
         </View>
       </KeyboardAwareScrollView>
-    </LinearGradient>
+    </View>
   );
 }
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    backgroundColor: COLOR.WHITE,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    paddingVertical: 7,
     width: "80%",
     fontSize: 20,
     margin: "4%",
   },
   inputAndroid: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    backgroundColor: COLOR.WHITE,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    paddingVertical: 7,
     width: "80%",
     fontSize: 20,
     margin: "4%",
@@ -312,9 +298,18 @@ const pickerSelectStyles = StyleSheet.create({
 });
 
 const styles = StyleSheet.create({
+  formcontainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "15%",
+  },
   form: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    backgroundColor: COLOR.WHITE,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    paddingVertical: 7,
     width: "80%",
     fontSize: 20,
     margin: "4%",
