@@ -349,7 +349,6 @@ export default function Detail({ navigation }: { navigation: any }) {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: 40,
           }}
         >
           <View style={{ flex: 0.2, alignItems: "flex-end" }}>
@@ -362,10 +361,9 @@ export default function Detail({ navigation }: { navigation: any }) {
                 <TextInput
                   multiline
                   style={{
-                    borderWidth: 1,
-                    borderColor: "#ccc",
+                    borderBottomWidth: 1,
+                    borderBottomColor: "#ccc",
                     width: "80%",
-                    height: "100%",
                     fontSize: 20,
                     margin: "4%",
                   }}

@@ -4,7 +4,6 @@ import {
   StackCardInterpolationProps,
 } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet } from "react-native";
 import { COLOR } from "../../constants/theme";
 import {
   INITIAL,
@@ -13,7 +12,6 @@ import {
   INPUT,
   DETAIL,
   SETTING,
-  GRAPH,
 } from "../../constants/path";
 import {
   Initial,
@@ -22,7 +20,6 @@ import {
   Input,
   Detail,
   Setting,
-  Graph,
 } from "../../components/pages";
 import * as UiContext from "../../contexts/ui";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -46,22 +43,6 @@ function TabRoutes() {
           tabBarIcon: ({ focused, color, size }) => (
             <Icon
               name="home"
-              size={size ? size : 24}
-              color={focused ? color : "#222222"}
-            />
-          ),
-          headerStyle: {
-            backgroundColor: COLOR.MAIN,
-          },
-        }}
-      />
-      <Tab.Screen
-        name={GRAPH}
-        component={Graph}
-        options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <Icon
-              name="signal"
               size={size ? size : 24}
               color={focused ? color : "#222222"}
             />

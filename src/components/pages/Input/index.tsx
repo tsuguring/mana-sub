@@ -10,6 +10,7 @@ import { COLOR } from "../../../constants/theme";
 import Button from "../../atoms/Button";
 import firebase from "firebase";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { LinearGradient } from "expo-linear-gradient";
 
 // フォームの値を定義
 type FormData = {
@@ -64,7 +65,10 @@ export default function Input() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: COLOR.MAIN }}>
+    <LinearGradient
+      colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
+      style={{ flex: 1 }}
+    >
       <KeyboardAwareScrollView
         contentContainerStyle={{
           flex: 1,
@@ -72,7 +76,14 @@ export default function Input() {
           alignItems: "center",
         }}
       >
-        <View style={styles.formcontainer}>
+        <View
+          style={{
+            flex: 0.13,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <View style={{ flex: 0.2, alignItems: "flex-end" }}>
             <Text>タイトル</Text>
           </View>
@@ -105,7 +116,14 @@ export default function Input() {
             )}
           </View>
         </View>
-        <View style={styles.formcontainer}>
+        <View
+          style={{
+            flex: 0.13,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <View style={{ flex: 0.2, alignItems: "flex-end" }}>
             <Text>金額</Text>
           </View>
@@ -145,7 +163,14 @@ export default function Input() {
             )}
           </View>
         </View>
-        <View style={styles.formcontainer}>
+        <View
+          style={{
+            flex: 0.13,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <View style={{ flex: 0.2, alignItems: "flex-end" }}>
             <Text>支払い周期</Text>
           </View>
@@ -181,7 +206,14 @@ export default function Input() {
             )}
           </View>
         </View>
-        <View style={styles.formcontainer}>
+        <View
+          style={{
+            flex: 0.13,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <View style={{ flex: 0.2, alignItems: "flex-end" }}>
             <Text>次回支払日</Text>
           </View>
@@ -193,11 +225,8 @@ export default function Input() {
                   <TouchableOpacity
                     onPress={showDatePicker}
                     style={{
-                      backgroundColor: COLOR.WHITE,
-                      borderRadius: 6,
-                      borderWidth: 1,
-                      borderColor: "#ccc",
-                      paddingVertical: 7,
+                      borderBottomWidth: 1,
+                      borderBottomColor: "#ccc",
                       width: "80%",
                       flexDirection: "row",
                       margin: "4%",
@@ -227,7 +256,14 @@ export default function Input() {
             />
           </View>
         </View>
-        <View style={styles.formcontainer}>
+        <View
+          style={{
+            flex: 0.15,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <View style={{ flex: 0.2, alignItems: "flex-end" }}>
             <Text>メモ</Text>
           </View>
@@ -237,16 +273,7 @@ export default function Input() {
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   multiline
-                  style={{
-                    backgroundColor: COLOR.WHITE,
-                    borderRadius: 6,
-                    borderWidth: 1,
-                    borderColor: "#ccc",
-                    paddingVertical: 7,
-                    width: "80%",
-                    fontSize: 20,
-                    margin: "4%",
-                  }}
+                  style={styles.form}
                   placeholder="無料体験中"
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
@@ -254,43 +281,31 @@ export default function Input() {
                 />
               )}
               name="detail"
-              rules={{
-                maxLength: 100,
-              }}
               defaultValue=""
             />
-            {errors.detail && errors.detail.type === "maxLength" && (
-              <Text style={{ color: "red" }}>
-                メモは100文字以内で入力してください。
-              </Text>
-            )}
           </View>
         </View>
-        <View style={styles.formcontainer}>
+        <View
+          style={{ flex: 0.15, justifyContent: "center", alignItems: "center" }}
+        >
           <Button label="追加" onPress={handleSubmit(onSubmit)} />
         </View>
       </KeyboardAwareScrollView>
-    </View>
+    </LinearGradient>
   );
 }
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    backgroundColor: COLOR.WHITE,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    paddingVertical: 7,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
     width: "80%",
     fontSize: 20,
     margin: "4%",
   },
   inputAndroid: {
-    backgroundColor: COLOR.WHITE,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    paddingVertical: 7,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
     width: "80%",
     fontSize: 20,
     margin: "4%",
@@ -298,18 +313,9 @@ const pickerSelectStyles = StyleSheet.create({
 });
 
 const styles = StyleSheet.create({
-  formcontainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "15%",
-  },
   form: {
-    backgroundColor: COLOR.WHITE,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    paddingVertical: 7,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
     width: "80%",
     fontSize: 20,
     margin: "4%",

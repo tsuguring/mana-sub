@@ -53,7 +53,6 @@ export default function Home() {
   const [sort, setSort] = useState("");
   const [subscripitons, setSubscriptions] = React.useState<State[]>([]);
   const [sumsubscription, setSumsubscription] = useState(0);
-  const [untill, setUntill] = useState(0);
 
   const { navigate } = useNavigation<any>();
   const onPress = React.useCallback(() => {
