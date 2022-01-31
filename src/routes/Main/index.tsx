@@ -13,14 +13,8 @@ import {
   DETAIL,
   SETTING,
 } from "../../constants/path";
-import {
-  Initial,
-  Loading,
-  Home,
-  Input,
-  Detail,
-  Setting,
-} from "../../components/pages";
+import { Initial, Loading, Home, Input, Detail } from "../../components/pages";
+import Setting from "./Setting";
 import * as UiContext from "../../contexts/ui";
 import Icon from "react-native-vector-icons/FontAwesome";
 
