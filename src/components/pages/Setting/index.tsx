@@ -2,75 +2,36 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "../../../constants/theme";
-import {
-  FlatList,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  itemcontainer: {
-    borderWidth: 1,
+  title: {
+    padding: 12,
+    fontSize: 16,
+  },
+  listcontainer: {
+    paddingTop: 15,
+  },
+  listtop: {
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
     borderColor: "#ccc",
     padding: 14,
     backgroundColor: COLOR.WHITE,
   },
+  list: {
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    padding: 14,
+    backgroundColor: COLOR.WHITE,
+  },
+  listtitle: {
+    fontSize: 16,
+  },
 });
-
-const Item = ({ title }: { title: string }) => (
-  <TouchableOpacity style={styles.itemcontainer}>
-    <Text>{title}</Text>
-  </TouchableOpacity>
-);
-
-const SETTING = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Item",
-    screenname: "",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-  },
-];
-
-const SUPORT = [
-  {
-    id: "bddacbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Item",
-  },
-  {
-    id: "3ac68afc-c605-48d3-d4f8-fbd91aa97f63",
-    title: "Second Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571d29d72",
-    title: "Third Item",
-  },
-];
-
-const OTHERS = [
-  {
-    id: "bddacbea-c1b1-46c2-aed5-3ad53abbk8ba",
-    title: "First Item",
-  },
-  {
-    id: "3ac68afc-c605-48d3-d4f8-fbd9uaa97f63",
-    title: "Second Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-845571d29d72",
-    title: "Third Item",
-  },
-];
 
 export default function Setting() {
   return (
@@ -78,55 +39,46 @@ export default function Setting() {
       colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
       style={styles.container}
     >
-      <ScrollView>
-        <View style={{ paddingTop: 15 }}>
-          <Text
-            style={{
-              padding: 12,
-              fontSize: 16,
-            }}
-          >
-            設定
-          </Text>
-          <View>
-            <FlatList
-              data={SETTING}
-              renderItem={({ item }) => <Item title={item.title} />}
-              keyExtractor={(item) => item.id}
-            />
-          </View>
+      <View>
+        <View style={styles.listcontainer}>
+          <Text style={styles.title}>設定</Text>
+          <TouchableOpacity style={styles.listtop}>
+            <Text style={styles.listtitle}>支払日前に通知でお知らせ</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.list}>
+            <Text style={{ fontSize: 16, color: COLOR.CAUTION }}>
+              データを初期化してログアウト
+            </Text>
+          </TouchableOpacity>
         </View>
-        <View style={{ paddingTop: 15 }}>
-          <Text
-            style={{
-              padding: 12,
-              fontSize: 16,
-            }}
-          >
-            サポート
-          </Text>
-          <FlatList
-            data={SUPORT}
-            renderItem={({ item }) => <Item title={item.title} />}
-            keyExtractor={(item) => item.id}
-          />
+        <View style={styles.listcontainer}>
+          <Text style={styles.title}>サポート</Text>
+          <TouchableOpacity style={styles.listtop}>
+            <Text style={styles.listtitle}>mana-subを応援する</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.list}>
+            <Text style={styles.listtitle}>mana-subをシェアする</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.list}>
+            <Text style={styles.listtitle}>お問合せ・不具合を報告する</Text>
+          </TouchableOpacity>
         </View>
-        <View style={{ paddingTop: 15 }}>
-          <Text
-            style={{
-              padding: 12,
-              fontSize: 16,
-            }}
-          >
-            その他
-          </Text>
-          <FlatList
-            data={OTHERS}
-            renderItem={({ item }) => <Item title={item.title} />}
-            keyExtractor={(item) => item.id}
-          />
+        <View style={styles.listcontainer}>
+          <Text style={styles.title}>その他</Text>
+          <TouchableOpacity style={styles.listtop}>
+            <Text style={styles.listtitle}>ライセンス</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.list}>
+            <Text style={styles.listtitle}>利用規約</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.list}>
+            <Text style={styles.listtitle}>プリバシーポリシー</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.list}>
+            <Text style={styles.listtitle}>バージョン</Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
     </LinearGradient>
   );
 }
