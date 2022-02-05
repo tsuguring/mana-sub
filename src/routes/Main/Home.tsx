@@ -40,9 +40,7 @@ function TabRoutes() {
               color={focused ? color : "#222222"}
             />
           ),
-          headerStyle: {
-            backgroundColor: COLOR.MAIN,
-          },
+          headerShown: false,
         }}
       />
     </Tab.Navigator>

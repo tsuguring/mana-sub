@@ -1,9 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Alert } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "../../../constants/theme";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
+import firebase from "firebase";
+import { useNavigation } from "@react-navigation/native";
+import { INQUIRIES, LOADING } from "../../../constants/path";
 
 const styles = StyleSheet.create({
   container: {
@@ -39,27 +42,59 @@ const styles = StyleSheet.create({
 });
 
 export default function Setting() {
+  const navigation = useNavigation<any>();
+
+  function deleteUser() {
+    const { currentUser } = firebase.auth();
+    if (currentUser) {
+      Alert.alert("データを初期化しログアウトします", "よろしいですか?", [
+        {
+          text: "キャンセル",
+          onPress: () => {},
+        },
+        {
+          text: "ログアウト",
+          style: "destructive",
+          onPress: () => {
+            currentUser
+              .delete()
+              .then(() => {
+                navigation.reset({ index: 0, routes: [{ name: LOADING }] });
+              })
+              .catch(() => {
+                Alert.alert("ログアウトに失敗しました。");
+              });
+          },
+        },
+      ]);
+    }
+  }
+
+  function moveInquiries() {
+    navigation.navigate(INQUIRIES);
+  }
+
   return (
     <LinearGradient
       colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
       style={styles.container}
     >
-      <View>
+      <ScrollView>
         <View style={styles.listcontainer}>
           <Text style={styles.title}>設定</Text>
           <TouchableOpacity style={styles.listtop}>
             <Icon
               name="bell"
-              size={22}
+              size={20}
               color={"#999999"}
               style={{ paddingRight: 14 }}
             />
             <Text style={styles.listtitle}>支払日前に通知でお知らせ</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.list}>
+          <TouchableOpacity style={styles.list} onPress={deleteUser}>
             <Icon
               name="warning"
-              size={22}
+              size={20}
               color={COLOR.CAUTION}
               style={{ paddingRight: 14 }}
             />
@@ -73,7 +108,7 @@ export default function Setting() {
           <TouchableOpacity style={styles.listtop}>
             <Icon
               name="star"
-              size={22}
+              size={20}
               color={"#999999"}
               style={{ paddingRight: 14 }}
             />
@@ -82,16 +117,16 @@ export default function Setting() {
           <TouchableOpacity style={styles.list}>
             <Icon
               name="group"
-              size={22}
+              size={20}
               color={"#999999"}
               style={{ paddingRight: 14 }}
             />
             <Text style={styles.listtitle}>mana-subをシェアする</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.list}>
+          <TouchableOpacity style={styles.list} onPress={moveInquiries}>
             <Icon
               name="envelope"
-              size={22}
+              size={20}
               color={"#999999"}
               style={{ paddingRight: 14 }}
             />
@@ -103,7 +138,7 @@ export default function Setting() {
           <TouchableOpacity style={styles.listtop}>
             <Icon
               name="info-circle"
-              size={22}
+              size={20}
               color={"#999999"}
               style={{ paddingRight: 14 }}
             />
@@ -112,7 +147,7 @@ export default function Setting() {
           <TouchableOpacity style={styles.list}>
             <Icon
               name="info-circle"
-              size={22}
+              size={20}
               color={"#999999"}
               style={{ paddingRight: 14 }}
             />
@@ -121,7 +156,7 @@ export default function Setting() {
           <TouchableOpacity style={styles.list}>
             <Icon
               name="info-circle"
-              size={22}
+              size={20}
               color={"#999999"}
               style={{ paddingRight: 14 }}
             />
@@ -130,14 +165,14 @@ export default function Setting() {
           <TouchableOpacity style={styles.list}>
             <Icon
               name="info-circle"
-              size={22}
+              size={20}
               color={"#999999"}
               style={{ paddingRight: 14 }}
             />
             <Text style={styles.listtitle}>バージョン</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </LinearGradient>
   );
 }

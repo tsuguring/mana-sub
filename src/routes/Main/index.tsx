@@ -3,23 +3,12 @@ import {
   createStackNavigator,
   StackCardInterpolationProps,
 } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { COLOR } from "../../constants/theme";
-import {
-  INITIAL,
-  LOADING,
-  HOME,
-  INPUT,
-  DETAIL,
-  SETTING,
-} from "../../constants/path";
-import { Initial, Loading, Home, Input, Detail } from "../../components/pages";
-import Setting from "./Setting";
+import { INITIAL, LOADING } from "../../constants/path";
+import { Initial, Loading } from "../../components/pages";
+import Home from "./Home";
 import * as UiContext from "../../contexts/ui";
-import Icon from "react-native-vector-icons/FontAwesome";
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 
 const forFade = ({ current }: StackCardInterpolationProps) => ({
   cardStyle: {
@@ -27,79 +16,10 @@ const forFade = ({ current }: StackCardInterpolationProps) => ({
   },
 });
 
-function TabRoutes() {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name={HOME}
-        component={Home}
-        options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <Icon
-              name="home"
-              size={size ? size : 24}
-              color={focused ? color : "#222222"}
-            />
-          ),
-          headerStyle: {
-            backgroundColor: COLOR.MAIN,
-          },
-        }}
-      />
-      <Tab.Screen
-        name={SETTING}
-        component={Setting}
-        options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <Icon
-              name="cog"
-              size={size ? size : 24}
-              color={focused ? color : "#222222"}
-            />
-          ),
-          headerStyle: {
-            backgroundColor: COLOR.MAIN,
-          },
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
-
 function switchingAuthStatus(status: UiContext.Status) {
   switch (status) {
     case UiContext.Status.AUTHORIZED:
-      return (
-        <Stack.Navigator>
-          <Stack.Group>
-            <Stack.Screen
-              name="HOME"
-              component={TabRoutes}
-              options={{ title: "ホーム", headerShown: false }}
-            />
-            <Stack.Screen
-              name={DETAIL}
-              component={Detail}
-              options={{
-                headerStyle: {
-                  backgroundColor: COLOR.MAIN,
-                },
-              }}
-            />
-          </Stack.Group>
-          <Stack.Group screenOptions={{ presentation: "modal" }}>
-            <Stack.Screen
-              name={INPUT}
-              component={Input}
-              options={{
-                headerStyle: {
-                  backgroundColor: COLOR.MAIN,
-                },
-              }}
-            />
-          </Stack.Group>
-        </Stack.Navigator>
-      );
+      return <Home />;
     case UiContext.Status.FIRST_OPEN:
     default:
       return (

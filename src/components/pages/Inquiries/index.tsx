@@ -6,6 +6,8 @@ import { COLOR } from "../../../constants/theme";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   itemcontainer: {
     borderWidth: 1,
