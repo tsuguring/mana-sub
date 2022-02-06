@@ -6,7 +6,7 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "firebase";
 import { useNavigation } from "@react-navigation/native";
-import { INQUIRIES, LOADING } from "../../../constants/path";
+import { INQUIRIES, LOADING, PRIVACY, TERMS } from "../../../constants/path";
 
 const styles = StyleSheet.create({
   container: {
@@ -74,6 +74,14 @@ export default function Setting() {
     navigation.navigate(INQUIRIES);
   }
 
+  function moveTerms() {
+    navigation.navigate(TERMS);
+  }
+
+  function movePrivacy() {
+    navigation.navigate(PRIVACY);
+  }
+
   return (
     <LinearGradient
       colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
@@ -135,16 +143,7 @@ export default function Setting() {
         </View>
         <View style={styles.listcontainer}>
           <Text style={styles.title}>その他</Text>
-          <TouchableOpacity style={styles.listtop}>
-            <Icon
-              name="info-circle"
-              size={20}
-              color={"#999999"}
-              style={{ paddingRight: 14 }}
-            />
-            <Text style={styles.listtitle}>ライセンス</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.list}>
+          <TouchableOpacity style={styles.listtop} onPress={moveTerms}>
             <Icon
               name="info-circle"
               size={20}
@@ -153,7 +152,7 @@ export default function Setting() {
             />
             <Text style={styles.listtitle}>利用規約</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.list}>
+          <TouchableOpacity style={styles.list} onPress={movePrivacy}>
             <Icon
               name="info-circle"
               size={20}

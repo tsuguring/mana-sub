@@ -5,3 +5,5 @@ export const DETAIL = "編集";
 export const INPUT = "追加";
 export const SETTING = "設定";
 export const INQUIRIES = "お問合せ・不具合を報告";
+export const TERMS = "利用規約";
+export const PRIVACY = "プライバシーポリシー";

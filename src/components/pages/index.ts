@@ -5,3 +5,5 @@ export { default as Setting } from "./Setting";
 export { default as Detail } from "./Detail";
 export { default as Input } from "./Input";
 export { default as Inquiries } from "./Inquiries";
+export { default as Terms } from "./Terms";
+export { default as Privacy } from "./Privacy";

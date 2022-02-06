@@ -1,7 +1,13 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { INQUIRIES, LOADING } from "../../constants/path";
-import { Setting, Loading, Inquiries } from "../../components/pages";
+import { INQUIRIES, LOADING, TERMS, PRIVACY } from "../../constants/path";
+import {
+  Setting,
+  Loading,
+  Inquiries,
+  Terms,
+  Privacy,
+} from "../../components/pages";
 import { COLOR } from "../../constants/theme";
 
 const Stack = createStackNavigator();
@@ -27,6 +33,24 @@ function SettingNavigator() {
       <Stack.Screen
         name={INQUIRIES}
         component={Inquiries}
+        options={{
+          headerStyle: {
+            backgroundColor: COLOR.MAIN,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={TERMS}
+        component={Terms}
+        options={{
+          headerStyle: {
+            backgroundColor: COLOR.MAIN,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={PRIVACY}
+        component={Privacy}
         options={{
           headerStyle: {
             backgroundColor: COLOR.MAIN,
