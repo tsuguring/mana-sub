@@ -19,6 +19,7 @@
     "expo": "~42.0.1",
     "expo-dev-client": "~0.7.2",
     "expo-linear-gradient": "~9.2.0",
+    "expo-notifications": "~0.12.3",
     "expo-status-bar": "~1.0.4",
     "firebase": "8.2.3",
     "native-base": "^3.2.2",
