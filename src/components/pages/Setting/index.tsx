@@ -36,6 +36,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  listbottom: {
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    padding: 14,
+    backgroundColor: COLOR.WHITE,
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 35,
+  },
   listtitle: {
     fontSize: 16,
   },
@@ -47,26 +56,30 @@ export default function Setting() {
   function deleteUser() {
     const { currentUser } = firebase.auth();
     if (currentUser) {
-      Alert.alert("データを初期化しログアウトします", "よろしいですか?", [
-        {
-          text: "キャンセル",
-          onPress: () => {},
-        },
-        {
-          text: "ログアウト",
-          style: "destructive",
-          onPress: () => {
-            currentUser
-              .delete()
-              .then(() => {
-                navigation.reset({ index: 0, routes: [{ name: LOADING }] });
-              })
-              .catch(() => {
-                Alert.alert("ログアウトに失敗しました。");
-              });
+      Alert.alert(
+        "データを初期化しログアウトします",
+        "ログアウトすると現在のデータは全て消されます。よろしいですか?",
+        [
+          {
+            text: "キャンセル",
+            onPress: () => {},
           },
-        },
-      ]);
+          {
+            text: "ログアウト",
+            style: "destructive",
+            onPress: () => {
+              currentUser
+                .delete()
+                .then(() => {
+                  navigation.reset({ index: 0, routes: [{ name: LOADING }] });
+                })
+                .catch(() => {
+                  Alert.alert("ログアウトに失敗しました。");
+                });
+            },
+          },
+        ]
+      );
     }
   }
 
@@ -161,7 +174,7 @@ export default function Setting() {
             />
             <Text style={styles.listtitle}>プリバシーポリシー</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.list}>
+          <TouchableOpacity style={styles.listbottom}>
             <Icon
               name="info-circle"
               size={20}
