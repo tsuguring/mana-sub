@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -49,22 +49,17 @@ export interface State {
 }
 
 export default function Home() {
+  //月額と年額の変更
   const [changemoney, setChangemoney] = useState(false);
+
+  //並び替え
   const [sort, setSort] = useState("");
-  const [subscripitons, setSubscriptions] = React.useState<State[]>([]);
+
+  //サブスクリプションの配列
+  const [subscriptions, setSubscriptions] = React.useState<State[]>([]);
+
+  //金額の合計
   const [sumsubscription, setSumsubscription] = useState(0);
-
-  const { navigate } = useNavigation<any>();
-  const onPress = React.useCallback(() => {
-    navigate(INPUT);
-  }, [navigate]);
-  const gotoDetail = React.useCallback(
-    (state: Subscription.State) => {
-      navigate(DETAIL, { ...state });
-    },
-    [navigate]
-  );
-
   const plussubscription = (money: number[]) => {
     let sum = 0;
     for (let i in money) {
@@ -72,6 +67,19 @@ export default function Home() {
     }
     setSumsubscription(sum);
   };
+
+  const { navigate } = useNavigation<any>();
+
+  const onPress = React.useCallback(() => {
+    navigate(INPUT);
+  }, [navigate]);
+
+  const gotoDetail = React.useCallback(
+    (state: Subscription.State) => {
+      navigate(DETAIL, { ...state });
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     const db = firebase.firestore();
@@ -96,7 +104,6 @@ export default function Home() {
                 new Date(data.date).getMonth() + Number(data.period)
               );
             }
-
             userSubscriptions.push({
               id: doc.id,
               title: data.title,
@@ -118,7 +125,7 @@ export default function Home() {
     return unsubscribe;
   }, []);
 
-  if (subscripitons.length === 0) {
+  if (subscriptions.length === 0) {
     return (
       <LinearGradient
         colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
@@ -141,7 +148,7 @@ export default function Home() {
           setSort={setSort}
         />
         <Subscriptions
-          subscriptions={subscripitons}
+          subscriptions={subscriptions}
           actions={{ gotoDetail }}
           changemoney={changemoney}
           sort={sort}

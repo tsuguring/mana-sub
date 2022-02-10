@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import * as Subscription from "./Subscription";
 
@@ -28,6 +28,18 @@ export default function Subscriptions(props: Props) {
   const nowdate = new Date(Date.now());
   const today = +new Date(nowdate.toLocaleDateString());
 
+  const renderItem = useCallback(
+    ({ item }) => (
+      <Subscription.Component
+        state={item}
+        actions={props.actions}
+        changemoney={props.changemoney}
+      />
+    ),
+    []
+  );
+  const keyExtractor = useCallback((item) => item.id, []);
+
   switch (props.sort) {
     case "muchmoney":
       return (
@@ -39,17 +51,11 @@ export default function Subscriptions(props: Props) {
               Number(a.money) / Number(a.period)
             );
           })}
-          renderItem={({ item }) => (
-            <Subscription.Component
-              state={item}
-              actions={props.actions}
-              changemoney={props.changemoney}
-            />
-          )}
+          renderItem={renderItem}
           ItemSeparatorComponent={(highlighted) => (
             <View style={[styles.separator, highlighted]} />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={keyExtractor}
         />
       );
     case "littlemoney":
@@ -62,17 +68,11 @@ export default function Subscriptions(props: Props) {
               Number(b.money) / Number(b.period)
             );
           })}
-          renderItem={({ item }) => (
-            <Subscription.Component
-              state={item}
-              actions={props.actions}
-              changemoney={props.changemoney}
-            />
-          )}
+          renderItem={renderItem}
           ItemSeparatorComponent={(highlighted) => (
             <View style={[styles.separator, highlighted]} />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={keyExtractor}
         />
       );
     case "nearpayment":
@@ -87,17 +87,11 @@ export default function Subscriptions(props: Props) {
               (+new Date(b.date) - today - 86400000)
             );
           })}
-          renderItem={({ item }) => (
-            <Subscription.Component
-              state={item}
-              actions={props.actions}
-              changemoney={props.changemoney}
-            />
-          )}
+          renderItem={renderItem}
           ItemSeparatorComponent={(highlighted) => (
             <View style={[styles.separator, highlighted]} />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={keyExtractor}
         />
       );
     case "farpayment":
@@ -112,17 +106,11 @@ export default function Subscriptions(props: Props) {
               (+new Date(a.date) - today - 86400000)
             );
           })}
-          renderItem={({ item }) => (
-            <Subscription.Component
-              state={item}
-              actions={props.actions}
-              changemoney={props.changemoney}
-            />
-          )}
+          renderItem={renderItem}
           ItemSeparatorComponent={(highlighted) => (
             <View style={[styles.separator, highlighted]} />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={keyExtractor}
         />
       );
     default:
@@ -132,17 +120,11 @@ export default function Subscriptions(props: Props) {
           data={props.subscriptions.sort(function (a, b) {
             return a.title.localeCompare(b.title);
           })}
-          renderItem={({ item }) => (
-            <Subscription.Component
-              state={item}
-              actions={props.actions}
-              changemoney={props.changemoney}
-            />
-          )}
+          renderItem={renderItem}
           ItemSeparatorComponent={(highlighted) => (
             <View style={[styles.separator, highlighted]} />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={keyExtractor}
         />
       );
   }
