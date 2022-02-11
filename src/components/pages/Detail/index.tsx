@@ -82,7 +82,6 @@ export default function Detail({ navigation }: { navigation: any }) {
     const db = firebase.firestore();
     const { currentUser } = firebase.auth();
     if (currentUser) {
-      const db = firebase.firestore();
       const ref = db
         .collection(`users/${currentUser?.uid}/subscriptions`)
         .doc(idInitialValue);
@@ -381,7 +380,7 @@ export default function Detail({ navigation }: { navigation: any }) {
         <View
           style={{ flex: 0.15, justifyContent: "center", alignItems: "center" }}
         >
-          <Button label="追加" onPress={handleSubmit(onSubmit)} />
+          <Button label="完了" onPress={handleSubmit(onSubmit)} />
         </View>
       </KeyboardAwareScrollView>
     </LinearGradient>
