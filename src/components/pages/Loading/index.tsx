@@ -4,7 +4,7 @@ import { COLOR } from "../../../constants/theme";
 import { Context as UiContext, Status } from "../../../contexts/ui";
 import firebase from "firebase";
 import { ActivityIndicator, Colors } from "react-native-paper";
-import { isInitialLaunch } from "../../../lib/InitialLaunch/isInitialLaunch";
+import { isInitialLaunch } from "../../../lib/Isitiallaunch/isInitialLaunch";
 
 const styles = StyleSheet.create({
   container: {

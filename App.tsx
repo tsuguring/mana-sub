@@ -1,10 +1,9 @@
 import React from "react";
 import * as UiContext from "./src/contexts/ui";
-import { StyleSheet } from "react-native";
 import Routes from "./src/routes";
 import firebase from "firebase";
 import { firebaseConfig } from "./env";
-import { extendTheme, NativeBaseProvider } from "native-base";
+import { NativeBaseProvider } from "native-base";
 
 require("firebase/firestore");
 
