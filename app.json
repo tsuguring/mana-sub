@@ -13,11 +13,11 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yy.expo-firebase-analytics",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,7 +26,18 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyBkKvlpH5GlYUOSCHJ5suyzJUC3FlJT6bU",
+          "authDomain": "mana-sub.firebaseapp.com",
+          "projectId": "mana-sub",
+          "storageBucket": "mana-sub.appspot.com",
+          "messagingSenderId": "1051846455159",
+          "appId": "1:1051846455159:web:a7cd151cb249080e17fb72",
+          "measurementId": "G-7LC0CNB2E7"
+        }
+      }
     }
   }
 }
