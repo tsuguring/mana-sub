@@ -8,7 +8,7 @@ interface Props {
   onNext: () => void;
   carouselRef: any;
   onSnapToItem: (slide: number) => void;
-  data: { text: string }[];
+  data: { title: string; text: string }[];
 }
 
 export default function Carousel(props: Props) {

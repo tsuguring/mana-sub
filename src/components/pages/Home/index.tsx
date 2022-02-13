@@ -1,5 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  Text,
+  Image,
+  View,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Subscriptions, { Subscription } from "../../organisms/Subscriptions";
@@ -7,7 +14,6 @@ import { COLOR } from "../../../constants/theme";
 import { DETAIL, INPUT } from "../../../constants/path";
 import { Sumsubscription } from "../../molecules";
 import firebase from "firebase";
-import { Button } from "../../atoms";
 import { LinearGradient } from "expo-linear-gradient";
 
 const styles = StyleSheet.create({
@@ -16,10 +22,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  zero_container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 60,
+  },
   iconbutton: {
     position: "absolute",
-    bottom: 16,
-    right: 38,
+    bottom: 48,
+    right: 48,
     width: 48,
     height: 48,
     backgroundColor: COLOR.SECONDARY,
@@ -34,8 +46,16 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 7,
   },
-  button: {
-    marginTop: 20,
+  title: {
+    fontSize: 18,
+    fontWeight: "600",
+    paddingTop: 10,
+    textAlign: "center",
+    paddingBottom: 15,
+  },
+  text: {
+    fontSize: 14,
+    textAlign: "center",
   },
 });
 
@@ -129,10 +149,16 @@ export default function Home() {
     return (
       <LinearGradient
         colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
-        style={styles.container}
+        style={styles.zero_container}
       >
-        <Text>契約しているサブスクリプションを追加しましょう!</Text>
-        <Button onPress={onPress} label="追加" style={styles.button} />
+        <Image source={require("../../../../assets/home.png")} />
+        <Text style={styles.title}>サブスクリプションを追加！</Text>
+        <Text style={styles.text}>
+          右下のボタンから契約しているサブスクリプションの情報を入力してください
+        </Text>
+        <TouchableOpacity onPress={onPress} style={styles.iconbutton}>
+          <Icon color={COLOR.WHITE} size={20} name="plus" />
+        </TouchableOpacity>
       </LinearGradient>
     );
   } else {
