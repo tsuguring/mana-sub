@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-  Text,
-  Image,
-  View,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, Alert, Text, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Subscriptions, { Subscription } from "../../organisms/Subscriptions";
 import { COLOR } from "../../../constants/theme";
 import { DETAIL, INPUT } from "../../../constants/path";
 import { Sumsubscription } from "../../molecules";
-import firebase from "firebase";
+import {
+  getFirestore,
+  getDocs,
+  collection,
+  onSnapshot,
+  query,
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { LinearGradient } from "expo-linear-gradient";
 
 const styles = StyleSheet.create({
@@ -102,16 +102,17 @@ export default function Home() {
   );
 
   useEffect(() => {
-    const db = firebase.firestore();
-    const { currentUser } = firebase.auth();
+    const db = getFirestore();
+    const { currentUser } = getAuth();
     let unsubscribe = () => {};
     if (currentUser) {
-      const ref = db.collection(`users/${currentUser.uid}/subscriptions`);
-      unsubscribe = ref.onSnapshot(
-        (snapshot) => {
+      const q = query(collection(db, `users/${currentUser.uid}/subscriptions`));
+      unsubscribe = onSnapshot(
+        q,
+        (querySnapshot) => {
           const userSubscriptions: React.SetStateAction<State[]> = [];
           const sumSubscriptions: number[] = [];
-          snapshot.forEach((doc) => {
+          querySnapshot.forEach((doc) => {
             const data = doc.data();
 
             //支払日になると次回支払日が更新される

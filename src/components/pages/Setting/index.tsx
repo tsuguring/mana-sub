@@ -4,7 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "../../../constants/theme";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
-import firebase from "firebase";
+import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { INQUIRIES, LOADING, PRIVACY, TERMS } from "../../../constants/path";
 
@@ -54,7 +54,7 @@ export default function Setting() {
   const navigation = useNavigation<any>();
 
   function deleteUser() {
-    const { currentUser } = firebase.auth();
+    const { currentUser } = getAuth();
     if (currentUser) {
       Alert.alert(
         "データを初期化しログアウトします",

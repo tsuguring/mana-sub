@@ -16,7 +16,14 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "../../../constants/theme";
 import Button from "../../atoms/Button";
-import firebase from "firebase";
+import {
+  getFirestore,
+  doc,
+  collection,
+  setDoc,
+  deleteDoc,
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // フォームの値を定義
@@ -79,23 +86,19 @@ export default function Detail({ navigation }: { navigation: any }) {
   }, [goBack]);
 
   const onSubmit = (data: FormData) => {
-    const db = firebase.firestore();
-    const { currentUser } = firebase.auth();
+    const db = getFirestore();
+    const { currentUser } = getAuth();
     if (currentUser) {
-      const ref = db
-        .collection(`users/${currentUser?.uid}/subscriptions`)
-        .doc(idInitialValue);
-      ref
-        .set(
-          {
-            title: data.title,
-            money: data.money,
-            period: data.period,
-            date: data.date.toLocaleString(),
-            detail: data.detail,
-          },
-          { merge: true }
-        )
+      const colref = collection(db, `users/${currentUser?.uid}/subscriptions`);
+      const docref = doc(colref, idInitialValue);
+      const updatedata = {
+        title: data.title,
+        money: data.money,
+        period: data.period,
+        date: data.date.toLocaleString(),
+        detail: data.detail,
+      };
+      setDoc(docref, updatedata)
         .then(() => {
           back();
         })
@@ -106,12 +109,11 @@ export default function Detail({ navigation }: { navigation: any }) {
   };
 
   function deleteSubscription() {
-    const db = firebase.firestore();
-    const { currentUser } = firebase.auth();
+    const db = getFirestore();
+    const { currentUser } = getAuth();
     if (currentUser) {
-      const ref = db
-        .collection(`users/${currentUser.uid}/subscriptions`)
-        .doc(idInitialValue);
+      const colref = collection(db, `users/${currentUser?.uid}/subscriptions`);
+      const docref = doc(colref, idInitialValue);
       Alert.alert("サブスクを削除します", "よろしいですか?", [
         {
           text: "キャンセル",
@@ -121,8 +123,7 @@ export default function Detail({ navigation }: { navigation: any }) {
           text: "削除する",
           style: "destructive",
           onPress: () => {
-            ref
-              .delete()
+            deleteDoc(docref)
               .then(() => {
                 goBack();
               })

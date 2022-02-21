@@ -1,14 +1,20 @@
 import React from "react";
 import * as UiContext from "./src/contexts/ui";
 import Routes from "./src/routes";
-import firebase from "firebase";
+import { getApps, initializeApp } from "firebase/app";
+import { initializeAuth } from "firebase/auth";
 import { firebaseConfig } from "./env";
 import { NativeBaseProvider } from "native-base";
+import { getReactNativePersistence } from "firebase/auth/react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 require("firebase/firestore");
 
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig);
+if (getApps().length === 0) {
+  initializeApp(firebaseConfig);
+  initializeAuth(initializeApp(firebaseConfig), {
+    persistence: getReactNativePersistence(AsyncStorage),
+  });
 }
 
 export default function App() {

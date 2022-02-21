@@ -8,7 +8,8 @@ import RNPickerSelect from "react-native-picker-select";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { COLOR } from "../../../constants/theme";
 import Button from "../../atoms/Button";
-import firebase from "firebase";
+import { getFirestore, collection, addDoc, doc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -45,17 +46,17 @@ export default function Input() {
   }, [goBack]);
 
   const onSubmit = (data: FormData) => {
-    const db = firebase.firestore();
-    const { currentUser } = firebase.auth();
-    const ref = db.collection(`users/${currentUser?.uid}/subscriptions`);
-    ref
-      .add({
-        title: data.title,
-        money: data.money,
-        period: data.period,
-        date: data.date.toLocaleDateString(),
-        detail: data.detail,
-      })
+    const db = getFirestore();
+    const { currentUser } = getAuth();
+    const colref = collection(db, `users/${currentUser?.uid}/subscriptions`);
+    const adddata = {
+      title: data.title,
+      money: data.money,
+      period: data.period,
+      date: data.date.toLocaleDateString(),
+      detail: data.detail,
+    };
+    addDoc(colref, adddata)
       .then(() => {
         back();
       })
