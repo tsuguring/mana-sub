@@ -56,6 +56,7 @@ export default function Subscriptions(props: Props) {
             <View style={[styles.separator, highlighted]} />
           )}
           keyExtractor={keyExtractor}
+          contentContainerStyle={{ paddingBottom: 30 }}
         />
       );
     case "littlemoney":
@@ -73,6 +74,7 @@ export default function Subscriptions(props: Props) {
             <View style={[styles.separator, highlighted]} />
           )}
           keyExtractor={keyExtractor}
+          contentContainerStyle={{ paddingBottom: 30 }}
         />
       );
     case "nearpayment":
@@ -92,6 +94,7 @@ export default function Subscriptions(props: Props) {
             <View style={[styles.separator, highlighted]} />
           )}
           keyExtractor={keyExtractor}
+          contentContainerStyle={{ paddingBottom: 30 }}
         />
       );
     case "farpayment":
@@ -111,6 +114,7 @@ export default function Subscriptions(props: Props) {
             <View style={[styles.separator, highlighted]} />
           )}
           keyExtractor={keyExtractor}
+          contentContainerStyle={{ paddingBottom: 30 }}
         />
       );
     default:
@@ -125,6 +129,7 @@ export default function Subscriptions(props: Props) {
             <View style={[styles.separator, highlighted]} />
           )}
           keyExtractor={keyExtractor}
+          contentContainerStyle={{ paddingBottom: 30 }}
         />
       );
   }

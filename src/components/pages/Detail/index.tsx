@@ -381,7 +381,7 @@ export default function Detail({ navigation }: { navigation: any }) {
         <View
           style={{ flex: 0.15, justifyContent: "center", alignItems: "center" }}
         >
-          <Button label="完了" onPress={handleSubmit(onSubmit)} />
+          <Button label="保存" onPress={handleSubmit(onSubmit)} />
         </View>
       </KeyboardAwareScrollView>
     </LinearGradient>
