@@ -4642,6 +4642,13 @@ expand-brackets@^2.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+expo-ads-admob@~12.0.0:
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/expo-ads-admob/-/expo-ads-admob-12.0.1.tgz#b23803792144fbfd1e545dc6404e8a34ecda8580"
+  integrity sha512-9sS53ymUbk1yx0IOqDuqa3pQMGP7CaeFEMOIY/MT38Kwmjc5bDTU5oJE+nl4PAu4zEWsYwXiQ5BaeYvTFqGbAA==
+  dependencies:
+    "@expo/config-plugins" "^4.0.2"
+
 expo-application@~4.0.0, expo-application@~4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-4.0.2.tgz#860dbd12132a56de7cf75fe7b5146b6cd97ed30e"

@@ -18,7 +18,10 @@
       "supportsTablet": true,
       "bundleIdentifier": "jp.tsuguri.manasub",
       "buildNumber": "1.0.0",
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-5412666419170729~7798625048"
+      }
     },
     "android": {
       "adaptiveIcon": {

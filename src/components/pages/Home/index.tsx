@@ -8,25 +8,18 @@ import { DETAIL, INPUT } from "../../../constants/path";
 import { Sumsubscription } from "../../molecules";
 import {
   getFirestore,
-  getDocs,
   collection,
   onSnapshot,
   query,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { LinearGradient } from "expo-linear-gradient";
+import { Admob } from "../../atoms";
+import { View } from "native-base";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  zero_container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 60,
   },
   iconbutton: {
     position: "absolute",
@@ -56,6 +49,23 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 14,
     textAlign: "center",
+  },
+  admob: {
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    bottom: 0,
+  },
+  zerocontainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 60,
+  },
+  maincontainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
@@ -150,16 +160,19 @@ export default function Home() {
     return (
       <LinearGradient
         colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
-        style={styles.zero_container}
+        style={styles.container}
       >
-        <Image source={require("../../../../assets/home.png")} />
-        <Text style={styles.title}>サブスクリプションを追加！</Text>
-        <Text style={styles.text}>
-          右下のボタンから契約しているサブスクリプションの情報を入力してください
-        </Text>
-        <TouchableOpacity onPress={onPress} style={styles.iconbutton}>
-          <Icon color={COLOR.WHITE} size={20} name="plus" />
-        </TouchableOpacity>
+        <View style={styles.zerocontainer}>
+          <Image source={require("../../../../assets/home.png")} />
+          <Text style={styles.title}>サブスクリプションを追加！</Text>
+          <Text style={styles.text}>
+            右下のボタンから契約しているサブスクリプションの情報を入力してください
+          </Text>
+          <TouchableOpacity onPress={onPress} style={styles.iconbutton}>
+            <Icon color={COLOR.WHITE} size={20} name="plus" />
+          </TouchableOpacity>
+        </View>
+        <Admob />
       </LinearGradient>
     );
   } else {
@@ -168,21 +181,24 @@ export default function Home() {
         colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
         style={styles.container}
       >
-        <Sumsubscription
-          sumsubscriptions={sumsubscription}
-          changemoney={changemoney}
-          setChangemoney={setChangemoney}
-          setSort={setSort}
-        />
-        <Subscriptions
-          subscriptions={subscriptions}
-          actions={{ gotoDetail }}
-          changemoney={changemoney}
-          sort={sort}
-        />
-        <TouchableOpacity onPress={onPress} style={styles.iconbutton}>
-          <Icon color={COLOR.WHITE} size={20} name="plus" />
-        </TouchableOpacity>
+        <View style={styles.maincontainer}>
+          <Sumsubscription
+            sumsubscriptions={sumsubscription}
+            changemoney={changemoney}
+            setChangemoney={setChangemoney}
+            setSort={setSort}
+          />
+          <Subscriptions
+            subscriptions={subscriptions}
+            actions={{ gotoDetail }}
+            changemoney={changemoney}
+            sort={sort}
+          />
+          <TouchableOpacity onPress={onPress} style={styles.iconbutton}>
+            <Icon color={COLOR.WHITE} size={20} name="plus" />
+          </TouchableOpacity>
+        </View>
+        <Admob />
       </LinearGradient>
     );
   }

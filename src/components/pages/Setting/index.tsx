@@ -7,6 +7,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { INQUIRIES, LOADING, PRIVACY, TERMS } from "../../../constants/path";
+import { Admob } from "../../atoms";
 
 const styles = StyleSheet.create({
   container: {
@@ -185,6 +186,7 @@ export default function Setting() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <Admob />
     </LinearGradient>
   );
 }
