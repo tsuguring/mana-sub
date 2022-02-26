@@ -21,6 +21,9 @@
       "googleServicesFile": "./GoogleService-Info.plist",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-5412666419170729~7798625048"
+      },
+      "infoPlist": {
+        "CFBundleDevelopmentRegion": "ja_JP"
       }
     },
     "android": {
