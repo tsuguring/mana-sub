@@ -156,24 +156,13 @@ export default function Detail({ navigation }: { navigation: any }) {
       style={{ flex: 1 }}
     >
       <KeyboardAwareScrollView
-        contentContainerStyle={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        contentContainerStyle={styles.KeyboardScrollView}
       >
-        <View
-          style={{
-            flex: 0.13,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <View style={{ flex: 0.2, alignItems: "flex-end" }}>
-            <Text>タイトル</Text>
+        <View style={styles.formContainer}>
+          <View style={styles.formTitleContainer}>
+            <Text style={styles.title}>タイトル</Text>
           </View>
-          <View style={{ flex: 0.8 }}>
+          <View>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -202,18 +191,11 @@ export default function Detail({ navigation }: { navigation: any }) {
             )}
           </View>
         </View>
-        <View
-          style={{
-            flex: 0.13,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <View style={{ flex: 0.2, alignItems: "flex-end" }}>
-            <Text>金額</Text>
+        <View style={styles.formContainer}>
+          <View style={styles.formTitleContainer}>
+            <Text style={styles.title}>金額</Text>
           </View>
-          <View style={{ flex: 0.8 }}>
+          <View>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -249,18 +231,11 @@ export default function Detail({ navigation }: { navigation: any }) {
             )}
           </View>
         </View>
-        <View
-          style={{
-            flex: 0.13,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <View style={{ flex: 0.2, alignItems: "flex-end" }}>
-            <Text>支払い周期</Text>
+        <View style={styles.formContainer}>
+          <View style={styles.formTitleContainer}>
+            <Text style={styles.title}>支払い周期</Text>
           </View>
-          <View style={{ flex: 0.8 }}>
+          <View>
             <Controller
               control={control}
               render={({ field: { onChange, value } }) => (
@@ -293,31 +268,18 @@ export default function Detail({ navigation }: { navigation: any }) {
             )}
           </View>
         </View>
-        <View
-          style={{
-            flex: 0.13,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <View style={{ flex: 0.2, alignItems: "flex-end" }}>
-            <Text>次回支払日</Text>
+        <View style={styles.formContainer}>
+          <View style={styles.formTitleContainer}>
+            <Text style={styles.title}>次回支払日</Text>
           </View>
-          <View style={{ flex: 0.8 }}>
+          <View>
             <Controller
               control={control}
               render={({ field: { onChange, value } }) => (
                 <>
                   <TouchableOpacity
                     onPress={showDatePicker}
-                    style={{
-                      borderBottomWidth: 1,
-                      borderBottomColor: "#ccc",
-                      width: "80%",
-                      flexDirection: "row",
-                      margin: "4%",
-                    }}
+                    style={styles.form}
                   >
                     <Text style={{ fontSize: 20 }}>
                       {value.toLocaleDateString()}
@@ -343,30 +305,17 @@ export default function Detail({ navigation }: { navigation: any }) {
             />
           </View>
         </View>
-        <View
-          style={{
-            flex: 0.15,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <View style={{ flex: 0.2, alignItems: "flex-end" }}>
-            <Text>メモ</Text>
+        <View style={styles.formContainer}>
+          <View style={styles.formTitleContainer}>
+            <Text style={styles.title}>メモ</Text>
           </View>
-          <View style={{ flex: 0.8 }}>
+          <View>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   multiline
-                  style={{
-                    borderBottomWidth: 1,
-                    borderBottomColor: "#ccc",
-                    width: "80%",
-                    fontSize: 20,
-                    margin: "4%",
-                  }}
+                  style={styles.memoForm}
                   placeholder="無料体験中"
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
@@ -378,9 +327,7 @@ export default function Detail({ navigation }: { navigation: any }) {
             />
           </View>
         </View>
-        <View
-          style={{ flex: 0.15, justifyContent: "center", alignItems: "center" }}
-        >
+        <View style={styles.Button}>
           <Button label="保存" onPress={handleSubmit(onSubmit)} />
         </View>
       </KeyboardAwareScrollView>
@@ -390,35 +337,56 @@ export default function Detail({ navigation }: { navigation: any }) {
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    width: "80%",
+    borderWidth: 1,
+    borderColor: COLOR.MAIN_DARK,
+    borderRadius: 5,
     fontSize: 20,
-    margin: "4%",
+    padding: 8,
+    backgroundColor: COLOR.WHITE,
   },
   inputAndroid: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    width: "80%",
+    borderWidth: 1,
+    borderColor: COLOR.MAIN_DARK,
+    borderRadius: 5,
     fontSize: 20,
-    margin: "4%",
+    padding: 8,
+    backgroundColor: COLOR.WHITE,
   },
 });
 
 const styles = StyleSheet.create({
-  form: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    width: "80%",
-    fontSize: 20,
-    margin: "4%",
+  KeyboardScrollView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  iconButton: {
-    position: "absolute",
-    top: 20,
-    right: 10,
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+  formContainer: {
+    width: "90%",
+    flex: 0.15,
+  },
+  formTitleContainer: { paddingVertical: 7 },
+  title: { color: "#42993B" },
+  form: {
+    borderWidth: 1,
+    borderColor: COLOR.MAIN_DARK,
+    borderRadius: 5,
+    fontSize: 20,
+    padding: 8,
+    backgroundColor: COLOR.WHITE,
+  },
+  memoForm: {
+    borderWidth: 1,
+    borderColor: COLOR.MAIN_DARK,
+    borderRadius: 5,
+    fontSize: 20,
+    padding: 8,
+    backgroundColor: COLOR.WHITE,
+  },
+  Button: {
+    flex: 0.15,
+    marginTop: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
   },
 });

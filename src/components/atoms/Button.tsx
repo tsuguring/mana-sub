@@ -17,8 +17,6 @@ interface Props {
   textStyle?: TextStyle | TextStyle[];
   label?: string;
   color?: string;
-  disabled?: boolean;
-  disabledColor?: string;
   icon?: string;
 }
 
@@ -28,9 +26,7 @@ export default function Button(props: Props) {
     style,
     textStyle,
     label,
-    color = COLOR.SECONDARY,
-    disabled,
-    disabledColor = COLOR.MAIN_LIGHT,
+    color = COLOR.PRIMARY,
     icon,
   } = props;
 
@@ -39,9 +35,8 @@ export default function Button(props: Props) {
       mode="contained"
       onPress={onPress}
       style={style}
-      disabled={disabled}
       contentStyle={{
-        backgroundColor: disabled ? disabledColor : color,
+        backgroundColor: color,
       }}
       icon={icon}
     >
