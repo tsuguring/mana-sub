@@ -113,10 +113,10 @@ export default function Home() {
 
   useEffect(() => {
     const db = getFirestore();
-    const { currentUser } = getAuth();
+    const user = getAuth().currentUser;
     let unsubscribe = () => {};
-    if (currentUser) {
-      const q = query(collection(db, `users/${currentUser.uid}/subscriptions`));
+    if (user) {
+      const q = query(collection(db, `users/${user.uid}/subscriptions`));
       unsubscribe = onSnapshot(
         q,
         (querySnapshot) => {

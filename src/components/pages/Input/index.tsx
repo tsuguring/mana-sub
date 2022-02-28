@@ -47,8 +47,8 @@ export default function Input() {
 
   const onSubmit = (data: FormData) => {
     const db = getFirestore();
-    const { currentUser } = getAuth();
-    const colref = collection(db, `users/${currentUser?.uid}/subscriptions`);
+    const user = getAuth().currentUser;
+    const colref = collection(db, `users/${user?.uid}/subscriptions`);
     const adddata = {
       title: data.title,
       money: data.money,

@@ -4,7 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "../../../constants/theme";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { getAuth } from "firebase/auth";
+import { getAuth, deleteUser } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { LOADING } from "../../../constants/path";
 import { Admob } from "../../atoms";
@@ -64,9 +64,9 @@ const styles = StyleSheet.create({
 export default function Setting() {
   const navigation = useNavigation<any>();
 
-  function deleteUser() {
-    const { currentUser } = getAuth();
-    if (currentUser) {
+  function deleteuser() {
+    const user = getAuth().currentUser;
+    if (user) {
       Alert.alert(
         "データを初期化しログアウトします",
         "ログアウトすると現在のデータは全て消されます。よろしいですか?",
@@ -79,8 +79,7 @@ export default function Setting() {
             text: "ログアウト",
             style: "destructive",
             onPress: () => {
-              currentUser
-                .delete()
+              deleteUser(user)
                 .then(() => {
                   navigation.reset({ index: 0, routes: [{ name: LOADING }] });
                 })
@@ -143,7 +142,7 @@ export default function Setting() {
             />
             <Text style={styles.listtitle}>支払日前に通知でお知らせ</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.list} onPress={deleteUser}>
+          <TouchableOpacity style={styles.list} onPress={deleteuser}>
             <Icon
               name="warning"
               size={20}
@@ -164,7 +163,7 @@ export default function Setting() {
               color={"#999999"}
               style={{ paddingRight: 14 }}
             />
-            <Text style={styles.listtitle}>mana-subを応援する</Text>
+            <Text style={styles.listtitle}>manasubを応援する</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.list} onPress={ShareApp}>
             <Icon
@@ -173,7 +172,7 @@ export default function Setting() {
               color={"#999999"}
               style={{ paddingRight: 14 }}
             />
-            <Text style={styles.listtitle}>mana-subをシェアする</Text>
+            <Text style={styles.listtitle}>manasubをシェアする</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.list} onPress={moveInquiries}>
             <Icon

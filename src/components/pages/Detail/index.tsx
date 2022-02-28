@@ -87,9 +87,9 @@ export default function Detail({ navigation }: { navigation: any }) {
 
   const onSubmit = (data: FormData) => {
     const db = getFirestore();
-    const { currentUser } = getAuth();
-    if (currentUser) {
-      const colref = collection(db, `users/${currentUser?.uid}/subscriptions`);
+    const user = getAuth().currentUser;
+    if (user) {
+      const colref = collection(db, `users/${user?.uid}/subscriptions`);
       const docref = doc(colref, idInitialValue);
       const updatedata = {
         title: data.title,
@@ -110,9 +110,9 @@ export default function Detail({ navigation }: { navigation: any }) {
 
   function deleteSubscription() {
     const db = getFirestore();
-    const { currentUser } = getAuth();
-    if (currentUser) {
-      const colref = collection(db, `users/${currentUser?.uid}/subscriptions`);
+    const user = getAuth().currentUser;
+    if (user) {
+      const colref = collection(db, `users/${user?.uid}/subscriptions`);
       const docref = doc(colref, idInitialValue);
       Alert.alert(
         "サブスクを削除します",
