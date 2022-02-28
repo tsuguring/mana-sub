@@ -205,7 +205,7 @@ export default function Setting() {
             />
             <Text style={styles.listtitle}>プリバシーポリシー</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.version}>
+          <View style={styles.version}>
             <View style={styles.versionleft}>
               <Icon
                 name="info-circle"
@@ -216,7 +216,7 @@ export default function Setting() {
               <Text style={styles.listtitle}>バージョン</Text>
             </View>
             <Text style={styles.versionright}>1.0.0</Text>
-          </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
       <Admob />

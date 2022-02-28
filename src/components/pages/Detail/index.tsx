@@ -114,25 +114,29 @@ export default function Detail({ navigation }: { navigation: any }) {
     if (currentUser) {
       const colref = collection(db, `users/${currentUser?.uid}/subscriptions`);
       const docref = doc(colref, idInitialValue);
-      Alert.alert("サブスクを削除します", "よろしいですか?", [
-        {
-          text: "キャンセル",
-          onPress: () => {},
-        },
-        {
-          text: "削除する",
-          style: "destructive",
-          onPress: () => {
-            deleteDoc(docref)
-              .then(() => {
-                goBack();
-              })
-              .catch(() => {
-                Alert.alert("削除に失敗しました");
-              });
+      Alert.alert(
+        "サブスクを削除します",
+        "サブスクリプションを削除します。よろしいですか?",
+        [
+          {
+            text: "キャンセル",
+            onPress: () => {},
           },
-        },
-      ]);
+          {
+            text: "削除する",
+            style: "destructive",
+            onPress: () => {
+              deleteDoc(docref)
+                .then(() => {
+                  goBack();
+                })
+                .catch(() => {
+                  Alert.alert("削除に失敗しました");
+                });
+            },
+          },
+        ]
+      );
     }
   }
 
@@ -242,16 +246,10 @@ export default function Detail({ navigation }: { navigation: any }) {
                 <RNPickerSelect
                   value={value}
                   onValueChange={(value) => onChange(value)}
-                  placeholder={{
-                    label: "?ヶ月",
-                    value: null,
-                  }}
+                  placeholder={{}}
                   items={[
                     { label: "1ヶ月", value: "1" },
-                    { label: "2ヶ月", value: "2" },
-                    { label: "3ヶ月", value: "3" },
-                    { label: "6ヶ月", value: "6" },
-                    { label: "12ヶ月", value: "12" },
+                    { label: "1年", value: "12" },
                   ]}
                   doneText="完了"
                   style={pickerSelectStyles}

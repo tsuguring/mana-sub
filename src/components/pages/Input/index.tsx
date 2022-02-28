@@ -8,7 +8,7 @@ import RNPickerSelect from "react-native-picker-select";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { COLOR } from "../../../constants/theme";
 import Button from "../../atoms/Button";
-import { getFirestore, collection, addDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { LinearGradient } from "expo-linear-gradient";
@@ -156,16 +156,10 @@ export default function Input() {
               render={({ field: { onChange } }) => (
                 <RNPickerSelect
                   onValueChange={(value) => onChange(value)}
-                  placeholder={{
-                    label: "?ヶ月",
-                    value: null,
-                  }}
+                  placeholder={{}}
                   items={[
                     { label: "1ヶ月", value: "1" },
-                    { label: "2ヶ月", value: "2" },
-                    { label: "3ヶ月", value: "3" },
-                    { label: "6ヶ月", value: "6" },
-                    { label: "12ヶ月", value: "12" },
+                    { label: "1年", value: "12" },
                   ]}
                   doneText="完了"
                   style={pickerSelectStyles}
