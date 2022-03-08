@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, Alert, Text, Image } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  Text,
+  Image,
+  View,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Subscriptions, { Subscription } from "../../organisms/Subscriptions";
@@ -15,7 +22,6 @@ import {
 import { getAuth } from "firebase/auth";
 import { LinearGradient } from "expo-linear-gradient";
 import { Admob } from "../../atoms";
-import { View } from "native-base";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 

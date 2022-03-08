@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState, useContext } from "react";
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, SafeAreaView } from "react-native";
 import Carousel from "../../organisms/Carousel";
 import Pagination from "../../atoms/Pagination";
 import { Context, Status } from "../../../contexts/ui";

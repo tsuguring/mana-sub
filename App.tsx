@@ -4,7 +4,6 @@ import Routes from "./src/routes";
 import { getApps, initializeApp } from "firebase/app";
 import { initializeAuth } from "firebase/auth";
 import { firebaseConfig } from "./env";
-import { NativeBaseProvider } from "native-base";
 import { getReactNativePersistence } from "firebase/auth/react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -22,12 +21,10 @@ export default function App() {
     UiContext.createApplicationInitialState()
   );
   return (
-    <NativeBaseProvider>
-      <UiContext.Context.Provider
-        value={{ applicationState, setApplicationState }}
-      >
-        <Routes />
-      </UiContext.Context.Provider>
-    </NativeBaseProvider>
+    <UiContext.Context.Provider
+      value={{ applicationState, setApplicationState }}
+    >
+      <Routes />
+    </UiContext.Context.Provider>
   );
 }
