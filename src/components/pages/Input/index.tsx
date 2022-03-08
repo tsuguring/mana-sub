@@ -1,13 +1,19 @@
 import * as React from "react";
 import { useState } from "react";
-import { Text, View, TextInput, StyleSheet, Alert } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RNPickerSelect from "react-native-picker-select";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { COLOR } from "../../../constants/theme";
-import Button from "../../atoms/Button";
+import { Button, AddNotification } from "../../atoms";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -57,7 +63,16 @@ export default function Input() {
       detail: data.detail,
     };
     addDoc(colref, adddata)
-      .then(() => {
+      .then((docRef) => {
+        const notificationdata = {
+          id: docRef.id,
+          title: data.title,
+          money: data.money,
+          period: data.period,
+          date: data.date.toLocaleDateString(),
+          detail: data.detail,
+        };
+        AddNotification(notificationdata);
         back();
       })
       .catch(() => {
@@ -169,7 +184,7 @@ export default function Input() {
               rules={{
                 required: true,
               }}
-              defaultValue=""
+              defaultValue="1"
             />
             {errors.period && errors.period.type === "required" && (
               <Text style={{ color: "red" }}>支払い周期は必須です。</Text>

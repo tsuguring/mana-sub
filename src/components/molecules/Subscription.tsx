@@ -1,7 +1,6 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { COLOR } from "../../constants/theme";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   contentContainer: {

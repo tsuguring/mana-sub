@@ -3,6 +3,7 @@ import { useState } from "react";
 import {
   Text,
   View,
+  TouchableOpacity,
   TextInput,
   StyleSheet,
   Alert,
@@ -12,10 +13,9 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RNPickerSelect from "react-native-picker-select";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "../../../constants/theme";
-import Button from "../../atoms/Button";
+import { Button, CanselNotification, FixNotification } from "../../atoms";
 import {
   getFirestore,
   doc,
@@ -100,6 +100,15 @@ export default function Detail({ navigation }: { navigation: any }) {
       };
       setDoc(docref, updatedata)
         .then(() => {
+          const notificationdata = {
+            id: idInitialValue,
+            title: data.title,
+            money: data.money,
+            period: data.period,
+            date: data.date.toLocaleDateString(),
+            detail: data.detail,
+          };
+          FixNotification(notificationdata);
           back();
         })
         .catch(() => {
@@ -128,6 +137,7 @@ export default function Detail({ navigation }: { navigation: any }) {
             onPress: () => {
               deleteDoc(docref)
                 .then(() => {
+                  CanselNotification(idInitialValue);
                   goBack();
                 })
                 .catch(() => {

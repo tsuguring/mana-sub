@@ -16,6 +16,8 @@ import { getAuth } from "firebase/auth";
 import { LinearGradient } from "expo-linear-gradient";
 import { Admob } from "../../atoms";
 import { View } from "native-base";
+import * as Notifications from "expo-notifications";
+import Constants from "expo-constants";
 
 const styles = StyleSheet.create({
   container: {
@@ -49,12 +51,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 14,
     textAlign: "center",
-  },
-  admob: {
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    bottom: 0,
   },
   zerocontainer: {
     flex: 1,
@@ -111,7 +107,32 @@ export default function Home() {
     [navigate]
   );
 
+  async function registerForPushNotificationsAsync() {
+    if (Constants.isDevice) {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        return;
+      }
+    } else {
+      alert("プッシュ通知には物理デバイスを使用する必要があります");
+    }
+  }
+
   useEffect(() => {
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+      }),
+    });
+    registerForPushNotificationsAsync();
     const db = getFirestore();
     const user = getAuth().currentUser;
     let unsubscribe = () => {};

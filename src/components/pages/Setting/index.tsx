@@ -1,8 +1,15 @@
 import React from "react";
-import { View, StyleSheet, Text, Alert, Share } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Alert,
+  Share,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "../../../constants/theme";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { getAuth, deleteUser } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
