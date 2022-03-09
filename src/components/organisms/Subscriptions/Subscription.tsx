@@ -12,6 +12,7 @@ export interface State {
   period: string;
   date: string;
   detail?: string;
+  notificationId?: string;
 }
 
 export interface Actions {

@@ -78,6 +78,7 @@ export interface State {
   period: string;
   date: string;
   detail?: string;
+  notificationId?: string;
 }
 
 export default function Home() {
@@ -134,7 +135,7 @@ export default function Home() {
     Notifications.setNotificationHandler({
       handleNotification: async () => ({
         shouldShowAlert: true,
-        shouldPlaySound: false,
+        shouldPlaySound: true,
         shouldSetBadge: false,
       }),
     });
@@ -169,6 +170,7 @@ export default function Home() {
               period: data.period,
               date: data.date,
               detail: data.detail,
+              notificationId: data.notificationId,
             });
             sumSubscriptions.push(Number(data.money) / Number(data.period));
           });

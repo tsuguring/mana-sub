@@ -15,7 +15,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RNPickerSelect from "react-native-picker-select";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "../../../constants/theme";
-import { Button, CanselNotification, FixNotification } from "../../atoms";
+import { Button, CanselNotification } from "../../atoms";
 import {
   getFirestore,
   doc,
@@ -25,6 +25,8 @@ import {
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import * as Notifications from "expo-notifications";
+import canselNotification from "../../atoms/CanselNotification";
 
 // フォームの値を定義
 type FormData = {
@@ -42,6 +44,7 @@ interface Params {
   period: string;
   date: string;
   detail: string;
+  notificationId: string;
 }
 
 export default function Detail({ navigation }: { navigation: any }) {
@@ -53,6 +56,7 @@ export default function Detail({ navigation }: { navigation: any }) {
     period: periodInitialValue,
     date: dateInitialValue,
     detail: detailInitialValue,
+    notificationId: notificationIdInitialValue,
   } = params;
 
   const [dateopen, setDateopen] = useState(false);
@@ -85,7 +89,37 @@ export default function Detail({ navigation }: { navigation: any }) {
     goBack();
   }, [goBack]);
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
+    canselNotification(notificationIdInitialValue);
+    if (data.period === "1") {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: `${data.title}の支払いが近づいています。`,
+          body: `二日後に${data.money}円支払われます。`,
+        },
+        trigger: {
+          day: data.date.getDate() - 3,
+          hour: 9,
+          minute: 0,
+        },
+      });
+    } else {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: `${data.title}の支払いが近づいています。`,
+          body: `二日後に${data.money}円支払われます。`,
+        },
+        trigger: {
+          repeats: true,
+          month: data.date.getMonth() + 1,
+          day: data.date.getDate() - 3,
+          hour: 9,
+          minute: 0,
+        },
+      });
+    }
+    const notifications =
+      await Notifications.getAllScheduledNotificationsAsync();
     const db = getFirestore();
     const user = getAuth().currentUser;
     if (user) {
@@ -97,18 +131,10 @@ export default function Detail({ navigation }: { navigation: any }) {
         period: data.period,
         date: data.date.toLocaleString(),
         detail: data.detail,
+        notificationId: notifications.slice(-1)[0].identifier,
       };
       setDoc(docref, updatedata)
         .then(() => {
-          const notificationdata = {
-            id: idInitialValue,
-            title: data.title,
-            money: data.money,
-            period: data.period,
-            date: data.date.toLocaleDateString(),
-            detail: data.detail,
-          };
-          FixNotification(notificationdata);
           back();
         })
         .catch(() => {
@@ -137,7 +163,7 @@ export default function Detail({ navigation }: { navigation: any }) {
             onPress: () => {
               deleteDoc(docref)
                 .then(() => {
-                  CanselNotification(idInitialValue);
+                  CanselNotification(notificationIdInitialValue);
                   goBack();
                 })
                 .catch(() => {

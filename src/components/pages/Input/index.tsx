@@ -13,11 +13,12 @@ import { useNavigation } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RNPickerSelect from "react-native-picker-select";
 import { COLOR } from "../../../constants/theme";
-import { Button, AddNotification } from "../../atoms";
+import { Button } from "../../atoms";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { LinearGradient } from "expo-linear-gradient";
+import * as Notifications from "expo-notifications";
 
 // フォームの値を定義
 type FormData = {
@@ -26,6 +27,7 @@ type FormData = {
   period: string;
   date: Date;
   detail?: string;
+  notificationId?: string;
 };
 
 export default function Input() {
@@ -51,7 +53,36 @@ export default function Input() {
     goBack();
   }, [goBack]);
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
+    if (data.period === "1") {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: `${data.title}の支払いが近づいています。`,
+          body: `二日後に${data.money}円支払われます。`,
+        },
+        trigger: {
+          day: data.date.getDate() - 3,
+          hour: 9,
+          minute: 0,
+        },
+      });
+    } else {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: `${data.title}の支払いが近づいています。`,
+          body: `二日後に${data.money}円支払われます。`,
+        },
+        trigger: {
+          repeats: true,
+          month: data.date.getMonth() + 1,
+          day: data.date.getDate() - 3,
+          hour: 9,
+          minute: 0,
+        },
+      });
+    }
+    const notifications =
+      await Notifications.getAllScheduledNotificationsAsync();
     const db = getFirestore();
     const user = getAuth().currentUser;
     const colref = collection(db, `users/${user?.uid}/subscriptions`);
@@ -61,18 +92,10 @@ export default function Input() {
       period: data.period,
       date: data.date.toLocaleDateString(),
       detail: data.detail,
+      notificationId: notifications.slice(-1)[0].identifier,
     };
     addDoc(colref, adddata)
-      .then((docRef) => {
-        const notificationdata = {
-          id: docRef.id,
-          title: data.title,
-          money: data.money,
-          period: data.period,
-          date: data.date.toLocaleDateString(),
-          detail: data.detail,
-        };
-        AddNotification(notificationdata);
+      .then(() => {
         back();
       })
       .catch(() => {
