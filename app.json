@@ -7,16 +7,15 @@
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#38C235"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "jp.tsuguri.manasub",
+      "supportsTablet": false,
       "buildNumber": "1.0.0",
       "googleServicesFile": "./GoogleService-Info.plist",
       "config": {

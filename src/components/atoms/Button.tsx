@@ -21,14 +21,7 @@ interface Props {
 }
 
 export default function Button(props: Props) {
-  const {
-    onPress,
-    style,
-    textStyle,
-    label,
-    color = COLOR.PRIMARY,
-    icon,
-  } = props;
+  const { onPress, style, textStyle, label, color = COLOR.MAIN, icon } = props;
 
   return (
     <PaperButton

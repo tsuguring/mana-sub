@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Pagination as SCPagination } from "react-native-snap-carousel";
+import { COLOR } from "../../constants/theme";
 
 const styles = StyleSheet.create({
   dot: {
@@ -8,6 +9,7 @@ const styles = StyleSheet.create({
     height: 10,
     borderRadius: 5,
     marginHorizontal: 8,
+    backgroundColor: COLOR.MAIN,
   },
 });
 

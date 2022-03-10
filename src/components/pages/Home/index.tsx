@@ -20,7 +20,6 @@ import {
   query,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { LinearGradient } from "expo-linear-gradient";
 import { Admob } from "../../atoms";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
@@ -35,7 +34,7 @@ const styles = StyleSheet.create({
     right: 48,
     width: 48,
     height: 48,
-    backgroundColor: COLOR.PRIMARY,
+    backgroundColor: COLOR.MAIN,
     borderRadius: 24,
     justifyContent: "center",
     alignItems: "center",
@@ -63,6 +62,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 60,
+    backgroundColor: COLOR.WHITE,
   },
   maincontainer: {
     flex: 1,
@@ -187,10 +187,7 @@ export default function Home() {
 
   if (subscriptions.length === 0) {
     return (
-      <LinearGradient
-        colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
-        style={styles.container}
-      >
+      <View style={styles.container}>
         <View style={styles.zerocontainer}>
           <Image source={require("../../../../assets/home.png")} />
           <Text style={styles.title}>サブスクリプションを追加！</Text>
@@ -202,14 +199,11 @@ export default function Home() {
           </TouchableOpacity>
         </View>
         <Admob />
-      </LinearGradient>
+      </View>
     );
   } else {
     return (
-      <LinearGradient
-        colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
-        style={styles.container}
-      >
+      <View style={styles.container}>
         <View style={styles.maincontainer}>
           <Sumsubscription
             sumsubscriptions={sumsubscription}
@@ -228,7 +222,7 @@ export default function Home() {
           </TouchableOpacity>
         </View>
         <Admob />
-      </LinearGradient>
+      </View>
     );
   }
 }

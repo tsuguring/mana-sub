@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding,
-    backgroundColor: COLOR.MAIN,
+    backgroundColor: COLOR.WHITE,
   },
 });
 

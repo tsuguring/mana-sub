@@ -17,6 +17,10 @@ function SettingNavigator() {
           headerStyle: {
             backgroundColor: COLOR.MAIN,
           },
+          headerTitleStyle: {
+            color: COLOR.WHITE,
+          },
+          headerTintColor: COLOR.WHITE,
         }}
       />
       <Stack.Screen

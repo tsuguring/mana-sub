@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import Button from "../atoms/Button";
-import { COLOR } from "../../constants/theme";
 
 const padding = 60;
 const styles = StyleSheet.create({
@@ -10,7 +9,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding,
-    backgroundColor: COLOR.MAIN,
   },
   imageContainer: {
     height: 200,
@@ -25,7 +23,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "600",
-    paddingTop: 10,
+    padding: 15,
   },
   text: {
     fontSize: 14,
@@ -34,6 +32,7 @@ const styles = StyleSheet.create({
   },
   button: {
     position: "absolute",
+    width: "100%",
     bottom: 16,
   },
 });
@@ -58,6 +57,7 @@ export default function CarouselItem({
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.text}>{item.text}</Text>
           </View>
+          <Button onPress={onPress} label="進む" style={styles.button} />
         </View>
       );
     case 1:
@@ -70,6 +70,7 @@ export default function CarouselItem({
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.text}>{item.text}</Text>
           </View>
+          <Button onPress={onPress} label="進む" style={styles.button} />
         </View>
       );
     default:

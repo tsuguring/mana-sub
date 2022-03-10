@@ -5,13 +5,15 @@ import RNPickerSelect from "react-native-picker-select";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLOR.MAIN_LIGHT,
+    backgroundColor: COLOR.WHITE,
     width: "75%",
     paddingTop: 20,
     paddingBottom: 10,
     marginTop: 30,
     marginBottom: 30,
     borderRadius: 10,
+    borderWidth: 1,
+    borderColor: COLOR.GRAY_LIGHT,
   },
   sumconteiner: {
     justifyContent: "center",
@@ -92,8 +94,8 @@ export default function Sumsubscription(props: Props) {
             <Text style={{ fontWeight: "400", paddingBottom: 5 }}>月額</Text>
           )}
           <Switch
-            trackColor={{ false: COLOR.WHITE, true: COLOR.PRIMARY }}
-            ios_backgroundColor={COLOR.WHITE}
+            trackColor={{ false: COLOR.MAIN, true: COLOR.PRIMARY }}
+            ios_backgroundColor={COLOR.MAIN}
             onValueChange={toggleSwitch}
             value={changemoney}
           />
@@ -102,10 +104,7 @@ export default function Sumsubscription(props: Props) {
           onValueChange={(selectedperiod: string) => {
             setSort(selectedperiod);
           }}
-          placeholder={{
-            label: "並び替え",
-            value: null,
-          }}
+          placeholder={{}}
           items={[
             { label: "金額(大きい順)", value: "muchmoney" },
             { label: "金額(小さい順)", value: "littlemoney" },

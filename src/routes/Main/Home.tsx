@@ -27,6 +27,10 @@ function TabRoutes() {
           headerStyle: {
             backgroundColor: COLOR.MAIN,
           },
+          headerTitleStyle: {
+            color: COLOR.WHITE,
+          },
+          headerTintColor: COLOR.WHITE,
         }}
       />
       <Tab.Screen
@@ -63,6 +67,10 @@ function HomeNavigator() {
             headerStyle: {
               backgroundColor: COLOR.MAIN,
             },
+            headerTitleStyle: {
+              color: COLOR.WHITE,
+            },
+            headerTintColor: COLOR.WHITE,
           }}
         />
       </Stack.Group>
@@ -74,6 +82,10 @@ function HomeNavigator() {
             headerStyle: {
               backgroundColor: COLOR.MAIN,
             },
+            headerTitleStyle: {
+              color: COLOR.WHITE,
+            },
+            headerTintColor: COLOR.WHITE,
           }}
         />
       </Stack.Group>

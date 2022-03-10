@@ -8,7 +8,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "../../../constants/theme";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { getAuth, deleteUser } from "firebase/auth";
@@ -16,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { LOADING } from "../../../constants/path";
 import { Admob } from "../../atoms";
 import { openURL } from "expo-linking";
+import * as Notifications from "expo-notifications";
 
 const styles = StyleSheet.create({
   container: {
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   listtop: {
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: "#ccc",
+    borderColor: COLOR.GRAY_LIGHT,
     padding: 14,
     backgroundColor: COLOR.WHITE,
     flexDirection: "row",
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   list: {
     borderBottomWidth: 1,
-    borderColor: "#ccc",
+    borderColor: COLOR.GRAY_LIGHT,
     padding: 14,
     backgroundColor: COLOR.WHITE,
     flexDirection: "row",
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   version: {
     borderBottomWidth: 1,
-    borderColor: "#ccc",
+    borderColor: COLOR.GRAY_LIGHT,
     padding: 14,
     backgroundColor: COLOR.WHITE,
     flexDirection: "row",
@@ -67,6 +67,10 @@ const styles = StyleSheet.create({
     letterSpacing: 3,
   },
 });
+
+async function allCansel() {
+  await Notifications.cancelAllScheduledNotificationsAsync();
+}
 
 export default function Setting() {
   const navigation = useNavigation<any>();
@@ -88,6 +92,7 @@ export default function Setting() {
             onPress: () => {
               deleteUser(user)
                 .then(() => {
+                  allCansel();
                   navigation.reset({ index: 0, routes: [{ name: LOADING }] });
                 })
                 .catch(() => {
@@ -133,10 +138,7 @@ export default function Setting() {
   };
 
   return (
-    <LinearGradient
-      colors={[COLOR.MAIN, COLOR.MAIN, COLOR.WHITE]}
-      style={styles.container}
-    >
+    <View style={styles.container}>
       <ScrollView>
         <View style={styles.listcontainer}>
           <Text style={styles.title}>設定</Text>
@@ -144,7 +146,7 @@ export default function Setting() {
             <Icon
               name="bell"
               size={20}
-              color={"#999999"}
+              color={COLOR.GRAY}
               style={{ paddingRight: 14 }}
             />
             <Text style={styles.listtitle}>支払日前に通知でお知らせ</Text>
@@ -167,7 +169,7 @@ export default function Setting() {
             <Icon
               name="star"
               size={20}
-              color={"#999999"}
+              color={COLOR.GRAY}
               style={{ paddingRight: 14 }}
             />
             <Text style={styles.listtitle}>manasubを応援する</Text>
@@ -176,7 +178,7 @@ export default function Setting() {
             <Icon
               name="group"
               size={20}
-              color={"#999999"}
+              color={COLOR.GRAY}
               style={{ paddingRight: 14 }}
             />
             <Text style={styles.listtitle}>manasubをシェアする</Text>
@@ -185,7 +187,7 @@ export default function Setting() {
             <Icon
               name="envelope"
               size={20}
-              color={"#999999"}
+              color={COLOR.GRAY}
               style={{ paddingRight: 14 }}
             />
             <Text style={styles.listtitle}>お問合せ・不具合を報告する</Text>
@@ -197,7 +199,7 @@ export default function Setting() {
             <Icon
               name="info-circle"
               size={20}
-              color={"#999999"}
+              color={COLOR.GRAY}
               style={{ paddingRight: 14 }}
             />
             <Text style={styles.listtitle}>利用規約</Text>
@@ -206,7 +208,7 @@ export default function Setting() {
             <Icon
               name="info-circle"
               size={20}
-              color={"#999999"}
+              color={COLOR.GRAY}
               style={{ paddingRight: 14 }}
             />
             <Text style={styles.listtitle}>プリバシーポリシー</Text>
@@ -216,7 +218,7 @@ export default function Setting() {
               <Icon
                 name="info-circle"
                 size={20}
-                color={"#999999"}
+                color={COLOR.GRAY}
                 style={{ paddingRight: 14 }}
               />
               <Text style={styles.listtitle}>バージョン</Text>
@@ -226,6 +228,6 @@ export default function Setting() {
         </View>
       </ScrollView>
       <Admob />
-    </LinearGradient>
+    </View>
   );
 }

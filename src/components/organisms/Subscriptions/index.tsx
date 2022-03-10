@@ -41,24 +41,6 @@ export default function Subscriptions(props: Props) {
   const keyExtractor = useCallback((item) => item.id, []);
 
   switch (props.sort) {
-    case "muchmoney":
-      return (
-        <FlatList
-          style={styles.flatlistcontainer}
-          data={props.subscriptions.sort(function (a, b) {
-            return (
-              Number(b.money) / Number(b.period) -
-              Number(a.money) / Number(a.period)
-            );
-          })}
-          renderItem={renderItem}
-          ItemSeparatorComponent={(highlighted) => (
-            <View style={[styles.separator, highlighted]} />
-          )}
-          keyExtractor={keyExtractor}
-          contentContainerStyle={{ paddingBottom: 30 }}
-        />
-      );
     case "littlemoney":
       return (
         <FlatList
@@ -122,7 +104,10 @@ export default function Subscriptions(props: Props) {
         <FlatList
           style={styles.flatlistcontainer}
           data={props.subscriptions.sort(function (a, b) {
-            return a.title.localeCompare(b.title);
+            return (
+              Number(b.money) / Number(b.period) -
+              Number(a.money) / Number(a.period)
+            );
           })}
           renderItem={renderItem}
           ItemSeparatorComponent={(highlighted) => (
