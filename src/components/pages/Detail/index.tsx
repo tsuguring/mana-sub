@@ -193,7 +193,7 @@ export default function Detail({ navigation }: { navigation: any }) {
     <KeyboardAwareScrollView contentContainerStyle={styles.KeyboardScrollView}>
       <View style={styles.formContainer}>
         <View style={styles.formTitleContainer}>
-          <Text style={styles.title}>タイトル</Text>
+          <Text style={styles.title}>サービス名</Text>
         </View>
         <View>
           <Controller
@@ -215,11 +215,11 @@ export default function Detail({ navigation }: { navigation: any }) {
             defaultValue=""
           />
           {errors.title && errors.title.type === "required" && (
-            <Text style={{ color: "red" }}>タイトルは必須です。</Text>
+            <Text style={{ color: "red" }}>サービス名は必須です。</Text>
           )}
           {errors.title && errors.title.type === "maxLength" && (
             <Text style={{ color: "red" }}>
-              タイトルは12文字以内で入力してください。
+              サービス名は12文字以内で入力してください。
             </Text>
           )}
         </View>

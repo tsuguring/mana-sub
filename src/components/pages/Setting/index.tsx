@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -27,6 +27,23 @@ const styles = StyleSheet.create({
   },
   listcontainer: {
     paddingTop: 15,
+  },
+  notificationsetting: {
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: COLOR.GRAY_LIGHT,
+    padding: 14,
+    backgroundColor: COLOR.WHITE,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  notificationsettingleft: {
+    flexDirection: "row",
+  },
+  notificationsettingright: {
+    flexDirection: "row",
+    fontSize: 16,
   },
   listtop: {
     borderTopWidth: 1,
@@ -74,6 +91,17 @@ async function allCansel() {
 
 export default function Setting() {
   const navigation = useNavigation<any>();
+  const [permissionCheck, setPermissionCheck] = useState(false);
+
+  const permissionsAsync = async () => {
+    await Notifications.getPermissionsAsync().then((data) => {
+      setPermissionCheck(data.granted);
+    });
+  };
+
+  useEffect(() => {
+    permissionsAsync();
+  }, []);
 
   function deleteuser() {
     const user = getAuth().currentUser;
@@ -103,6 +131,17 @@ export default function Setting() {
         ]
       );
     }
+  }
+
+  function moveSetting() {
+    openURL("app-settings:");
+    permissionsAsync();
+  }
+
+  function moveReview() {
+    openURL(
+      "https://itunes.apple.com/jp/app/id1094591345?mt=8&action=write-review"
+    );
   }
 
   function moveInquiries() {
@@ -142,14 +181,24 @@ export default function Setting() {
       <ScrollView>
         <View style={styles.listcontainer}>
           <Text style={styles.title}>設定</Text>
-          <TouchableOpacity style={styles.listtop}>
-            <Icon
-              name="bell"
-              size={20}
-              color={COLOR.GRAY}
-              style={{ paddingRight: 14 }}
-            />
-            <Text style={styles.listtitle}>支払日前に通知でお知らせ</Text>
+          <TouchableOpacity
+            style={styles.notificationsetting}
+            onPress={moveSetting}
+          >
+            <View style={styles.notificationsettingleft}>
+              <Icon
+                name="bell"
+                size={20}
+                color={COLOR.GRAY}
+                style={{ paddingRight: 14 }}
+              />
+              <Text style={styles.listtitle}>支払日前に通知でお知らせ</Text>
+            </View>
+            {permissionCheck ? (
+              <Text style={styles.notificationsettingright}>オン</Text>
+            ) : (
+              <Text style={styles.notificationsettingright}>オフ</Text>
+            )}
           </TouchableOpacity>
           <TouchableOpacity style={styles.list} onPress={deleteuser}>
             <Icon
@@ -165,7 +214,7 @@ export default function Setting() {
         </View>
         <View style={styles.listcontainer}>
           <Text style={styles.title}>サポート</Text>
-          <TouchableOpacity style={styles.listtop}>
+          <TouchableOpacity style={styles.listtop} onPress={moveReview}>
             <Icon
               name="star"
               size={20}

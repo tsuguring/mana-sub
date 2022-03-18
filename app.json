@@ -23,7 +23,8 @@
       },
       "infoPlist": {
         "CFBundleDevelopmentRegion": "ja_JP"
-      }
+      },
+      "bundleIdentifier": "jp.tsuguri.manasub"
     },
     "android": {
       "adaptiveIcon": {

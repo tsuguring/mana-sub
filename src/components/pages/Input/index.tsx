@@ -131,11 +131,11 @@ export default function Input() {
             defaultValue=""
           />
           {errors.title && errors.title.type === "required" && (
-            <Text style={{ color: "red" }}>タイトルは必須です。</Text>
+            <Text style={{ color: "red" }}>サービス名は必須です。</Text>
           )}
           {errors.title && errors.title.type === "maxLength" && (
             <Text style={{ color: "red" }}>
-              タイトルは12文字以内で入力してください。
+              サービス名は12文字以内で入力してください。
             </Text>
           )}
         </View>
