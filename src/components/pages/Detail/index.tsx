@@ -26,6 +26,7 @@ import { getAuth } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Notifications from "expo-notifications";
 import canselNotification from "../../atoms/CanselNotification";
+import Icon from "react-native-vector-icons/AntDesign";
 
 // フォームの値を定義
 type FormData = {
@@ -179,13 +180,12 @@ export default function Detail({ navigation }: { navigation: any }) {
   React.useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <View style={{ marginRight: 10 }}>
-          <RButton
-            onPress={deleteSubscription}
-            title="削除"
-            color={COLOR.CAUTION}
-          />
-        </View>
+        <TouchableOpacity
+          onPress={deleteSubscription}
+          style={{ marginRight: 15 }}
+        >
+          <Icon name="delete" size={25} color={COLOR.WHITE} />
+        </TouchableOpacity>
       ),
     });
   }, [navigation]);
