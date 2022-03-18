@@ -104,7 +104,13 @@ export default function Home() {
   const { navigate } = useNavigation<any>();
 
   const onPress = React.useCallback(() => {
-    navigate(INPUT);
+    if (subscriptions.length > 10) {
+      Alert.alert(
+        "現時点では10個以上のサブスクを追加することができません。\n アップデートをお待ちください。"
+      );
+    } else {
+      navigate(INPUT);
+    }
   }, [navigate]);
 
   const gotoDetail = React.useCallback(
@@ -115,19 +121,15 @@ export default function Home() {
   );
 
   async function registerForPushNotificationsAsync() {
-    if (Constants.isDevice) {
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== "granted") {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== "granted") {
-        return;
-      }
-    } else {
-      alert("プッシュ通知には物理デバイスを使用する必要があります");
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      return;
     }
   }
 
@@ -221,7 +223,7 @@ export default function Home() {
             <Icon color={COLOR.WHITE} size={20} name="plus" />
           </TouchableOpacity>
         </View>
-        <Admob />
+        {/* <Admob /> */}
       </View>
     );
   }

@@ -28,16 +28,6 @@ export default function Subscriptions(props: Props) {
   const nowdate = new Date(Date.now());
   const today = +new Date(nowdate.toLocaleDateString());
 
-  const renderItem = useCallback(
-    ({ item }) => (
-      <Subscription.Component
-        state={item}
-        actions={props.actions}
-        changemoney={props.changemoney}
-      />
-    ),
-    []
-  );
   const keyExtractor = useCallback((item) => item.id, []);
 
   switch (props.sort) {
@@ -51,7 +41,13 @@ export default function Subscriptions(props: Props) {
               Number(b.money) / Number(b.period)
             );
           })}
-          renderItem={renderItem}
+          renderItem={({ item }) => (
+            <Subscription.Component
+              state={item}
+              actions={props.actions}
+              changemoney={props.changemoney}
+            />
+          )}
           ItemSeparatorComponent={(highlighted) => (
             <View style={[styles.separator, highlighted]} />
           )}
@@ -71,7 +67,13 @@ export default function Subscriptions(props: Props) {
               (+new Date(b.date) - today - 86400000)
             );
           })}
-          renderItem={renderItem}
+          renderItem={({ item }) => (
+            <Subscription.Component
+              state={item}
+              actions={props.actions}
+              changemoney={props.changemoney}
+            />
+          )}
           ItemSeparatorComponent={(highlighted) => (
             <View style={[styles.separator, highlighted]} />
           )}
@@ -91,7 +93,13 @@ export default function Subscriptions(props: Props) {
               (+new Date(a.date) - today - 86400000)
             );
           })}
-          renderItem={renderItem}
+          renderItem={({ item }) => (
+            <Subscription.Component
+              state={item}
+              actions={props.actions}
+              changemoney={props.changemoney}
+            />
+          )}
           ItemSeparatorComponent={(highlighted) => (
             <View style={[styles.separator, highlighted]} />
           )}
@@ -109,7 +117,13 @@ export default function Subscriptions(props: Props) {
               Number(a.money) / Number(a.period)
             );
           })}
-          renderItem={renderItem}
+          renderItem={({ item }) => (
+            <Subscription.Component
+              state={item}
+              actions={props.actions}
+              changemoney={props.changemoney}
+            />
+          )}
           ItemSeparatorComponent={(highlighted) => (
             <View style={[styles.separator, highlighted]} />
           )}

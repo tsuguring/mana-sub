@@ -93,10 +93,11 @@ export default function Detail({ navigation }: { navigation: any }) {
     if (data.period === "1") {
       await Notifications.scheduleNotificationAsync({
         content: {
-          title: `${data.title}の支払いが近づいています。`,
-          body: `二日後に${data.money}円支払われます。`,
+          title: `${data.title}の支払い`,
+          body: `三日後に${data.money}円支払われます`,
         },
         trigger: {
+          repeats: true,
           day: data.date.getDate() - 3,
           hour: 9,
           minute: 0,
@@ -105,8 +106,8 @@ export default function Detail({ navigation }: { navigation: any }) {
     } else {
       await Notifications.scheduleNotificationAsync({
         content: {
-          title: `${data.title}の支払いが近づいています。`,
-          body: `二日後に${data.money}円支払われます。`,
+          title: `${data.title}の支払い`,
+          body: `三日後に${data.money}円支払われます`,
         },
         trigger: {
           repeats: true,
