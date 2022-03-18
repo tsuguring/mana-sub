@@ -94,8 +94,7 @@ export default function Sumsubscription(props: Props) {
             <Text style={{ fontWeight: "400", paddingBottom: 5 }}>月額</Text>
           )}
           <Switch
-            trackColor={{ false: COLOR.MAIN, true: COLOR.PRIMARY }}
-            ios_backgroundColor={COLOR.MAIN}
+            trackColor={{ true: COLOR.MAIN }}
             onValueChange={toggleSwitch}
             value={changemoney}
           />
