@@ -145,7 +145,9 @@ export default function Setting() {
   }
 
   function moveInquiries() {
-    openURL("mailto: tsuguri4429@gmail.com");
+    openURL(
+      "https://docs.google.com/forms/d/e/1FAIpQLScpz38vrQ4KgTqT_4oj69h1clGFJHwil1E8BqaRgGtpb-JUTw/viewform?usp=sf_link"
+    );
   }
 
   function moveTerms() {
