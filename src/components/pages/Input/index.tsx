@@ -31,6 +31,7 @@ type FormData = {
 
 export default function Input() {
   const [dateopen, setDateopen] = useState(false);
+  const [permissionCheck, setPermissionCheck] = useState(false);
   const showDatePicker = () => {
     setDateopen(true);
   };
@@ -53,55 +54,86 @@ export default function Input() {
   }, [goBack]);
 
   const onSubmit = async (data: FormData) => {
-    if (data.period === "1") {
-      await Notifications.scheduleNotificationAsync({
-        content: {
-          title: `${data.title}の支払い`,
-          body: `三日後に${data.money}円支払われます`,
-        },
-        trigger: {
-          repeats: true,
-          day: data.date.getDate() - 3,
-          hour: 9,
-          minute: 0,
-        },
-      });
+    if (permissionCheck) {
+      if (data.period === "1") {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: `${data.title}の支払い`,
+            body: `三日後に${data.money}円支払われます`,
+          },
+          trigger: {
+            repeats: true,
+            day: data.date.getDate() - 3,
+            hour: 9,
+            minute: 0,
+          },
+        });
+      } else {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: `${data.title}の支払い`,
+            body: `三日後に${data.money}円支払われます`,
+          },
+          trigger: {
+            repeats: true,
+            month: data.date.getMonth() + 1,
+            day: data.date.getDate() - 3,
+            hour: 9,
+            minute: 0,
+          },
+        });
+      }
+      const notifications =
+        await Notifications.getAllScheduledNotificationsAsync();
+      const db = getFirestore();
+      const user = getAuth().currentUser;
+      const colref = collection(db, `users/${user?.uid}/subscriptions`);
+      const adddata = {
+        title: data.title,
+        money: data.money,
+        period: data.period,
+        date: data.date.toLocaleDateString(),
+        detail: data.detail,
+        notificationId: notifications.slice(-1)[0].identifier,
+      };
+      addDoc(colref, adddata)
+        .then(() => {
+          back();
+        })
+        .catch(() => {
+          Alert.alert("データの読み込みに失敗しました。");
+        });
     } else {
-      await Notifications.scheduleNotificationAsync({
-        content: {
-          title: `${data.title}の支払い`,
-          body: `三日後に${data.money}円支払われます`,
-        },
-        trigger: {
-          repeats: true,
-          month: data.date.getMonth() + 1,
-          day: data.date.getDate() - 3,
-          hour: 9,
-          minute: 0,
-        },
-      });
+      const db = getFirestore();
+      const user = getAuth().currentUser;
+      const colref = collection(db, `users/${user?.uid}/subscriptions`);
+      const adddata = {
+        title: data.title,
+        money: data.money,
+        period: data.period,
+        date: data.date.toLocaleDateString(),
+        detail: data.detail,
+        notificationId: "none",
+      };
+      addDoc(colref, adddata)
+        .then(() => {
+          back();
+        })
+        .catch(() => {
+          Alert.alert("データの読み込みに失敗しました。");
+        });
     }
-    const notifications =
-      await Notifications.getAllScheduledNotificationsAsync();
-    const db = getFirestore();
-    const user = getAuth().currentUser;
-    const colref = collection(db, `users/${user?.uid}/subscriptions`);
-    const adddata = {
-      title: data.title,
-      money: data.money,
-      period: data.period,
-      date: data.date.toLocaleDateString(),
-      detail: data.detail,
-      notificationId: notifications.slice(-1)[0].identifier,
-    };
-    addDoc(colref, adddata)
-      .then(() => {
-        back();
-      })
-      .catch(() => {
-        Alert.alert("データの読み込みに失敗しました。");
-      });
   };
+
+  const permissionsAsync = async () => {
+    await Notifications.getPermissionsAsync().then((data) => {
+      setPermissionCheck(data.granted);
+    });
+  };
+
+  React.useEffect(() => {
+    permissionsAsync();
+  }, []);
 
   return (
     <KeyboardAwareScrollView

@@ -7,7 +7,6 @@ import {
   TextInput,
   StyleSheet,
   Alert,
-  Button as RButton,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
@@ -48,6 +47,7 @@ interface Params {
 }
 
 export default function Detail({ navigation }: { navigation: any }) {
+  const [permissionCheck, setPermissionCheck] = useState(false);
   const { params } = useRoute<RouteProp<Record<string, Params>, string>>();
   const {
     id: idInitialValue,
@@ -90,57 +90,82 @@ export default function Detail({ navigation }: { navigation: any }) {
   }, [goBack]);
 
   const onSubmit = async (data: FormData) => {
-    canselNotification(notificationIdInitialValue);
-    if (data.period === "1") {
-      await Notifications.scheduleNotificationAsync({
-        content: {
-          title: `${data.title}の支払い`,
-          body: `三日後に${data.money}円支払われます`,
-        },
-        trigger: {
-          repeats: true,
-          day: data.date.getDate() - 3,
-          hour: 9,
-          minute: 0,
-        },
-      });
-    } else {
-      await Notifications.scheduleNotificationAsync({
-        content: {
-          title: `${data.title}の支払い`,
-          body: `三日後に${data.money}円支払われます`,
-        },
-        trigger: {
-          repeats: true,
-          month: data.date.getMonth() + 1,
-          day: data.date.getDate() - 3,
-          hour: 9,
-          minute: 0,
-        },
-      });
-    }
-    const notifications =
-      await Notifications.getAllScheduledNotificationsAsync();
-    const db = getFirestore();
-    const user = getAuth().currentUser;
-    if (user) {
-      const colref = collection(db, `users/${user?.uid}/subscriptions`);
-      const docref = doc(colref, idInitialValue);
-      const updatedata = {
-        title: data.title,
-        money: data.money,
-        period: data.period,
-        date: data.date.toLocaleString(),
-        detail: data.detail,
-        notificationId: notifications.slice(-1)[0].identifier,
-      };
-      setDoc(docref, updatedata)
-        .then(() => {
-          back();
-        })
-        .catch(() => {
-          Alert.alert("データの読み込みに失敗しました。");
+    if (permissionCheck) {
+      canselNotification(notificationIdInitialValue);
+      if (data.period === "1") {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: `${data.title}の支払い`,
+            body: `三日後に${data.money}円支払われます`,
+          },
+          trigger: {
+            repeats: true,
+            day: data.date.getDate() - 3,
+            hour: 9,
+            minute: 0,
+          },
         });
+      } else {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: `${data.title}の支払い`,
+            body: `三日後に${data.money}円支払われます`,
+          },
+          trigger: {
+            repeats: true,
+            month: data.date.getMonth() + 1,
+            day: data.date.getDate() - 3,
+            hour: 9,
+            minute: 0,
+          },
+        });
+      }
+      const notifications =
+        await Notifications.getAllScheduledNotificationsAsync();
+      const db = getFirestore();
+      const user = getAuth().currentUser;
+      if (user) {
+        const colref = collection(db, `users/${user?.uid}/subscriptions`);
+        const docref = doc(colref, idInitialValue);
+        const updatedata = {
+          title: data.title,
+          money: data.money,
+          period: data.period,
+          date: data.date.toLocaleString(),
+          detail: data.detail,
+          notificationId: notifications.slice(-1)[0].identifier,
+        };
+        setDoc(docref, updatedata)
+          .then(() => {
+            back();
+          })
+          .catch(() => {
+            Alert.alert("データの読み込みに失敗しました。");
+          });
+      }
+    } else {
+      canselNotification(notificationIdInitialValue);
+      const db = getFirestore();
+      const user = getAuth().currentUser;
+      if (user) {
+        const colref = collection(db, `users/${user?.uid}/subscriptions`);
+        const docref = doc(colref, idInitialValue);
+        const updatedata = {
+          title: data.title,
+          money: data.money,
+          period: data.period,
+          date: data.date.toLocaleString(),
+          detail: data.detail,
+          notificationId: "none",
+        };
+        setDoc(docref, updatedata)
+          .then(() => {
+            back();
+          })
+          .catch(() => {
+            Alert.alert("データの読み込みに失敗しました。");
+          });
+      }
     }
   };
 
@@ -177,7 +202,14 @@ export default function Detail({ navigation }: { navigation: any }) {
     }
   }
 
+  const permissionsAsync = async () => {
+    await Notifications.getPermissionsAsync().then((data) => {
+      setPermissionCheck(data.granted);
+    });
+  };
+
   React.useEffect(() => {
+    permissionsAsync();
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity

@@ -151,11 +151,11 @@ export default function Setting() {
   }
 
   function moveTerms() {
-    openURL("https://tsuguring.github.io/TermsOfUse.html");
+    openURL("https://tsuguring.github.io/manasub-page/TermsOfUse.html");
   }
 
   function movePrivacy() {
-    openURL("https://tsuguring.github.io/PrivacyPolicy.html");
+    openURL("https://tsuguring.github.io/manasub-page/PrivacyPolicy.html");
   }
 
   const ShareApp = async () => {
