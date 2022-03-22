@@ -139,9 +139,9 @@ export default function Setting() {
   }
 
   function moveReview() {
-    openURL(
-      "https://itunes.apple.com/jp/app/id1094591345?mt=8&action=write-review"
-    );
+    // openURL(
+    //   "https://itunes.apple.com/jp/app/id1094591345?mt=8&action=write-review"
+    // );
   }
 
   function moveInquiries() {

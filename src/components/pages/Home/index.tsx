@@ -223,7 +223,7 @@ export default function Home() {
             <Icon color={COLOR.WHITE} size={20} name="plus" />
           </TouchableOpacity>
         </View>
-        {/* <Admob /> */}
+        <Admob />
       </View>
     );
   }
