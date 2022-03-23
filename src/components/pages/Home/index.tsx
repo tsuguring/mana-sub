@@ -22,7 +22,6 @@ import {
 import { getAuth } from "firebase/auth";
 import { Admob } from "../../atoms";
 import * as Notifications from "expo-notifications";
-import Constants from "expo-constants";
 
 const styles = StyleSheet.create({
   container: {
@@ -68,6 +67,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  image: {
+    width: 250,
+    height: 200,
   },
 });
 
@@ -191,7 +194,10 @@ export default function Home() {
     return (
       <View style={styles.container}>
         <View style={styles.zerocontainer}>
-          <Image source={require("../../../../assets/home.png")} />
+          <Image
+            source={require("../../../../assets/home.png")}
+            style={styles.image}
+          />
           <Text style={styles.title}>サブスクリプションを追加！</Text>
           <Text style={styles.text}>
             右下のボタンから契約しているサブスクリプションの情報を入力してください

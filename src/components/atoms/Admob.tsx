@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Platform, View } from "react-native";
+import { Platform, View } from "react-native";
 import { AdMobBanner } from "expo-ads-admob";
 
 export default function Admob() {

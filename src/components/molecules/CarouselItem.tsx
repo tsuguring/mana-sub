@@ -35,6 +35,14 @@ const styles = StyleSheet.create({
     width: "100%",
     bottom: 16,
   },
+  img1: {
+    width: 250,
+    height: 200,
+  },
+  img2: {
+    width: 250,
+    height: 150,
+  },
 });
 
 export default function CarouselItem({
@@ -51,7 +59,10 @@ export default function CarouselItem({
       return (
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image source={require("../../../assets/carousel1.png")} />
+            <Image
+              source={require("../../../assets/carousel1.png")}
+              style={styles.img1}
+            />
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.title}>{item.title}</Text>
@@ -64,7 +75,10 @@ export default function CarouselItem({
       return (
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image source={require("../../../assets/carousel2.png")} />
+            <Image
+              source={require("../../../assets/carousel2.png")}
+              style={styles.img2}
+            />
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.title}>{item.title}</Text>
@@ -77,7 +91,10 @@ export default function CarouselItem({
       return (
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image source={require("../../../assets/carousel3.png")} />
+            <Image
+              source={require("../../../assets/carousel3.png")}
+              style={styles.img1}
+            />
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.title}>{item.title}</Text>

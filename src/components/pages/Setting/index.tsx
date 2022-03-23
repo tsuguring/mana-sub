@@ -139,9 +139,9 @@ export default function Setting() {
   }
 
   function moveReview() {
-    // openURL(
-    //   "https://itunes.apple.com/jp/app/id1094591345?mt=8&action=write-review"
-    // );
+    openURL(
+      "https://itunes.apple.com/jp/app/id1615263355?mt=8&action=write-review"
+    );
   }
 
   function moveInquiries() {
@@ -162,7 +162,8 @@ export default function Setting() {
     try {
       const result = await Share.share({
         title: "manasub",
-        message: "サブスクリプションを管理しよう！ url",
+        message:
+          "サブスクリプションを管理しよう！\nhttps://itunes.apple.com/jp/app/id1615263355?mt=8",
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
