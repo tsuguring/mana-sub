@@ -138,6 +138,10 @@ export default function Setting() {
     permissionsAsync();
   }
 
+  function moveHomepage() {
+    openURL("https://tsuguring.github.io/manasub-page/");
+  }
+
   function moveReview() {
     openURL(
       "https://itunes.apple.com/jp/app/id1615263355?mt=8&action=write-review"
@@ -148,6 +152,10 @@ export default function Setting() {
     openURL(
       "https://docs.google.com/forms/d/e/1FAIpQLScpz38vrQ4KgTqT_4oj69h1clGFJHwil1E8BqaRgGtpb-JUTw/viewform?usp=sf_link"
     );
+  }
+
+  function moveDeveloperBlog() {
+    openURL("https://tsugu-blog.vercel.app/");
   }
 
   function moveTerms() {
@@ -217,7 +225,16 @@ export default function Setting() {
         </View>
         <View style={styles.listcontainer}>
           <Text style={styles.title}>サポート</Text>
-          <TouchableOpacity style={styles.listtop} onPress={moveReview}>
+          <TouchableOpacity style={styles.listtop} onPress={moveHomepage}>
+            <Icon
+              name="list-alt"
+              size={20}
+              color={COLOR.GRAY}
+              style={{ paddingRight: 14 }}
+            />
+            <Text style={styles.listtitle}>manasubホームページ</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.list} onPress={moveReview}>
             <Icon
               name="star"
               size={20}
@@ -247,7 +264,16 @@ export default function Setting() {
         </View>
         <View style={styles.listcontainer}>
           <Text style={styles.title}>その他</Text>
-          <TouchableOpacity style={styles.listtop} onPress={moveTerms}>
+          <TouchableOpacity style={styles.listtop} onPress={moveDeveloperBlog}>
+            <Icon
+              name="info-circle"
+              size={20}
+              color={COLOR.GRAY}
+              style={{ paddingRight: 14 }}
+            />
+            <Text style={styles.listtitle}>開発者ブログ</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.list} onPress={moveTerms}>
             <Icon
               name="info-circle"
               size={20}
@@ -275,7 +301,7 @@ export default function Setting() {
               />
               <Text style={styles.listtitle}>バージョン</Text>
             </View>
-            <Text style={styles.versionright}>1.0.0</Text>
+            <Text style={styles.versionright}>1.0.1</Text>
           </View>
         </View>
       </ScrollView>
