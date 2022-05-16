@@ -13,3 +13,5 @@ web-build/
 .DS_Store
 
 env.ts
+GoogleService-Info.plist
+src/atoms/Admob.tsx
